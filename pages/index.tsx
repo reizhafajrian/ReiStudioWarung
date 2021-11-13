@@ -1,11 +1,12 @@
-import { CButton } from "@coreui/react";
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import type { ReactElement } from 'react'
+import Layout from '../components/Layout'
 
-const Home: NextPage = () => {
-  return <CButton>Test</CButton>;
-};
+const Home = () => {
+  return <h1 className='text-center'>Homepage</h1>
+}
 
-export default Home;
+export default Home
+
+Home.getLayout = function getLayout(content: ReactElement) {
+  return <Layout>{content}</Layout>
+}
