@@ -3,7 +3,7 @@ import { CCard } from '@coreui/react'
 
 interface props {
   children: ReactNode
-  style: string
+  style?: string
 }
 const Card = ({ children, style }: props) => {
   return (

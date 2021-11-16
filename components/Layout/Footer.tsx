@@ -2,7 +2,10 @@ import { CFooter } from '@coreui/react'
 
 const Footer = () => {
   return (
-    <CFooter className='bg-primary text-white border-0' position='fixed'>
+    <CFooter
+      className='bg-primary text-white border-0 mt-auto'
+      style={{ height: 200 }}
+    >
       Footer
     </CFooter>
   )

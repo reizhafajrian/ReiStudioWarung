@@ -2,30 +2,16 @@
 $primary-base: #f8a3a3;
 $theme-colors: (
   'primary': #f8a3a3,
-  'secondary': #a6a3a3,
+  'secondary': #96a3a3,
   'success': #219653,
   'info': #56ccf2,
   'warning': #f2c94c,
   'danger': #eb5757,
   'light': #fbbaba,
   'dark': #ff9090,
-);
-
-$colors: (
-  // "blue":       $blue,
-  // "indigo":     $indigo,
-  // "purple":     $purple,
-  // "pink":       $pink,
-  // "red":        $red,
-  // "orange":     $orange,
-  // "yellow":     $yellow,
-  // "green":      $green,
-  // "teal":       $teal,
-  // "cyan":       $cyan,
-  // "white":      $white,
   'gray': #4f4f4f,
-  // "gray-dark":  $gray-800
-) !default;
+  'black': #000000,
+);
 
 // input-variabel
 $input-line-height: 2.5;
@@ -37,9 +23,16 @@ $input-border-radius: 0.75rem;
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 @import './scss/coreui.scss';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Lato', sans-serif;
   background: #f6f6f6;
+  color: #000;
 
   a {
     text-decoration: none;
@@ -61,4 +54,44 @@ body {
       font-weight: 700;
     }
   }
+}
+
+// react-select
+.top {
+  color: #4f4f4f !important;
+
+  .inner {
+    &__control {
+      border-radius: 12px !important;
+
+      &--is-focused {
+        box-shadow: 0 0 0 1px #f8a3a3 !important;
+        border-color: #f8a3a3 !important;
+      }
+    }
+
+    &__menu {
+      text-align: center !important;
+      border-radius: 24px;
+      &-list {
+        border-radius: inherit;
+      }
+    }
+
+    &__option {
+      &--is-focused {
+        background: none;
+      }
+      &--is-selected {
+        background: none;
+        color: #4f4f4f;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// product pic
+.product-img {
+  border-radius: 20px 20px 0 0;
 }

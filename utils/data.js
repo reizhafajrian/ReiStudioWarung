@@ -5,7 +5,18 @@ export const customerMenu = [
 ]
 
 export const adminMenu = [
-  { name: 'Dashboard', path: '/' },
-  { name: 'Product', path: '/product' },
-  { name: 'History', path: '/history' },
+  { name: 'Dashboard', path: '/admin' },
+  { name: 'Product', path: '/admin/product' },
+  { name: 'History', path: '/admin/history' },
+]
+
+export const kategori = [
+  'Sembako',
+  'Makanan',
+  'Minuman',
+  'Bumbu Masakan',
+  'Keperluan Bayi',
+  'Keperluan Wanita',
+  'Kesehatan',
+  'Lain-lain',
 ]

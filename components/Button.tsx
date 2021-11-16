@@ -8,13 +8,7 @@ interface props {
   padding?: string
   path: string
 }
-export default function Button({
-  title,
-  style,
-  borderRadius,
-  padding,
-  path,
-}: props) {
+const Button = ({ title, style, borderRadius, padding, path }: props) => {
   return (
     <Link href={path} passHref>
       <CButton
@@ -29,3 +23,5 @@ export default function Button({
     </Link>
   )
 }
+
+export default Button

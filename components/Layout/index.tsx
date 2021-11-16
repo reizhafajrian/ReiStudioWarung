@@ -5,19 +5,27 @@ import Footer from './Footer'
 import { CContainer } from '@coreui/react'
 
 interface props {
+  isCustomer?: boolean
+  isAdmin?: boolean
+  footerOff?: boolean
   children: ReactNode
 }
 
-const Layout = ({ children }: props) => {
+const Layout = ({
+  isCustomer,
+  isAdmin,
+  footerOff = false,
+  children,
+}: props) => {
   const router = useRouter()
 
   return (
-    <CContainer fluid className='d-flex flex-column p-0'>
-      <Header />
+    <CContainer fluid className='min-vh-100 d-flex flex-column p-0'>
+      <Header isAdmin={isAdmin} isCustomer={isCustomer} />
       {router.pathname !== '/login' && router.pathname !== '/signup' ? (
         <>
           <div>{children}</div>
-          <Footer />
+          {!footerOff && <Footer />}
         </>
       ) : (
         <div className='d-flex flex-column align-items-center mt-5'>

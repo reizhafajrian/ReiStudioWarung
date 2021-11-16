@@ -6,8 +6,8 @@ interface props {
   secure?: boolean
   placeholder?: string
   type?: string
-  id: string
-  label: string
+  id?: string
+  label?: string
 }
 
 const InputField = ({
