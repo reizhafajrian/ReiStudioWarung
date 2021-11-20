@@ -4,19 +4,31 @@ import { CButton } from '@coreui/react'
 interface props {
   title: string
   style: string
+  isBtnSubmit?: boolean
   borderRadius: string
-  padding?: string
-  path: string
+  width?: string
+  path?: string
+  onClick?: () => void
 }
-const Button = ({ title, style, borderRadius, padding, path }: props) => {
+const Button = ({
+  title,
+  style,
+  isBtnSubmit,
+  borderRadius,
+  width,
+  path,
+  onClick,
+}: props) => {
   return (
-    <Link href={path} passHref>
+    <Link href={path ? path : ''} passHref>
       <CButton
-        className={`${style} border-0`}
+        className={style}
         style={{
           borderRadius: `${borderRadius}`,
-          padding: `${padding}`,
+          width: `${width}`,
         }}
+        onClick={onClick}
+        type={isBtnSubmit ? 'submit' : 'button'}
       >
         {title}
       </CButton>
