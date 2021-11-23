@@ -5,6 +5,7 @@ import Card from '../../components/Card'
 import Layout from '../../components/Layout'
 import { RiPencilFill } from 'react-icons/ri'
 import Button from '../../components/Button'
+import BadgeStatus from '../../components/BadgeStatus'
 
 const CustomerProfile = () => {
   return (
@@ -68,12 +69,7 @@ const CustomerProfile = () => {
                   <Link href=''>
                     <a className='text-dark fw-bold'>Lihat detail pesanan</a>
                   </Link>
-                  <div
-                    className='bg-warning text-white fw-bold mt-3 p-2'
-                    style={{ borderRadius: 20 }}
-                  >
-                    <p className='m-0'>Pembayaran</p>
-                  </div>
+                  <BadgeStatus bg='warning' title='Pembayaran' />
                 </div>
               </div>
               <div className='mx-auto'>

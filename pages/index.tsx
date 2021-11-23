@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import SearchInput from '../components/InputSearch'
 import ProductItem from '../components/ProductItem'
-import { CLink } from '@coreui/react'
+import { CContainer, CLink } from '@coreui/react'
 
 interface props {
   num: number

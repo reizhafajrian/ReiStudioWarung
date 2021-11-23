@@ -99,7 +99,7 @@ const Signup = () => {
               title='Daftar'
               style='text-white bg-dark fw-bold me-4  px-4 py-3'
               borderRadius='12px'
-              path='/'
+              path='/profile'
             />
             <p className='text-dark mb-0'>
               Sudah punya akun? &nbsp;

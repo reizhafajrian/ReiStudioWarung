@@ -43,7 +43,7 @@ const Login = () => {
               title='Masuk'
               style='text-white bg-dark fw-bold mt-4 mb-4  px-4 py-3'
               borderRadius='12px'
-              path='/'
+              path='/admin'
             />
             <p className='text-dark mb-3'>
               Belum punya akun? &nbsp;
