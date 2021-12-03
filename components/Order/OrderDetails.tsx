@@ -1,57 +1,20 @@
-import { CForm, CFormInput } from '@coreui/react'
-import { useMemo, useState } from 'react'
-import Select from 'react-select'
-import Button from '../Button'
+import AlertStatus from './AlertStatus'
+import { CCard, CCol, CContainer, CRow } from '@coreui/react'
 
 const OrderDetails = () => {
-  const options = useMemo(
-    () => [{ value: 'transferVA', label: 'Transfer VA' }],
-    []
-  )
-
-  const [disabled, setDisabled] = useState(true)
-
   return (
-    <div>
-      <CForm>
-        <div className='mb-3'>
-          <h5 className='fw-bold'>Alamat Pengiriman</h5>
-          <CFormInput
-            placeholder='Tambah alamat'
-            className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
-          />
-        </div>
-        <div className='mb-3'>
-          <h5 className='fw-bold'>Voucher Belanja</h5>
-          <CFormInput
-            placeholder='Kode voucher'
-            className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
-          />
-        </div>
-        <div className='mb-3'>
-          <h5 className='fw-bold'>Metode Pembayaran</h5>
-          <Select
-            className='top'
-            classNamePrefix='inner'
-            options={options}
-            placeholder='-Pilih-'
-          />
-        </div>
-        <div className='mb-3'>
-          <h5 className='fw-bold'>Total harga</h5>
-          <h5>Rp.27.000,-</h5>
-        </div>
-        <div className='text-center'>
-          <Button
-            title='Pesan sekarang'
-            borderRadius='12px'
-            style={`text-white px-3 py-2 ${
-              disabled ? 'disabled bg-gray  border-gray' : 'bg-dark'
-            }`}
-          />
-        </div>
-      </CForm>
-    </div>
+    <CContainer className='p-0 mt-5'>
+      <h3 className='fw-bold mb-5'>Detail Pesanan</h3>
+      <CRow className='mx-5'>
+        <CCol sm={8} className='p-0 pe-5'>
+          <AlertStatus status={3} />
+          <CCard className='p-5'>Product items</CCard>
+        </CCol>
+        <CCol className='p-0 ps-4'>
+          <CCard className='p-5'>detail pemesanan</CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
   )
 }
 

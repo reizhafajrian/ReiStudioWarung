@@ -31,13 +31,13 @@ const InputField = ({
 
   return (
     <div className='mb-3'>
-      <label className='fs-5 fw-bold mb-3' htmlFor={id}>
+      <label className='h6 fw-bold mb-3' htmlFor={id}>
         {label}
       </label>
 
       {type == 'textarea' ? (
         <CFormTextarea
-          style={{ width: 300, height: 160 }}
+          style={{ width: 300, height: 154 }}
           placeholder={placeholder}
           value={value}
           onChange={(e) => handleChangeTextArea(e)}

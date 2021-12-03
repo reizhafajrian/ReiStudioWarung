@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <CFooter
       className='bg-primary text-white border-0 mt-auto'
-      style={{ height: 200 }}
+      style={{ height: 100 }}
     >
       Footer
     </CFooter>
