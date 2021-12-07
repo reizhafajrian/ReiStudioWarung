@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import ProfileDetails from '../../components/user/ProfileDetails'
+import Layout from '../../../components/layout/Layout'
+import ProfileDetails from '../../../components/customer/ProfileDetails'
 
 const ProfileDetailsPage = () => {
   return <ProfileDetails />

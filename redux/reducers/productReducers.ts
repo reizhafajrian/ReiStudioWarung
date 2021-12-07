@@ -12,7 +12,7 @@ export const productReducer = (state = initialState, action: any) => {
     case types.GET_PRODUCTS:
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.products,
         loading: false,
         error: null,
       }

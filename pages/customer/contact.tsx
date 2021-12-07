@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Contact from '../components/Contact'
-import Layout from '../components/layout/Layout'
+import Contact from '../../components/Contact'
+import Layout from '../../components/layout/Layout'
 
 const ContactPage = () => {
   return <Contact />

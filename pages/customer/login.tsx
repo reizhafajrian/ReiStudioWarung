@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
-import Login from '../components/auth/Login'
-import Layout from '../components/layout/Layout'
+import Login from '../../components/auth/Login'
+import Layout from '../../components/layout/Layout'
 
 const LoginPage = () => {
   return <Login />

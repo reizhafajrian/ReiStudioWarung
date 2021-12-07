@@ -4,9 +4,8 @@ import Link from 'next/link'
 import ProductItem from './product/ProductItem'
 import { CForm, CFormInput, CButton } from '@coreui/react'
 import { BiSearchAlt2 } from 'react-icons/bi'
-import products from '../data/products'
 
-const Home = () => {
+const Home = ({ products }) => {
   const [product, setProduct] = useState('')
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,25 +53,20 @@ const Home = () => {
         <div className='w-100 mb-5 position-relative'>
           <h2 className='fw-bold m-0 text-center'>Paling Laris</h2>
           <div className='position-absolute end-0 top-0 pt-2 px-5'>
-            <Link href='/'>
-              <a>Lihat semua {'>'}</a>
-            </Link>
+            <a href='/products'>Lihat semua {'>'}</a>
           </div>
         </div>
         {/* Product List */}
         <div className='w-100 d-flex justify-content-evenly'>
-          {products.map(
-            (product, i) =>
-              i < 5 && (
-                <ProductItem
-                  key={product.slug}
-                  image={product.image}
-                  name={product.name}
-                  price={product.sellingPrice}
-                  sold={product.sold}
-                />
-              )
-          )}
+          {products.slice(0, 5).map((product: any) => (
+            <ProductItem
+              key={product._id}
+              image={product.image}
+              name={product.name}
+              price={product.selling_price}
+              sold={product.sold}
+            />
+          ))}
         </div>
       </div>
 

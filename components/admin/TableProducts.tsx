@@ -10,20 +10,19 @@ import {
   CButton,
   CTableDataCell,
 } from '@coreui/react'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { getProducts } from '../../redux/actions/productActions'
 
 const TableProduct = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
-  const products = [
-    {
-      id: '1234',
-      name: 'Beras Subang 2kg',
-      stock: 20,
-      buyingPrice: 'Rp. 35.000,-',
-      sellingPrice: 'Rp. 35.000,-',
-      category: 'Sembako',
-      lastUpdated: '24/07/21',
-    },
-  ]
+
+  const { products } = useSelector((state: RootStateOrAny) => state.product)
+
+  useEffect(() => {
+    dispatch(getProducts())
+  })
 
   const headers = [
     'Nama Barang',
@@ -49,7 +48,7 @@ const TableProduct = () => {
         </CTableHead>
         <div className='mb-3'></div>
         <CTableBody className='h6 bg-white py-4 align-middle'>
-          {products.map((product) => (
+          {products.map((product: any) => (
             <CTableRow key={product.id}>
               <CTableDataCell>{product.name}</CTableDataCell>
               <CTableDataCell>{product.stock}</CTableDataCell>

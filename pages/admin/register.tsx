@@ -1,9 +1,9 @@
 import { ReactElement } from 'react'
-import Layout from '../components/layout/Layout'
-import Register from '../components/auth/Register'
+import Layout from '../../components/layout/Layout'
+import Register from '../../components/auth/Register'
 
 const RegisterPage = () => {
-  return <Register />
+  return <Register forAdmin={true} />
 }
 
 export default RegisterPage

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import Vouchers from '../../components/admin/Vouchers'
+import Layout from '../../../components/layout/Layout'
+import Vouchers from '../../../components/admin/Vouchers'
 
 const VouchersPage = () => {
   return <Vouchers />

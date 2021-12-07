@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Select from 'react-select'
-import ProductItem from '../components/product/ProductItem'
+import ProductItem from './ProductItem'
 import { BiSearchAlt2 } from 'react-icons/bi'
 import {
   CButton,
@@ -10,9 +10,8 @@ import {
   CFormInput,
   CRow,
 } from '@coreui/react'
-import products from '../data/products'
 
-const Products = () => {
+const Products = ({ products }: any) => {
   const options = useMemo(
     () => [
       { value: 'terlaris', label: 'Terlaris' },
@@ -92,16 +91,16 @@ const Products = () => {
           </CForm>
         </div>
         <CRow className='mt-5 w-100'>
-          {products.map((product) => (
+          {products.map((product: any) => (
             <CCol
               xs={3}
               className='mb-5 p-0 d-flex justify-content-center'
-              key={product.slug}
+              key={product._id}
             >
               <ProductItem
                 image={product.image}
                 name={product.name}
-                price={product.sellingPrice}
+                price={product.selling_price}
                 sold={product.sold}
               />
             </CCol>

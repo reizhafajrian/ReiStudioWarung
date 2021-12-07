@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import InputField from '../../components/InputField'
+import InputField from '../InputField'
 import { CButton, CCard, CForm } from '@coreui/react'
 
 const ProfileEdit = () => {

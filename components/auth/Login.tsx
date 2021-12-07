@@ -1,11 +1,52 @@
-import { useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import Link from 'next/link'
+import Cookie from 'js-cookie'
 import InputField from '../InputField'
 import { CButton, CCard, CForm } from '@coreui/react'
+import { useRouter } from 'next/router'
 
-const Login = () => {
-  const [email, setEmail] = useState('')
+interface props {
+  forAdmin?: boolean
+}
+
+const Login = ({ forAdmin = false }: props) => {
+  const router = useRouter()
+
+  const [emailOrUsername, setEmailOrUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const [status, setStatus] = useState('')
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault()
+
+    const userData = {
+      emailOrUsername,
+      password,
+    }
+
+    const config = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      Credential: 'include',
+      body: JSON.stringify(userData),
+    }
+
+    const loginReq = await fetch(
+      forAdmin ? '/api/admin/login' : '/api/customer/login',
+      config
+    )
+
+    const loginRes = await loginReq.json()
+
+    setStatus('success')
+
+    Cookie.set('token', loginRes.token)
+
+    return router.push('/')
+  }
 
   return (
     <>
@@ -16,14 +57,14 @@ const Login = () => {
         </h4>
       </div>
       <CCard className='p-4'>
-        <CForm className='pt-3 px-3'>
+        <CForm onSubmit={handleSubmit} className='pt-3 px-3'>
           <InputField
             secure={false}
             type='text'
             label='Username/Email'
             placeholder='Username/Email'
-            onChange={setEmail}
-            value={email}
+            onChange={setEmailOrUsername}
+            value={emailOrUsername}
             id='email'
           />
           <InputField
@@ -36,8 +77,9 @@ const Login = () => {
             id='pass'
           />
           <div className='text-center'>
-            <CButton size='lg'>Masuk</CButton>
-
+            <CButton type='submit' size='lg'>
+              Masuk
+            </CButton>
             <p className='text-dark m-0 mt-3'>
               Belum punya akun? &nbsp;
               <Link href='/register'>

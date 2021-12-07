@@ -18,12 +18,13 @@ import Nav from './Nav'
 
 interface props {
   pageTitle: string
-  loggedIn: boolean
-  isAdmin: boolean
+  loggedIn?: boolean
+  forAdmin?: boolean
 }
 
-const Header = ({ pageTitle, loggedIn, isAdmin }: props) => {
+const Header = ({ pageTitle, loggedIn = false, forAdmin = false }: props) => {
   const router = useRouter()
+
   return (
     <>
       <Head>
@@ -42,7 +43,7 @@ const Header = ({ pageTitle, loggedIn, isAdmin }: props) => {
         position='sticky'
       >
         <CContainer className='py-2'>
-          <Link href={isAdmin ? '/admin' : '/'} passHref>
+          <Link href={forAdmin ? '/admin' : '/customer'} passHref>
             <CHeaderBrand className='d-flex align-items-center p-0 m-0'>
               <Image
                 src='/images/logo.jpg'
@@ -53,65 +54,89 @@ const Header = ({ pageTitle, loggedIn, isAdmin }: props) => {
               />
               <h5 className='text-light fw-bold m-0 ms-3'>
                 Nama Warung
-                {isAdmin && (
+                {forAdmin && (
                   <span className='text-primary'>&nbsp;for Admin</span>
                 )}
               </h5>
             </CHeaderBrand>
           </Link>
-          {!loggedIn && (
-            <>
-              <Nav />
-              <div>
-                <CButton
-                  onClick={() => router.push('/login')}
-                  size='lg'
-                  variant='outline'
-                  className='me-2'
-                >
-                  Masuk
-                </CButton>
-                <CButton onClick={() => router.push('/register')} size='lg'>
-                  Daftar
-                </CButton>
-              </div>
-            </>
-          )}
 
-          {loggedIn &&
-            (isAdmin ? (
+          {router.pathname !== '/admin/login' &&
+            router.pathname !== '/customer/login' &&
+            router.pathname !== '/customer/register' &&
+            router.pathname !== '/admin/register' && (
               <>
-                <Nav isAdmin={true} />
-                <p className='text-light fw-bold m-0'>Admin Warung</p>
+                {!loggedIn && (
+                  <>
+                    <Nav />
+                    <div>
+                      <CButton
+                        href={forAdmin ? '/admin/login' : '/customer/login'}
+                        size='lg'
+                        variant='outline'
+                        className='me-2'
+                      >
+                        Masuk
+                      </CButton>
+                      <CButton
+                        href={
+                          forAdmin ? '/customer/login' : '/customer/register'
+                        }
+                        size='lg'
+                      >
+                        Daftar
+                      </CButton>
+                    </div>
+                  </>
+                )}
+
+                {loggedIn &&
+                  (forAdmin ? (
+                    <>
+                      <Nav forAdmin={true} />
+                      <p className='text-light fw-bold m-0'>Admin Warung</p>
+                    </>
+                  ) : (
+                    <>
+                      <Nav />
+                      <div>
+                        {/* keranjang */}
+                        <Link href='/cart' passHref>
+                          <IoBasket
+                            fill='#ff9090'
+                            size='2rem'
+                            cursor='pointer'
+                          />
+                        </Link>
+                        {/* profile */}
+                        <CDropdown>
+                          <CDropdownToggle
+                            caret={false}
+                            className='bg-white border-0 p-0 ms-2'
+                            style={{ boxShadow: 'none' }}
+                          >
+                            <CAvatar color='secondary' />
+                          </CDropdownToggle>
+                          <CDropdownMenu
+                            className='border-0 mt-5'
+                            style={{
+                              marginLeft: '-3rem',
+                              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            }}
+                          >
+                            <CDropdownItem href='/customer/profile'>
+                              Profil
+                            </CDropdownItem>
+                            <CDropdownItem href='/customer/settings'>
+                              Pengaturan
+                            </CDropdownItem>
+                          </CDropdownMenu>
+                        </CDropdown>
+                      </div>
+                    </>
+                  ))}
               </>
-            ) : (
-              <>
-                {/* keranjang */}
-                <Link href='/cart' passHref>
-                  <IoBasket fill='#ff9090' size='2rem' cursor='pointer' />
-                </Link>
-                {/* profile */}
-                <CDropdown>
-                  <CDropdownToggle
-                    caret={false}
-                    className='bg-white border-0 p-0 ms-2'
-                    style={{ boxShadow: 'none' }}
-                  >
-                    <CAvatar color='secondary' />
-                  </CDropdownToggle>
-                  <CDropdownMenu
-                    className='border-0 mt-5'
-                    style={{
-                      marginLeft: '-3rem',
-                      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                    }}
-                  >
-                    <CDropdownItem href='/profile'>Profil</CDropdownItem>
-                    <CDropdownItem href='/settings'>Pengaturan</CDropdownItem>
-                  </CDropdownMenu>
-                </CDropdown>
-              </>
-            ))}
+            )}
         </CContainer>
       </CHeader>
     </>

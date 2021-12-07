@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../components/layout/Layout'
-import Cart from '../components/order/Cart'
+import Layout from '../../components/layout/Layout'
+import Cart from '../../components/order/Cart'
 
 const CartPage = () => {
   return <Cart />

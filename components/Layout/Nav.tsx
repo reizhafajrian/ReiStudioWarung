@@ -3,25 +3,25 @@ import { useRouter } from 'next/router'
 import { CHeaderNav, CNavItem, CNavLink } from '@coreui/react'
 
 interface props {
-  isAdmin?: boolean
+  forAdmin?: boolean
 }
 
-const Nav = ({ isAdmin }: props) => {
+const Nav = ({ forAdmin }: props) => {
   const router = useRouter()
 
   const customerMenu = [
-    { name: 'Home', path: '/' },
-    { name: 'Belanja', path: '/products' },
-    { name: 'Contact Us', path: '/contact' },
+    { name: 'Home', path: '/customer' },
+    { name: 'Belanja', path: '/customer/products' },
+    { name: 'Contact Us', path: '/customer/contact' },
   ]
 
   const adminMenu = [
     { name: 'Dashboard', path: '/admin' },
-    { name: 'Product', path: '/admin/product' },
+    { name: 'Product', path: '/admin/products' },
     { name: 'History', path: '/admin/history' },
   ]
 
-  const navMenu = isAdmin ? adminMenu : customerMenu
+  const navMenu = forAdmin ? adminMenu : customerMenu
 
   function isActive(route: string) {
     if (route === router.pathname) {
@@ -31,15 +31,13 @@ const Nav = ({ isAdmin }: props) => {
 
   return (
     <CHeaderNav>
-      {navMenu.map((link, index) => {
-        return (
-          <CNavItem className='px-3' key={index}>
-            <Link href={link.path} passHref>
-              <CNavLink active={isActive(link.path)}>{link.name}</CNavLink>
-            </Link>
-          </CNavItem>
-        )
-      })}
+      {navMenu.map((link, index) => (
+        <CNavItem className='px-3' key={index}>
+          <CNavLink active={isActive(link.path)} href={link.path}>
+            {link.name}
+          </CNavLink>
+        </CNavItem>
+      ))}
     </CHeaderNav>
   )
 }
