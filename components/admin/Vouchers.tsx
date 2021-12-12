@@ -23,7 +23,7 @@ const Vouchers = () => {
             style={{ borderRadius: 20 }}
           >
             <CForm>
-              <h5 className='fw-bold'>Tambah kode voucher</h5>
+              <h5 className='fw-bold mb-3'>Tambah kode voucher</h5>
               <InputField
                 secure={false}
                 type='text'

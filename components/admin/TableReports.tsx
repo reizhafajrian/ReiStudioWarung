@@ -35,7 +35,7 @@ const TableReports = () => {
 
   return (
     <div className='mt-4'>
-      <CTable hover>
+      <CTable borderless hover>
         <CTableHead className='h6 bg-white'>
           <CTableRow>
             {headers.map((title, index) => (

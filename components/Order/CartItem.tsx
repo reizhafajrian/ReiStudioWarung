@@ -4,8 +4,8 @@ import { BiMinus, BiPlus } from 'react-icons/bi'
 
 const CartItem = () => {
   return (
-    <CRow className='mb-4'>
-      <CCol className='d-flex align-items-center'>
+    <CRow className='mb-4 px-3'>
+      <CCol className='p-0 d-flex align-items-center'>
         <div>
           <Image
             className='product-img__sm'
@@ -20,30 +20,22 @@ const CartItem = () => {
           <h5>Rp. 250.000,-</h5>
         </div>
       </CCol>
-      <CCol xs={3} className='d-flex align-items-center'>
-        <div>
-          <CButton
-            color='primary'
-            variant='outline'
-            shape='rounded-circle'
-            className='w-auto border-2'
-          >
-            <BiMinus />
-          </CButton>
-        </div>
-        <h5 className='mx-3'>1</h5>
-        <div>
-          <CButton
-            color='primary'
-            variant='outline'
-            shape='rounded-circle'
-            className='w-auto border-2'
-          >
-            <BiPlus />
-          </CButton>
-        </div>
+      <CCol xs={3} className='p-0 d-flex align-items-center'>
+        <BiMinus
+          size={20}
+          fill='#ff9090'
+          cursor='pointer'
+          className='count-btn border border-2 border-dark rounded-circle'
+        />
+        <h5 className='m-0 mx-3'>1</h5>
+        <BiPlus
+          size={20}
+          fill='#ff9090'
+          cursor='pointer'
+          className='count-btn border border-2 border-dark rounded-circle'
+        />
       </CCol>
-      <CCol xs={3} className='text-end my-auto'>
+      <CCol xs={3} className='p-0 text-end my-auto'>
         <h5>Rp. 250.000,-</h5>
       </CCol>
     </CRow>

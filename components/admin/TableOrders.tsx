@@ -31,17 +31,16 @@ const TableOrders = () => {
 
   return (
     <div className='mt-4'>
-      <CTable hover>
+      <CTable borderless hover>
         <CTableHead className='h6 bg-white'>
           <CTableRow>
             {headers.map((title, index) => (
-              <CTableHeaderCell key={index} className='px-3 py-4 border-0'>
+              <CTableHeaderCell key={index} className='px-3 py-4 border-0 '>
                 {title}
               </CTableHeaderCell>
             ))}
           </CTableRow>
         </CTableHead>
-        <div className='mb-3'></div>
         <CTableBody className='h6 bg-white py-4 align-middle'>
           {history.map((order) => (
             <CTableRow

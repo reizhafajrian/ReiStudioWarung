@@ -3,6 +3,8 @@ import { comparePassword, encrypt } from '../middlewares/encrypt'
 import { generateToken, verifyToken } from '../middlewares/jwt'
 import { check } from 'express-validator'
 import { Request, Response, NextFunction } from 'express'
+import bcrypt from 'bcrypt'
+
 import {
   validationHandler,
   validations,
@@ -13,16 +15,10 @@ export const AdminController = {
     const { emailOrUsername, password } = req.body
 
     // check email or username
-    let user = await Admin.findOne(
-      { email: emailOrUsername },
-      { password: 0, _id: 1, __v: 0 }
-    )
+    let user = await Admin.findOne({ email: emailOrUsername })
 
     if (!user) {
-      user = await Admin.findOne(
-        { username: emailOrUsername },
-        { password: 0, _id: 1, __v: 0 }
-      )
+      user = await Admin.findOne({ username: emailOrUsername })
     }
 
     // user not found
@@ -34,6 +30,7 @@ export const AdminController = {
     }
 
     const isMatch = await comparePassword(password, user.password)
+
     if (user.role === 1) {
       if (isMatch) {
         const token = await generateToken(user)
@@ -80,7 +77,7 @@ export const AdminController = {
               return value
             }
           }),
-        check('Authorization', 'Invalid token').notEmpty(),
+        // check('Authorization', 'Invalid token').notEmpty(),
       ])
     )
     // const { authorization } = req.headers

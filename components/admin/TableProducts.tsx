@@ -10,19 +10,14 @@ import {
   CButton,
   CTableDataCell,
 } from '@coreui/react'
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { getProducts } from '../../redux/actions/productActions'
 
-const TableProduct = () => {
-  const dispatch = useDispatch()
+interface props {
+  products: any
+  forDashboard?: boolean
+}
+
+const TableProduct = ({ products, forDashboard = false }: props) => {
   const router = useRouter()
-
-  const { products } = useSelector((state: RootStateOrAny) => state.product)
-
-  useEffect(() => {
-    dispatch(getProducts())
-  })
 
   const headers = [
     'Nama Barang',
@@ -36,42 +31,73 @@ const TableProduct = () => {
 
   return (
     <div className='mt-4'>
-      <CTable hover>
-        <CTableHead className='h6 bg-white'>
+      <CTable borderless hover>
+        <CTableHead className='h6'>
           <CTableRow>
             {headers.map((title, index) => (
-              <CTableHeaderCell key={index} className='px-3 py-4 border-0'>
+              <CTableHeaderCell
+                key={index}
+                className='px-3 py-4 border-0 bg-white'
+              >
                 {title}
               </CTableHeaderCell>
             ))}
           </CTableRow>
         </CTableHead>
-        <div className='mb-3'></div>
-        <CTableBody className='h6 bg-white py-4 align-middle'>
-          {products.map((product: any) => (
-            <CTableRow key={product.id}>
-              <CTableDataCell>{product.name}</CTableDataCell>
-              <CTableDataCell>{product.stock}</CTableDataCell>
-              <CTableDataCell>{product.buyingPrice}</CTableDataCell>
-              <CTableDataCell>{product.sellingPrice}</CTableDataCell>
-              <CTableDataCell>{product.category}</CTableDataCell>
-              <CTableDataCell>{product.lastUpdated}</CTableDataCell>
-              <CTableDataCell>
-                <CButton
-                  color='warning'
-                  className='w-auto me-2'
-                  onClick={() => {
-                    router.push(`/admin/products/${product.id}`)
-                  }}
-                >
-                  <RiPencilFill fill='white' size='24' />
-                </CButton>
-                <CButton className='w-auto' color='danger'>
-                  <IoMdTrash fill='white' size='24' />
-                </CButton>
-              </CTableDataCell>
-            </CTableRow>
-          ))}
+        <CTableBody className='bg-white h6 align-middle'>
+          {forDashboard
+            ? products.slice(0, 5).map((product: any) => (
+                <CTableRow key={product._id}>
+                  <CTableDataCell>{product.name}</CTableDataCell>
+                  <CTableDataCell>{product.stock}</CTableDataCell>
+                  <CTableDataCell>{product.buying_price}</CTableDataCell>
+                  <CTableDataCell>{product.selling_price}</CTableDataCell>
+                  <CTableDataCell>{product.category}</CTableDataCell>
+                  <CTableDataCell>
+                    {new Date(product.updatedAt).toLocaleDateString()}
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <CButton
+                      color='warning'
+                      className='w-auto me-2'
+                      onClick={() => {
+                        router.push(`/admin/products/${product.id}`)
+                      }}
+                    >
+                      <RiPencilFill fill='white' size='24' />
+                    </CButton>
+                    <CButton className='w-auto' color='danger'>
+                      <IoMdTrash fill='white' size='24' />
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            : products.map((product: any) => (
+                <CTableRow key={product._id}>
+                  <CTableDataCell>{product.name}</CTableDataCell>
+                  <CTableDataCell>{product.stock}</CTableDataCell>
+                  <CTableDataCell>{product.buying_price}</CTableDataCell>
+                  <CTableDataCell>{product.selling_price}</CTableDataCell>
+                  <CTableDataCell>{product.category}</CTableDataCell>
+                  <CTableDataCell>
+                    {new Date(product.updatedAt).toLocaleDateString()}
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <CButton
+                      color='warning'
+                      className='w-auto me-2'
+                      onClick={() => {
+                        router.push(`/admin/products/${product.id}`)
+                      }}
+                    >
+                      <RiPencilFill fill='white' size='24' />
+                    </CButton>
+                    <CButton className='w-auto' color='danger'>
+                      <IoMdTrash fill='white' size='24' />
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
+              ))}
         </CTableBody>
       </CTable>
     </div>

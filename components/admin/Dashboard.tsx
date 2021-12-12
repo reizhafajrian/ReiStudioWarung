@@ -3,7 +3,7 @@ import { CContainer } from '@coreui/react'
 import TableOrders from '../../components/admin/TableOrders'
 import TableProducts from '../../components/admin/TableProducts'
 
-const Dashboard = () => {
+const Dashboard = ({ products }: any) => {
   return (
     <CContainer>
       {/* LAPORAN PESANAN */}
@@ -61,7 +61,7 @@ const Dashboard = () => {
             </a>
           </Link>
         </div>
-        <TableProducts />
+        <TableProducts products={products} forDashboard={true} />
       </div>
     </CContainer>
   )

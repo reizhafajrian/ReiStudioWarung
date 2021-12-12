@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import Settings from '../../components/user/Settings'
+import Settings from '../../../components/customer/Settings'
+import Layout from '../../../components/layout/Layout'
 
 const SettingsPage = () => {
   return <Settings />

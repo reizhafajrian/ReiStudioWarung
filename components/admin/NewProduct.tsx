@@ -68,10 +68,11 @@ const NewProduct = () => {
               id='tambahKat'
             />
           </div>
-          <div className='d-flex align-items-center'>
+          <div className='my-auto'>
+            click here
             <InputField
               type='file'
-              label='Foto Barang'
+              // label='Foto Barang'
               placeholder='Foto barang'
               onChange={setFoto}
               value={foto}

@@ -6,7 +6,7 @@ import { CButton, CCard } from '@coreui/react'
 
 const ProfileDetails = () => {
   return (
-    <div className='min-h-100 w-100 position-relative d-flex'>
+    <div className='min-h-100 w-100 position-relative d-flex mb-5'>
       <div
         className='position-absolute bg-light w-100'
         style={{ top: '-1rem', height: '16rem', zIndex: -1 }}
@@ -36,7 +36,7 @@ const ProfileDetails = () => {
               </div>
             </div>
             <div>
-              <Link href='/profile/edit'>
+              <Link href='/customer/profile/edit'>
                 <a className='text-dark'>
                   Edit profil <RiPencilFill style={{ height: 20, width: 20 }} />
                 </a>

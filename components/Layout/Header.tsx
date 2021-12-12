@@ -15,15 +15,21 @@ import {
   CHeaderBrand,
 } from '@coreui/react'
 import Nav from './Nav'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { getUser } from '../../redux/actions/loggedActions'
 
-interface props {
-  pageTitle: string
-  loggedIn?: boolean
-  forAdmin?: boolean
-}
-
-const Header = ({ pageTitle, loggedIn = false, forAdmin = false }: props) => {
+const Header = ({ pageTitle }: any) => {
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
+
+  const { loggedIn, forAdmin } = useSelector(
+    (state: RootStateOrAny) => state.user
+  )
 
   return (
     <>
@@ -33,18 +39,20 @@ const Header = ({ pageTitle, loggedIn = false, forAdmin = false }: props) => {
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
-
+      <h1>
+        {loggedIn}, {forAdmin}
+      </h1>
       <CHeader
-        className='border-0 align-items-center justify-content-between'
+        className='border-0 align-items-center'
         style={{
           boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
           borderRadius: '0 0 20px 20px',
         }}
         position='sticky'
       >
-        <CContainer className='py-2'>
+        <CContainer className='py-2 position-relative'>
           <Link href={forAdmin ? '/admin' : '/customer'} passHref>
-            <CHeaderBrand className='d-flex align-items-center p-0 m-0'>
+            <CHeaderBrand className='position-absolute d-flex align-items-center p-0 m-0'>
               <Image
                 src='/images/logo.jpg'
                 alt='logo'
@@ -69,7 +77,7 @@ const Header = ({ pageTitle, loggedIn = false, forAdmin = false }: props) => {
                 {!loggedIn && (
                   <>
                     <Nav />
-                    <div>
+                    <div className='mt-2 mt-md-0 mx-auto mx-md-0'>
                       <CButton
                         href={forAdmin ? '/admin/login' : '/customer/login'}
                         size='lg'
@@ -94,14 +102,16 @@ const Header = ({ pageTitle, loggedIn = false, forAdmin = false }: props) => {
                   (forAdmin ? (
                     <>
                       <Nav forAdmin={true} />
-                      <p className='text-light fw-bold m-0'>Admin Warung</p>
+                      <div className='position-absolute end-0'>
+                        <p className='text-light fw-bold m-0'>Admin Warung</p>
+                      </div>
                     </>
                   ) : (
                     <>
                       <Nav />
-                      <div>
+                      <div className='position-absolute end-0'>
                         {/* keranjang */}
-                        <Link href='/cart' passHref>
+                        <Link href='/customer/cart' passHref>
                           <IoBasket
                             fill='#ff9090'
                             size='2rem'

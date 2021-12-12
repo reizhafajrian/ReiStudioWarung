@@ -41,11 +41,15 @@ const Login = ({ forAdmin = false }: props) => {
 
     const loginRes = await loginReq.json()
 
-    setStatus('success')
+    if (loginRes.status === 200) {
+      setStatus('success')
 
-    Cookie.set('token', loginRes.token)
+      Cookie.set('token', loginRes.token)
 
-    return router.push('/')
+      return forAdmin ? router.push('/admin') : router.push('/customer')
+    }
+
+    return console.log(loginRes.message)
   }
 
   return (

@@ -25,7 +25,7 @@ const TableVouchers = () => {
 
   return (
     <div className='mt-4'>
-      <CTable hover>
+      <CTable borderless hover>
         <CTableHead className='h6 bg-white'>
           <CTableRow>
             {headers.map((title, index) => (
@@ -38,12 +38,7 @@ const TableVouchers = () => {
         <div className='mb-3'></div>
         <CTableBody className='h6 bg-white py-4 align-middle'>
           {vouchers.map((voucher) => (
-            <CTableRow
-              key={voucher.kode}
-              onClick={() => {
-                router.push(`/admin/history/${voucher.kode}`)
-              }}
-            >
+            <CTableRow key={voucher.kode}>
               <CTableDataCell>{voucher.kode}</CTableDataCell>
               <CTableDataCell>{voucher.discount}</CTableDataCell>
               <CTableDataCell>{voucher.status}</CTableDataCell>
@@ -52,7 +47,7 @@ const TableVouchers = () => {
                   color='warning'
                   className='w-auto me-2'
                   onClick={() => {
-                    router.push(`/admin/products/${voucher.kode}`)
+                    router.push(`/admin/vouchers/${voucher.kode}`)
                   }}
                 >
                   <RiPencilFill fill='white' size='24' />

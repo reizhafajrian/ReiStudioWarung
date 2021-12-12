@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CHeaderNav, CNavItem, CNavLink } from '@coreui/react'
 
@@ -30,7 +29,7 @@ const Nav = ({ forAdmin }: props) => {
   }
 
   return (
-    <CHeaderNav>
+    <CHeaderNav className='mx-auto'>
       {navMenu.map((link, index) => (
         <CNavItem className='px-3' key={index}>
           <CNavLink active={isActive(link.path)} href={link.path}>

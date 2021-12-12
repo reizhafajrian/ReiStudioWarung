@@ -10,7 +10,7 @@ interface props {
 
 const ProductItem = ({ image, name, price, sold }: props) => {
   return (
-    <CCard style={{ maxWidth: 200 }}>
+    <CCard style={{ maxWidth: 200 }} className='mb-4'>
       <Image
         className='product-img'
         src={image}

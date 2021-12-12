@@ -1,10 +1,8 @@
-import type { ReactElement } from 'react'
 import { CButton, CContainer } from '@coreui/react'
-import Layout from '../../components/layout/Layout'
 import TableProduct from './TableProducts'
 import { useRouter } from 'next/router'
 
-const AllProducts = () => {
+const AllProducts = ({ products }: any) => {
   const router = useRouter()
 
   return (
@@ -18,13 +16,9 @@ const AllProducts = () => {
           Tambah Produk
         </CButton>
       </div>
-      <TableProduct />
+      <TableProduct products={products} />
     </CContainer>
   )
 }
 
 export default AllProducts
-
-AllProducts.getLayout = function getLayout(content: ReactElement) {
-  return <Layout isAdmin={true}>{content}</Layout>
-}

@@ -8,8 +8,8 @@ export const encrypt = async (password: string) => {
 }
 
 export const comparePassword = async (password: string, hash: string) => {
-  return bcrypt
+  return await bcrypt
     .compare(password, hash)
-    .then((result) => true)
+    .then((result) => result)
     .catch((err: any) => err)
 }

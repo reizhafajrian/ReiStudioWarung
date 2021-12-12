@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import ProfileEdit from '../../components/user/ProfileEdit'
+import ProfileEdit from '../../../components/customer/ProfileEdit'
+import Layout from '../../../components/layout/Layout'
 
 const EditProfile = () => {
   return <ProfileEdit />

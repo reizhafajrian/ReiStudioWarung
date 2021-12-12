@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Select from 'react-select'
 import ProductItem from './ProductItem'
 import { BiSearchAlt2 } from 'react-icons/bi'
@@ -90,10 +90,10 @@ const Products = ({ products }: any) => {
             </CButton>
           </CForm>
         </div>
-        <CRow className='mt-5 w-100'>
+        <CRow className='flex-wrap mt-5 w-100'>
           {products.map((product: any) => (
             <CCol
-              xs={3}
+              md={3}
               className='mb-5 p-0 d-flex justify-content-center'
               key={product._id}
             >

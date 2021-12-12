@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import Home from '../../components/Home'
 import Layout from '../../components/layout/Layout'
 
-export default function HomePage({ products }) {
+export default function HomePage({ products }: any) {
   return <Home products={products} />
 }
 

@@ -49,6 +49,8 @@ const Register = ({ forAdmin = false }: props) => {
     if (!registerReq.ok) return setStatus('error' + registerReq.status)
 
     setStatus('success')
+
+    return forAdmin ? router.push('/admin/login') : router.push('/customer/login')
   }
 
   return (

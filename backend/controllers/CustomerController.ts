@@ -3,26 +3,38 @@ import { generateToken, verifyToken } from '../middlewares/jwt'
 import Customer from '../models/Customer'
 import { check } from 'express-validator'
 import { Request, Response, NextFunction } from 'express'
+
 import {
   validationHandler,
   validations,
 } from '../middlewares/validationHandler'
 
 export const CustomerController = {
+  profile: async function (req: Request, res: Response, next: NextFunction) {
+    const { token } = req.cookies
+
+    if (token) {
+      const decoded = verifyToken(token)
+
+      return res.status(200).json({
+        status: 200,
+        user: decoded.user,
+      })
+    } else {
+      return res.status(401).json({
+        status: 401,
+        message: 'Login access needed',
+      })
+    }
+  },
   login: async function (req: Request, res: Response, next: NextFunction) {
     const { emailOrUsername, password } = req.body
 
     // check email or username
-    let user = await Customer.findOne(
-      { email: emailOrUsername },
-      { password: 0, _id: 1, __v: 0 }
-    )
+    let user = await Customer.findOne({ email: emailOrUsername })
 
     if (!user) {
-      user = await Customer.findOne(
-        { username: emailOrUsername },
-        { password: 0, _id: 1, __v: 0 }
-      )
+      user = await Customer.findOne({ username: emailOrUsername })
     }
 
     // user not found
@@ -34,6 +46,7 @@ export const CustomerController = {
     }
 
     const isMatch = await comparePassword(password, user.password)
+
     if (isMatch) {
       const token = await generateToken(user)
       return res.status(200).json({
