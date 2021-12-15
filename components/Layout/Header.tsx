@@ -39,9 +39,9 @@ const Header = ({ pageTitle }: any) => {
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
-      <h1>
+      {/* <h1>
         {loggedIn}, {forAdmin}
-      </h1>
+      </h1> */}
       <CHeader
         className='border-0 align-items-center'
         style={{
