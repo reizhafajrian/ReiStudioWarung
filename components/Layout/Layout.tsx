@@ -1,34 +1,29 @@
 import { ReactNode } from 'react'
-import { useRouter } from 'next/router'
+import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
 
 interface props {
   pageTitle: string
   children: ReactNode
-  forAdmin?: boolean
 }
 
-const Layout = ({ pageTitle, children, forAdmin }: props) => {
-  const router = useRouter()
-
+const Layout = ({ pageTitle, children }: props) => {
   return (
-    <div className='min-vh-100 d-flex flex-column'>
-      <Header pageTitle={pageTitle} forAdmin={forAdmin} />
-      {router.pathname !== '/admin/login' &&
-      router.pathname !== '/customer/login' &&
-      router.pathname !== '/customer/register' &&
-      router.pathname !== '/admin/register' ? (
-        <>
-          <div>{children}</div>
-          <Footer />
-        </>
-      ) : (
-        <div className='d-flex flex-column align-items-center mt-5'>
-          {children}
-        </div>
-      )}
-    </div>
+    <>
+      <Head>
+        <title>Warung | {pageTitle}</title>
+        <meta charSet='UTF-8' />
+        <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+      </Head>
+
+      <div className='min-vh-100 d-flex flex-column'>
+        <Header />
+        <div>{children}</div>
+        <Footer />
+      </div>
+    </>
   )
 }
 

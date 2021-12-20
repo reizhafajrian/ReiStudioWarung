@@ -1,8 +1,11 @@
-import { CButton, CForm, CFormInput } from '@coreui/react'
 import { useMemo, useState } from 'react'
+import { RootStateOrAny, useSelector } from 'react-redux'
 import Select from 'react-select'
+import { CButton, CForm, CFormInput } from '@coreui/react'
 
 const OrderDetails = () => {
+  const { total } = useSelector((state: RootStateOrAny) => state.cart)
+
   const options = useMemo(
     () => [{ value: 'transferVA', label: 'Transfer VA' }],
     []
@@ -37,7 +40,7 @@ const OrderDetails = () => {
       </div>
       <div className='mb-3'>
         <h5 className='fw-bold'>Total harga</h5>
-        <h5>Rp.27.000,-</h5>
+        <h5>Rp.{total.toLocaleString('id-ID')},-</h5>
       </div>
       <div className='text-center'>
         <CButton

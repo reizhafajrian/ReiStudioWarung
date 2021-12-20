@@ -1,5 +1,6 @@
 import nc from 'next-connect'
-import { CustomerController } from '../../backend/controllers/CustomerController'
-import { onError, onNoMatch } from '../../backend/middlewares/errorHandler'
+import { AuthController } from '@backend/controllers/AuthController'
+import { onError, onNoMatch } from '@backend/middlewares/errorHandler'
+import connectDB from '@backend/app'
 
-export default nc({ onError, onNoMatch }).get(CustomerController.profile)
+export default connectDB(nc({ onError, onNoMatch }).get(AuthController.profile))

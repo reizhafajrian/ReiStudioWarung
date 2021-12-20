@@ -1,8 +1,8 @@
 import { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import Products from '../../components/product/Products'
+import Layout from '@components/layout/Layout'
+import Products from '@components/product/Products'
 
-const ProductsPage = ({ products }) => {
+const ProductsPage = ({ products }: any) => {
   return <Products products={products} />
 }
 

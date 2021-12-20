@@ -1,6 +1,6 @@
+import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 import initMiddleware from '../../utils/initMiddleware'
-import { Request, Response, NextFunction } from 'express'
 
 /**
  * @description Middleware Validation

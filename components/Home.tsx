@@ -63,13 +63,7 @@ const Home = ({ products }: any) => {
         {/* Product List */}
         <div className='w-100 d-flex flex-wrap justify-content-evenly'>
           {products.slice(0, 5).map((product: any) => (
-            <ProductItem
-              key={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.selling_price}
-              sold={product.sold}
-            />
+            <ProductItem key={product._id} product={product} />
           ))}
         </div>
       </div>

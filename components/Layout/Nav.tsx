@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router'
+import { RootStateOrAny, useSelector } from 'react-redux'
 import { CHeaderNav, CNavItem, CNavLink } from '@coreui/react'
 
-interface props {
-  forAdmin?: boolean
-}
-
-const Nav = ({ forAdmin }: props) => {
+const Nav = () => {
   const router = useRouter()
+
+  const { forAdmin } = useSelector((state: RootStateOrAny) => state.user)
 
   const customerMenu = [
     { name: 'Home', path: '/customer' },
@@ -32,7 +31,10 @@ const Nav = ({ forAdmin }: props) => {
     <CHeaderNav className='mx-auto'>
       {navMenu.map((link, index) => (
         <CNavItem className='px-3' key={index}>
-          <CNavLink active={isActive(link.path)} href={link.path}>
+          <CNavLink
+            active={isActive(link.path)}
+            onClick={() => router.push(link.path)}
+          >
             {link.name}
           </CNavLink>
         </CNavItem>

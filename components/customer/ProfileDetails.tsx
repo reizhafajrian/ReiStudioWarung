@@ -1,10 +1,19 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import BadgeStatus from '../BadgeStatus'
 import { RiPencilFill } from 'react-icons/ri'
-import { CButton, CCard } from '@coreui/react'
+import { CAvatar, CButton, CCard } from '@coreui/react'
+import { useRouter } from 'next/router'
+import { RootStateOrAny, useSelector } from 'react-redux'
 
 const ProfileDetails = () => {
+  const router = useRouter()
+
+  const { user } = useSelector((state: RootStateOrAny) => state.user)
+
+  function getFirstWord(name: string): string {
+    return name?.charAt(0).toUpperCase()
+  }
+
   return (
     <div className='min-h-100 w-100 position-relative d-flex mb-5'>
       <div
@@ -15,32 +24,30 @@ const ProfileDetails = () => {
         <CCard className='p-5 mb-2'>
           <div className='d-flex'>
             <div>
-              <Image
-                src='/images/logo.jpg'
-                alt='profile'
-                height={80}
-                width={80}
-              />
+              <CAvatar color='secondary' size='xl'>
+                {getFirstWord(user.name)}
+              </CAvatar>
             </div>
             <div className='ms-4 ps-2' style={{ width: 500 }}>
               <h5 className='fw-bold mb-3'>
-                Johnny Doe&nbsp;&nbsp;&nbsp;
-                <span className='text-secondary fw-normal'>jonni_e</span>
+                {user.name}&nbsp;&nbsp;&nbsp;
+                <span className='text-secondary fw-normal'>
+                  {user.username}
+                </span>
               </h5>
               <div className='text-gray'>
-                <h5 className='mb-3'>+6281234567890</h5>
-                <h5 className='mb-0'>
-                  Jalan Merpati Kuning no. 19, Komplek Kandang Hewan, Cilandak,
-                  Jakarta Selatan
-                </h5>
+                <h5 className='mb-3'>{user.phone}</h5>
+                <h5 className='mb-0'>{user.address}</h5>
               </div>
             </div>
             <div>
-              <Link href='/customer/profile/edit'>
-                <a className='text-dark'>
-                  Edit profil <RiPencilFill style={{ height: 20, width: 20 }} />
-                </a>
-              </Link>
+              <a
+                className='text-dark'
+                onClick={() => router.push('/customer/profile/edit')}
+                style={{ cursor: 'pointer' }}
+              >
+                Edit profil <RiPencilFill style={{ height: 20, width: 20 }} />
+              </a>
             </div>
           </div>
         </CCard>
@@ -68,9 +75,12 @@ const ProfileDetails = () => {
                   </div>
                 </div>
                 <div>
-                  <Link href='/profile/detail-pesanan/1234'>
-                    <a className='text-dark fw-bold'>Lihat detail pesanan</a>
-                  </Link>
+                  <a
+                    className='text-dark fw-bold'
+                    onClick={() => router.push('/profile/detail-pesanan/1234')}
+                  >
+                    Lihat detail pesanan
+                  </a>
                   <BadgeStatus bg='warning' title='Pembayaran' />
                 </div>
               </div>

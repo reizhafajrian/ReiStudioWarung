@@ -1,9 +1,8 @@
-import Admin from '../models/Admin'
-import { comparePassword, encrypt } from '../middlewares/encrypt'
-import { generateToken, verifyToken } from '../middlewares/jwt'
-import { check } from 'express-validator'
 import { Request, Response, NextFunction } from 'express'
-import bcrypt from 'bcrypt'
+import { check } from 'express-validator'
+import { comparePassword, encrypt } from '../middlewares/encrypt'
+import { generateToken } from '../middlewares/jwt'
+import Admin from '../models/Admin'
 
 import {
   validationHandler,

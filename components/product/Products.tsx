@@ -97,12 +97,7 @@ const Products = ({ products }: any) => {
               className='mb-5 p-0 d-flex justify-content-center'
               key={product._id}
             >
-              <ProductItem
-                image={product.image}
-                name={product.name}
-                price={product.selling_price}
-                sold={product.sold}
-              />
+              <ProductItem product={product} />
             </CCol>
           ))}
         </CRow>

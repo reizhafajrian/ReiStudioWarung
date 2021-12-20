@@ -1,38 +1,59 @@
 import Image from 'next/image'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { addToCart, incrementItem } from '../../redux/actions/cartActions'
+import cookie from 'js-cookie'
 import { CCard, CCardBody, CButton } from '@coreui/react'
+import { useRouter } from 'next/router'
 
-interface props {
-  image: string
-  name: string
-  price: number
-  sold: number
-}
+const ProductItem = ({ product }: any) => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const token = cookie.get('token')
+  const { cartItems } = useSelector((state: RootStateOrAny) => state.cart)
 
-const ProductItem = ({ image, name, price, sold }: props) => {
+  const isInCart = (product: any) => {
+    return !!cartItems.find((item: any) => item._id === product._id)
+  }
+
   return (
     <CCard style={{ maxWidth: 200 }} className='mb-4'>
       <Image
         className='product-img'
-        src={image}
-        alt={name}
+        src={product.image}
+        alt={product.name}
         width={200}
         height={200}
         objectFit='contain'
       />
       <CCardBody>
-        <p className='fw-bold mb-2'>{name}</p>
+        <p className='fw-bold mb-2'>{product.name}</p>
         <div className='d-flex align-items-center'>
           <div className='flex-grow-1'>
             <p className='mb-1 fw-medium'>
-              <small>Rp. {price.toLocaleString('id-ID')},-</small>
+              <small>
+                Rp.
+                {product.selling_price.toLocaleString('id-ID')}
+                ,-
+              </small>
             </p>
             <p className='text-secondary mb-0'>
               <small>
-                Dibeli <span className='text-primary'> {sold} </span>kali
+                Dibeli <span className='text-primary'> {product.sold} </span>
+                kali
               </small>
             </p>
           </div>
-          <CButton>Beli</CButton>
+          <CButton
+            onClick={
+              token
+                ? isInCart(product)
+                  ? () => dispatch(incrementItem(product))
+                  : () => dispatch(addToCart(product))
+                : () => router.push('/customer/login')
+            }
+          >
+            Beli
+          </CButton>
         </div>
       </CCardBody>
     </CCard>

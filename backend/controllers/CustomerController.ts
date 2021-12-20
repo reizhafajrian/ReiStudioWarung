@@ -1,31 +1,47 @@
-import { comparePassword, encrypt } from '../middlewares/encrypt'
-import { generateToken, verifyToken } from '../middlewares/jwt'
-import Customer from '../models/Customer'
-import { check } from 'express-validator'
 import { Request, Response, NextFunction } from 'express'
-
+import { check } from 'express-validator'
+import { comparePassword, encrypt } from '../middlewares/encrypt'
+import { generateToken } from '../middlewares/jwt'
+import Customer from '../models/Customer'
 import {
   validationHandler,
   validations,
 } from '../middlewares/validationHandler'
 
 export const CustomerController = {
-  profile: async function (req: Request, res: Response, next: NextFunction) {
-    const { token } = req.cookies
+  updateProfile: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { id, name, username, email, phone, address } = req.body
 
-    if (token) {
-      const decoded = verifyToken(token)
+    await validationHandler(
+      req,
+      res,
+      validations([
+        check('name', 'Full name is required!').not().isEmpty(),
+        check('username', 'Username is required!').not().isEmpty(),
+        check('address', 'Address is required!').not().isEmpty(),
+        check('email', 'Invalid email address').isEmail(),
+        check('phone', 'Phone number is required!')
+          .notEmpty()
+          .isMobilePhone('id-ID')
+          .withMessage('Must provide a valid phone number'),
+      ])
+    )
 
-      return res.status(200).json({
-        status: 200,
-        user: decoded.user,
-      })
-    } else {
-      return res.status(401).json({
-        status: 401,
-        message: 'Login access needed',
-      })
-    }
+    await Customer.findByIdAndUpdate(id, {
+      name,
+      username,
+      email,
+      phone,
+      address,
+    })
+
+    return res.status(200).send({
+      message: 'User updated successfully',
+    })
   },
   login: async function (req: Request, res: Response, next: NextFunction) {
     const { emailOrUsername, password } = req.body

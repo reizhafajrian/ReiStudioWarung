@@ -1,21 +1,21 @@
+import { RootStateOrAny, useSelector } from 'react-redux'
+import CartForm from './CartForm'
+import CartProducts from './CartProducts'
 import { CCard, CCol, CContainer, CRow } from '@coreui/react'
-import CartItem from './CartItem'
-import PaymentDetails from './PaymentDetails'
 
 const Cart = () => {
+  const { cartItems } = useSelector((state: RootStateOrAny) => state.cart)
+
   return (
     <CContainer className='p-0 my-5'>
       <h3 className='fw-bold mb-5'>Keranjang Belanja Anda</h3>
       <CRow className='mx-5'>
         <CCol sm={8} className='p-0 pe-5'>
-          <CCard className='pt-4 px-5'>
-            <CartItem />
-            <CartItem />
-          </CCard>
+          {cartItems.length > 0 ? <CartProducts /> : <h1>Keranjang kosong</h1>}
         </CCol>
         <CCol className='p-0 ps-4'>
           <CCard className='py-4 px-4'>
-            <PaymentDetails />
+            <CartForm />
           </CCard>
         </CCol>
       </CRow>

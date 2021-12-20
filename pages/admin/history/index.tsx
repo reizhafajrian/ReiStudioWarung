@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../../../components/layout/Layout'
-import AllOrders from '../../../components/admin/AllOrders'
+import Layout from '@components/layout/Layout'
+import AllOrders from '@components/admin/AllOrders'
 
 const AllOrdersPage = () => {
   return <AllOrders />
@@ -9,5 +9,5 @@ const AllOrdersPage = () => {
 export default AllOrdersPage
 
 AllOrdersPage.getLayout = function getLayout(content: ReactElement) {
-  return <Layout isAdmin={true}>{content}</Layout>
+  return <Layout pageTitle='History'>{content}</Layout>
 }

@@ -1,5 +1,5 @@
+import { ReactNode } from 'react'
 import { CModal } from '@coreui/react'
-import { ReactNode, useState } from 'react'
 
 interface props {
   children: ReactNode

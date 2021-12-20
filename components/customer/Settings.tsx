@@ -1,22 +1,32 @@
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import cookie from 'js-cookie'
 import InputField from '../InputField'
-import { CForm, CContainer, CCard, CButton } from '@coreui/react'
 import Modal from '../Modal'
+import { CForm, CContainer, CCard, CButton } from '@coreui/react'
 
 const Settings = () => {
+  const router = useRouter()
   const [passwordLama, setPasswordLama] = useState('')
   const [passwordBaru, setPasswordBaru] = useState('')
   const [passwordKonf, setPasswordKonf] = useState('')
   const [visible, setVisible] = useState(false)
 
+  const logout = () => {
+    cookie.remove('cart')
+    cookie.remove('token')
+    router.push('/customer/login')
+  }
+
   return (
     <CContainer className='d-flex flex-column mt-5 px-0 pt-4'>
       <div>
-        <h2 className='text-gray fw-bold mb-4'>Pengaturan</h2>
-        <div className='row'>
-          <div className='col-3'>
-            <CCard className='col-4 p-4 w-100'>
+        <h2 className='text-gray fw-bold mb-4 text-center text-md-start'>
+          Pengaturan
+        </h2>
+        <div className='row m-0'>
+          <div className='col-md-3'>
+            <CCard className='p-4 w-100'>
               <h5 className='text-light lh-lg mb-3'>Ubah password</h5>
               <h5 className='lh-lg mb-0'>
                 <a
@@ -42,13 +52,15 @@ const Settings = () => {
                 >
                   Batal
                 </CButton>
-                <CButton size='lg'>Ya</CButton>
+                <CButton size='lg' onClick={logout}>
+                  Ya
+                </CButton>
               </div>
             </Modal>
             {/* Modal End */}
           </div>
-          <div className='col-7 ms-5'>
-            <CCard className='w-100 p-5 py-4 ms-5'>
+          <div className='col-md-8 my-3 my-md-0 mx-auto'>
+            <CCard className='w-100 p-5 py-4 '>
               <CForm className='mt-2'>
                 <InputField
                   secure={true}
@@ -57,9 +69,9 @@ const Settings = () => {
                   placeholder='Password Lama'
                   onChange={setPasswordLama}
                   value={passwordLama}
-                  id='pass'
+                  id='oldPass'
                 />
-                <div className='w-100 d-flex justify-content-between'>
+                <div className='w-100 d-flex flex-wrap justify-content-between'>
                   <InputField
                     secure={true}
                     type='password'
@@ -67,7 +79,7 @@ const Settings = () => {
                     placeholder='Password Baru'
                     onChange={setPasswordBaru}
                     value={passwordBaru}
-                    id='pass'
+                    id='newPass'
                   />
                   <InputField
                     secure={true}

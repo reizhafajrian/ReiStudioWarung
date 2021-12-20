@@ -12,7 +12,7 @@ export const verifyToken = (token: any) => {
     token,
     process.env.ACCESS_TOKEN_SECRET!,
     (err: any, decoded: any) => {
-      if (err) return false
+      if (err) return err
       return decoded
     }
   )

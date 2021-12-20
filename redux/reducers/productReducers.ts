@@ -1,20 +1,16 @@
 import * as types from '../types'
 
-const initialState = {
-  products: [],
-  product: {},
-  loading: false,
-  error: null,
-}
-
-export const productReducer = (state = initialState, action: any) => {
+export const productReducer = (state = {}, action: any) => {
   switch (action.type) {
-    case types.GET_PRODUCTS:
+    case types.FETCH_PRODUCTS:
+      return {
+        products: action.payload,
+      }
+    case types.FILTER_PRODUCTS_BY_CAT:
       return {
         ...state,
-        products: action.payload.products,
-        loading: false,
-        error: null,
+        category: action.payload.category,
+        filteredItems: action.payload.items,
       }
     default:
       return state

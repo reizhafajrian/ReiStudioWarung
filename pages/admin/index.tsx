@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../../components/layout/Layout'
-import Dashboard from '../../components/admin/Dashboard'
+import Layout from '@components/layout/Layout'
+import Dashboard from '@components/admin/Dashboard'
 
 const DashboardPage = ({ products }: any) => {
   return <Dashboard products={products} />

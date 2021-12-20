@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import Layout from '../../../components/layout/Layout'
-import UpdateProduct from '../../../components/admin/UpdateProduct'
+import Layout from '@components/layout/Layout'
+import UpdateProduct from '@components/admin/UpdateProduct'
 
 const UpdateProductPage = () => {
   return <UpdateProduct />

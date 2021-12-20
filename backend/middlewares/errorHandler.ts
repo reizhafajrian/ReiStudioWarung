@@ -1,5 +1,5 @@
-import ClientError from '../../utils/error'
 import { Request, Response } from 'express'
+import ClientError from '../../utils/error'
 
 // Error middleware
 export const onError = (err: any, req: Request, res: Response) => {

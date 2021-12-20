@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import AllProducts from '../../../components/admin/AllProducts'
-import Layout from '../../../components/layout/Layout'
+import AllProducts from '@components/admin/AllProducts'
+import Layout from '@components/layout/Layout'
 
 const AllProductsPage = ({ products }: any) => {
   return <AllProducts products={products} />

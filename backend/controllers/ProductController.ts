@@ -1,6 +1,6 @@
-import Product from '../../backend/models/Product'
-import products from '../../data/products'
 import { Request, Response, NextFunction } from 'express'
+import Product from '../models/Product'
+import products from '../../data/products'
 
 export const ProductController = {
   seedProducts: async function (
@@ -15,7 +15,6 @@ export const ProductController = {
       createdProducts,
     })
   },
-
   getProducts: async function (
     req: Request,
     res: Response,
