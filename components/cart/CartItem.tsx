@@ -31,25 +31,32 @@ const CartItem = ({ product }: any) => {
         </div>
       </CCol>
       <CCol xs={3} className='p-0 d-flex align-items-center'>
-        <BiMinus
+        <button
+          className='btn'
           onClick={
             product.quantity === 1
               ? () => dispatch(deleteItem(product))
               : () => dispatch(decrementItem(product))
           }
-          size={20}
-          fill='#ff9090'
-          cursor='pointer'
-          className='count-btn border border-2 border-dark rounded-circle'
-        />
+        >
+          <BiMinus
+            size={20}
+            fill='#ff9090'
+            className='count-btn border border-2 border-dark rounded-circle'
+          />
+        </button>
         <h5 className='m-0 mx-3'>{product.quantity}</h5>
-        <BiPlus
+        <button
+          className='btn'
+          disabled={product.quantity === product.stock ? true : false}
           onClick={() => dispatch(incrementItem(product))}
-          size={20}
-          fill='#ff9090'
-          cursor='pointer'
-          className='count-btn border border-2 border-dark rounded-circle'
-        />
+        >
+          <BiPlus
+            size={20}
+            fill='#ff9090'
+            className='count-btn border border-2 border-dark rounded-circle'
+          />
+        </button>
       </CCol>
       <CCol xs={3} className='p-0 text-end my-auto'>
         <h5>Rp. {total.toLocaleString('id-ID')},-</h5>

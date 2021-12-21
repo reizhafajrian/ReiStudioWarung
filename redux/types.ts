@@ -1,5 +1,3 @@
-export const FETCH_PRODUCTS = 'FETCH_PRODUCTS'
-export const FILTER_PRODUCTS_BY_CAT = 'FILTER_PRODUCTS_BY_CAT'
 export const GET_USER = 'GET_USER'
 
 export const ADD_TO_CART = 'ADD_TO_CART'

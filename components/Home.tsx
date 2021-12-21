@@ -2,17 +2,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProductItem from './product/ProductItem'
-import { CForm, CFormInput, CButton } from '@coreui/react'
-import { BiSearchAlt2 } from 'react-icons/bi'
+import SearchFilter from './product/SearchFilter'
 
 const Home = ({ products }: any) => {
-  const [product, setProduct] = useState('')
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(product)
-    setProduct(e.target.value)
-  }
-
   return (
     <div>
       {/* --------JUMBOTRON-------- */}
@@ -35,18 +27,9 @@ const Home = ({ products }: any) => {
             Kini pesan barang dari [nama warung] gak
             <br /> perlu keluar rumah lagi
           </h3>
-          <CForm className='d-flex'>
-            <CFormInput
-              className='w-50 rounded-0 rounded-start'
-              type='text'
-              placeholder='Belanja apa hari ini?'
-              value={product}
-              onChange={handleSearchChange}
-            />
-            <CButton type='submit' className='rounded-0 rounded-end'>
-              <BiSearchAlt2 size={24} />
-            </CButton>
-          </CForm>
+          <div className='w-75'>
+            <SearchFilter placeholder='Belanja apa hari ini?' />
+          </div>
         </div>
       </div>
 
@@ -55,7 +38,7 @@ const Home = ({ products }: any) => {
         <div className='w-100 mb-5 position-relative'>
           <h2 className='fw-bold m-0 text-md-center'>Paling Laris</h2>
           <div className='position-absolute end-0 top-0 px-md-5'>
-            <Link href='/customer/products'>
+            <Link href='/customer/products?sort=terlaris'>
               <a>Lihat semua {'>'}</a>
             </Link>
           </div>

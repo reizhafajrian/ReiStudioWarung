@@ -14,9 +14,11 @@ DashboardPage.getLayout = function getLayout(content: ReactElement) {
 
 // fetching data
 export const getServerSideProps = async () => {
-  const res = await fetch('http://localhost:3000/api/products')
+  const res = await fetch(
+    'http://localhost:3000/api/products?category=all&search=all'
+  )
 
   const data = await res.json()
 
-  return { props: { products: data } }
+  return { props: { products: data.products } }
 }
