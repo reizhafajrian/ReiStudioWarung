@@ -1,7 +1,7 @@
 import * as types from '../types'
 
 const initialState = {
-  user: [],
+  user: {},
   loggedIn: false,
   forAdmin: false,
 }

@@ -1,32 +1,22 @@
 import { useState } from 'react'
 import { CButton, CContainer, CForm } from '@coreui/react'
-import InputField from '../InputField'
+import InputField from '../../InputField'
 
-const UpdateProduct = () => {
-  const product = {
-    id: '1234',
-    name: 'Beras Subang 2kg',
-    stock: '20',
-    buyingPrice: 'Rp. 35.000,-',
-    sellingPrice: 'Rp. 35.000,-',
-    category: 'Sembako',
-    lastUpdated: '24/07/21',
-  }
-
-  const [nama, setNama] = useState(product.name)
-  const [beli, setBeli] = useState(product.buyingPrice)
-  const [jual, setJual] = useState(product.sellingPrice)
-  const [stok, setStok] = useState(product.stock)
+const NewProduct = () => {
+  const [nama, setNama] = useState('')
+  const [beli, setBeli] = useState('')
+  const [jual, setJual] = useState('')
+  const [stok, setStok] = useState('')
   const [foto, setFoto] = useState('')
-  const [kat, setKat] = useState(product.category)
-  const [tambahKat, setTambahKat] = useState(product.category)
+  const [kat, setKat] = useState('')
+  const [tambahKat, setTambahKat] = useState('')
 
   return (
     <CContainer className='my-5'>
-      <h4 className='fw-bold mb-4'>Update Product</h4>
+      <h4 className='fw-bold mb-4'>Tambah Product</h4>
       <CForm className='bg-white p-5' style={{ borderRadius: 20 }}>
-        <div className='pb-3 d-flex justify-content-between'>
-          <div>
+        <div className='pb-3 d-flex justify-content-between flex-wrap'>
+          <div className='product-form'>
             <InputField
               type='text'
               label='Nama Barang'
@@ -52,7 +42,7 @@ const UpdateProduct = () => {
               id='kat'
             />
           </div>
-          <div>
+          <div className='product-form'>
             <InputField
               type='number'
               label='Jumlah Stok'
@@ -78,11 +68,11 @@ const UpdateProduct = () => {
               id='tambahKat'
             />
           </div>
-          <div className='d-flex align-items-center'>
+          <div className='my-auto product-form'>
             <InputField
-              type='file'
+              type='text'
               label='Foto Barang'
-              placeholder='Foto barang'
+              placeholder='Foto Barang'
               onChange={setFoto}
               value={foto}
               id='foto'
@@ -91,7 +81,7 @@ const UpdateProduct = () => {
         </div>
         <div className='text-center'>
           <CButton className='w-auto' size='lg'>
-            Update Product
+            Tambah produk
           </CButton>
         </div>
       </CForm>
@@ -99,4 +89,4 @@ const UpdateProduct = () => {
   )
 }
 
-export default UpdateProduct
+export default NewProduct

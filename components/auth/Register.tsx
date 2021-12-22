@@ -18,7 +18,6 @@ const Register = ({ forAdmin = false }: props) => {
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [status, setStatus] = useState('normal')
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
@@ -47,9 +46,9 @@ const Register = ({ forAdmin = false }: props) => {
       config
     )
 
-    if (!registerReq.ok) return setStatus('error' + registerReq.status)
+    // if (!registerReq.ok) return setStatus('error' + registerReq.status)
 
-    setStatus('success')
+    // setStatus('success')
 
     return forAdmin
       ? router.push('/admin/login')
@@ -62,14 +61,14 @@ const Register = ({ forAdmin = false }: props) => {
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center'>
           <h2 className='fw-bold lh-lg mb-0'>Registrasi akun anda!</h2>
-          <h4 className='fw-normal lh-lg  mb-3'>
+          <h4 className='fw-normal lh-md-lg mb-3'>
             Registrasi sekarang untuk dapat memesan di website ini
           </h4>
         </div>
-        <CCard className='px-5 py-4'>
+        <CCard className='px-4 py-4 mx-3 mb-3 mx-md-0'>
           <CForm onSubmit={handleSubmit} className='px-3 pt-3'>
-            <div className='d-flex justify-content-between mb-4'>
-              <div className='pe-3 me-4'>
+            <div className='d-flex flex-wrap justify-content-between mb-4'>
+              <div className='register-form pe-md-3 me-md-4'>
                 <InputField
                   secure={false}
                   type='text'
@@ -107,7 +106,7 @@ const Register = ({ forAdmin = false }: props) => {
                   id='pass'
                 />
               </div>
-              <div>
+              <div className='register-form'>
                 <InputField
                   secure={false}
                   type='text'
@@ -148,7 +147,6 @@ const Register = ({ forAdmin = false }: props) => {
                 </Link>
               </p>
             </div>
-            <p>Status: {status}</p>
           </CForm>
         </CCard>
       </div>

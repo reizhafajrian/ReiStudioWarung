@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import AllProducts from '@components/admin/AllProducts'
+import AllProducts from '@components/admin/product/AllProducts'
 import Layout from '@components/layout/Layout'
 
 const AllProductsPage = ({ products }: any) => {

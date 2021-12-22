@@ -31,13 +31,13 @@ const TableProduct = ({ products, forDashboard = false }: props) => {
 
   return (
     <div className='mt-4'>
-      <CTable borderless hover>
+      <CTable borderless hover responsive>
         <CTableHead className='h6'>
           <CTableRow>
             {headers.map((title, index) => (
               <CTableHeaderCell
                 key={index}
-                className='px-3 py-4 border-0 bg-white'
+                className='px-3 py-4 border-0 bg-white align-middle'
               >
                 {title}
               </CTableHeaderCell>
@@ -56,7 +56,7 @@ const TableProduct = ({ products, forDashboard = false }: props) => {
                   <CTableDataCell>
                     {new Date(product.updatedAt).toLocaleDateString()}
                   </CTableDataCell>
-                  <CTableDataCell>
+                  <CTableDataCell className='d-flex'>
                     <CButton
                       color='warning'
                       className='w-auto me-2'
@@ -82,7 +82,7 @@ const TableProduct = ({ products, forDashboard = false }: props) => {
                   <CTableDataCell>
                     {new Date(product.updatedAt).toLocaleDateString()}
                   </CTableDataCell>
-                  <CTableDataCell>
+                  <CTableDataCell className='d-flex'>
                     <CButton
                       color='warning'
                       className='w-auto me-2'

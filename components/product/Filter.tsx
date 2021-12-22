@@ -6,12 +6,10 @@ import { CFormCheck } from '@coreui/react'
 
 const Filter = () => {
   const [sort, setSort] = useState()
-  const [category, setCategory] = useState('')
 
   const router = useRouter()
 
   const handleCategory = (e: BaseSyntheticEvent) => {
-    setCategory(e.target.value)
     filterSearch({ router, category: e.target.value })
   }
 

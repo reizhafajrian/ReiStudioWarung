@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import InputField from '../InputField'
+import InputField from '../../InputField'
 import TableVouchers from './TableVouchers'
 import { CCol, CContainer, CRow, CForm, CButton } from '@coreui/react'
 
@@ -15,14 +15,14 @@ const Vouchers = () => {
           <h5 className='fw-bold'>Kelola Vouchers</h5>
         </div>
         <CRow>
-          <CCol xs={8} className='p-0'>
+          <CCol xs={12} md={8} className='p-0'>
             <TableVouchers />
           </CCol>
           <CCol
-            className='bg-white ms-4 p-4 d-flex justify-content-center'
+            className='bg-white mt-5 mt-md-0 mx-3 mx-md-0 ms-md-4 p-4'
             style={{ borderRadius: 20 }}
           >
-            <CForm>
+            <CForm className='w-100 px-3'>
               <h5 className='fw-bold mb-3'>Tambah kode voucher</h5>
               <InputField
                 secure={false}

@@ -1,8 +1,17 @@
 import type { ReactElement } from 'react'
 import Layout from '@components/layout/Layout'
 import Dashboard from '@components/admin/Dashboard'
+import { RootStateOrAny, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 const DashboardPage = ({ products }: any) => {
+  const router = useRouter()
+  const { loggedIn } = useSelector((state: RootStateOrAny) => state.user)
+
+  if (!loggedIn) {
+    router.push('/admin/login')
+  }
+
   return <Dashboard products={products} />
 }
 

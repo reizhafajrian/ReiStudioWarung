@@ -34,7 +34,7 @@ const Header = () => {
     <CHeader className='border-0 align-items-center' position='sticky'>
       <CContainer className='py-2 position-relative'>
         <Link href={forAdmin ? '/admin' : '/customer'} passHref>
-          <CHeaderBrand className='position-md-absolute d-flex align-items-center p-0 m-0'>
+          <CHeaderBrand className='header-item d-flex align-items-center p-0 m-0'>
             <Image
               src='/images/logo.jpg'
               alt='logo'
@@ -55,14 +55,16 @@ const Header = () => {
           forAdmin ? (
             <>
               <Nav />
-              <div className='position-md-absolute end-0'>
-                <p className='text-light fw-bold m-0'>Admin Warung</p>
+              <div className='header-item end-0'>
+                <p className='text-light fw-bold m-0 d-none d-md-block'>
+                  Admin Warung
+                </p>
               </div>
             </>
           ) : (
             <>
               <Nav />
-              <div className='position-md-absolute end-0'>
+              <div className='header-item end-0'>
                 {/* keranjang */}
                 <CartButton />
                 {/* profile */}

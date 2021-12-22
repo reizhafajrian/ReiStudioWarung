@@ -35,18 +35,20 @@ const TableReports = () => {
 
   return (
     <div className='mt-4'>
-      <CTable borderless hover>
-        <CTableHead className='h6 bg-white'>
+      <CTable borderless hover responsive>
+        <CTableHead className='h6'>
           <CTableRow>
             {headers.map((title, index) => (
-              <CTableHeaderCell key={index} className='px-3 py-4 border-0'>
+              <CTableHeaderCell
+                key={index}
+                className='px-3 py-4 border-0 bg-white align-middle'
+              >
                 {title}
               </CTableHeaderCell>
             ))}
           </CTableRow>
         </CTableHead>
-        <div className='mb-3'></div>
-        <CTableBody className='h6 bg-white py-4 align-middle'>
+        <CTableBody className='bg-white h6 align-middle'>
           {products.map((product) => (
             <CTableRow key={product.id}>
               <CTableDataCell>{product.name}</CTableDataCell>

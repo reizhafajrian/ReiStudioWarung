@@ -19,7 +19,11 @@ export const AuthController = {
 
     const id = decoded.user._id
 
-    const user = await Customer.findById(id)
+    let user = await Admin.findById(id)
+
+    if (decoded.user.role == 0) {
+      user = await Customer.findById(id)
+    }
 
     return res.status(200).json({
       status: 200,

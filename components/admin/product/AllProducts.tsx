@@ -7,8 +7,8 @@ const AllProducts = ({ products }: any) => {
 
   return (
     <CContainer className='my-5'>
-      <div className='d-flex justify-content-between align-items-center'>
-        <h4 className='fw-bold'>Stok Barang</h4>
+      <div className='d-flex flex-wrap justify-content-between align-items-center'>
+        <h4 className='fw-bold mb-0'>Stok Barang</h4>
         <CButton
           className='w-auto'
           onClick={() => router.push('/admin/products/new')}

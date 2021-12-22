@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import Layout from '@components/layout/Layout'
-import Report from '@components/admin/Report'
+import Report from '@components/admin/report/Report'
 
 const ReportPage = () => {
   return <Report />

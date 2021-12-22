@@ -37,7 +37,7 @@ const InputField = ({
 
       {type == 'textarea' ? (
         <CFormTextarea
-          style={{ width: 300, height: 154 }}
+          style={{ height: 154 }}
           placeholder={placeholder}
           value={value}
           onChange={(e) => handleChangeTextArea(e)}
@@ -45,7 +45,6 @@ const InputField = ({
         ></CFormTextarea>
       ) : (
         <CFormInput
-          style={{ width: 300 }}
           type={type ? type : secure ? 'text' : 'password'}
           placeholder={placeholder}
           value={value}

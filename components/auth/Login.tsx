@@ -58,7 +58,7 @@ const Login = ({ forAdmin = false }: props) => {
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center'>
           <h2 className='fw-bold lh-lg mb-0'>Masuk</h2>
-          <h4 className='fw-normal lh-lg mb-5'>
+          <h4 className='fw-normal lh-md-lg mb-4 mb-md-5'>
             Masuk ke dalam akun anda untuk dapat memesan di website ini
           </h4>
         </div>
