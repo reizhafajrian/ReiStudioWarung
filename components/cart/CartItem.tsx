@@ -14,8 +14,8 @@ const CartItem = ({ product }: any) => {
   const total = product.selling_price * product.quantity
 
   return (
-    <CRow className='mb-4 px-3'>
-      <CCol className='p-0 d-flex align-items-center'>
+    <CRow className='mb-4 px-md-3'>
+      <CCol xs={12} md={6} className='p-0 d-flex align-items-center'>
         <div>
           <Image
             className='product-img__sm'
@@ -30,7 +30,7 @@ const CartItem = ({ product }: any) => {
           <h5>Rp. {product.selling_price.toLocaleString('id-ID')},-</h5>
         </div>
       </CCol>
-      <CCol xs={3} className='p-0 d-flex align-items-center'>
+      <CCol xs={6} md={3} className='p-0 d-flex align-items-center'>
         <button
           className='btn'
           onClick={
@@ -58,8 +58,8 @@ const CartItem = ({ product }: any) => {
           />
         </button>
       </CCol>
-      <CCol xs={3} className='p-0 text-end my-auto'>
-        <h5>Rp. {total.toLocaleString('id-ID')},-</h5>
+      <CCol xs={6} md={3} className='p-0 text-end my-auto'>
+        <h5 className='mb-0'>Rp. {total.toLocaleString('id-ID')},-</h5>
       </CCol>
     </CRow>
   )

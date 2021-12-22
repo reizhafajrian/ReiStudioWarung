@@ -1,5 +1,4 @@
 import { SyntheticEvent, useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import InputField from '../InputField'
 import { CButton, CCard, CForm } from '@coreui/react'
@@ -142,9 +141,12 @@ const Register = ({ forAdmin = false }: props) => {
               </CButton>
               <p className='text-dark mb-0'>
                 Sudah punya akun? &nbsp;
-                <Link href='/login'>
-                  <a className='text-dark fw-bold'>Masuk</a>
-                </Link>
+                <a
+                  className='text-dark fw-bold'
+                  href={forAdmin ? '/admin/login' : '/customer/login'}
+                >
+                  Masuk
+                </a>
               </p>
             </div>
           </CForm>

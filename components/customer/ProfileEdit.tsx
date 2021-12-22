@@ -54,18 +54,18 @@ const ProfileEdit = () => {
   }
 
   return (
-    <div className='d-flex flex-column align-items-center mt-5 pt-4'>
+    <div className='w-100 d-flex flex-column align-items-center mt-5 pt-4'>
       <div>
-        <h2 className='fw-bold mb-5'>Edit Profile</h2>
-        <CCard className='p-5 mb-5'>
+        <h2 className='fw-bold mb-5 text-center text-md-start'>Edit Profile</h2>
+        <CCard className='p-5 mb-5 mx-3 mx-md-0'>
           <div className='text-center mb-4'>
             <CAvatar color='secondary' size='xl'>
               {getFirstWord(name)}
             </CAvatar>
           </div>
           <CForm onSubmit={handleSubmit}>
-            <div className='d-flex justify-content-between mb-4'>
-              <div className='pe-3 me-4'>
+            <div className='d-flex flex-wrap justify-content-between mb-4'>
+              <div className='profile-form pe-md-3 me-md-4'>
                 <InputField
                   secure={false}
                   type='email'
@@ -94,7 +94,7 @@ const ProfileEdit = () => {
                   id='username'
                 />
               </div>
-              <div>
+              <div className='profile-form'>
                 <InputField
                   secure={false}
                   type='text'

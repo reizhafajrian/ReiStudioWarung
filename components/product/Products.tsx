@@ -5,9 +5,11 @@ import SearchFilter from './SearchFilter'
 import { useEffect, useState } from 'react'
 import filterSearch from 'utils/filterSearch'
 import { useRouter } from 'next/router'
+import { CgMenuGridR } from 'react-icons/cg'
 
 const Products = ({ products, result }: any) => {
   const [page, setPage] = useState(1)
+  const [sidebar, setSidebar] = useState(true)
   const router = useRouter()
 
   const handleLoadMore = () => {
@@ -20,46 +22,58 @@ const Products = ({ products, result }: any) => {
   }, [router.query])
 
   return (
-    <div className='d-flex mt-5'>
+    <div className='position-relative mt-5'>
       {/* -------SIDEBAR MENU------- */}
-      <Filter />
+      <Filter sidebar={sidebar} />
 
       {/* -------PRODUCT LIST------- */}
-      <div className='w-100 me-5 pe-5'>
-        <div className='w-100 d-flex align-items-center justify-content-between'>
-          <h4 className='fw-bold me-auto'>Semua Produk</h4>
-          <SearchFilter placeholder='Cari produk' />
-        </div>
-        {products.length > 0 ? (
-          <>
-            <CRow className='flex-wrap mt-5 w-100'>
-              {products.map((product: any) => (
-                <CCol
-                  md={3}
-                  className='mb-5 p-0 d-flex justify-content-center'
-                  key={product._id}
-                >
-                  <ProductItem product={product} />
-                </CCol>
-              ))}
-            </CRow>
-            <div className='w-100 text-center mb-5'>
-              {result < page * 6 ? (
-                ''
-              ) : (
-                <CButton
-                  onClick={handleLoadMore}
-                  className='mb-5'
-                  style={{ width: 180 }}
-                >
-                  Muat lebih banyak
-                </CButton>
-              )}
+      <div className='d-flex justify-content-center justify-content-md-end'>
+        <div className='product-list me-lg-5 pe-lg-5'>
+          <div className='d-flex flex-column flex-md-row align-items-center justify-content-between'>
+            <h4 className='fw-bold me-lg-auto mb-3 mb-lg-0'>Semua Produk</h4>
+            <div className='d-flex'>
+              <SearchFilter placeholder='Cari produk' />
+              <CButton
+                className='d-lg-none w-auto d-flex align-items-center'
+                onClick={() => setSidebar(!sidebar)}
+              >
+                <CgMenuGridR size='24' />
+                <p className='m-0 ms-2'>Filter</p>
+              </CButton>
             </div>
-          </>
-        ) : (
-          <h5 className='text-center mt-5'>Product tidak tersedia</h5>
-        )}
+          </div>
+          {products.length > 0 ? (
+            <>
+              <CRow className='m-0 flex-wrap mt-5 mb-5 w-100'>
+                {products.map((product: any) => (
+                  <CCol
+                    sm={4}
+                    md={3}
+                    className='p-0 d-flex justify-content-center'
+                    key={product._id}
+                  >
+                    <ProductItem product={product} />
+                  </CCol>
+                ))}
+              </CRow>
+              <div className='w-100 text-center mb-5'>
+                {result < page * 6 ? (
+                  ''
+                ) : (
+                  <CButton
+                    onClick={handleLoadMore}
+                    className='mb-5'
+                    style={{ width: 180 }}
+                  >
+                    Muat lebih banyak
+                  </CButton>
+                )}
+              </div>
+            </>
+          ) : (
+            <h5 className='text-center mt-5'>Product tidak tersedia</h5>
+          )}
+        </div>
       </div>
     </div>
   )

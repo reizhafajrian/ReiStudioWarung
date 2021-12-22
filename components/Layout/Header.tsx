@@ -101,7 +101,7 @@ const Header = () => {
         ) : (
           <>
             <Nav />
-            <div className='mt-2 mt-md-0 mx-auto mx-md-0'>
+            <div className='header-item end-0 mt-2 mt-md-0 mx-auto mx-md-0'>
               <CButton
                 href={forAdmin ? '/admin/login' : '/customer/login'}
                 size='lg'

@@ -1,5 +1,4 @@
 import { SyntheticEvent, useState } from 'react'
-import Link from 'next/link'
 import Cookie from 'js-cookie'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -88,11 +87,12 @@ const Login = ({ forAdmin = false }: props) => {
               </CButton>
               <p className='text-dark m-0 mt-3'>
                 Belum punya akun? &nbsp;
-                <Link
+                <a
+                  className='text-dark fw-bold'
                   href={forAdmin ? '/admin/register' : '/customer/register'}
                 >
-                  <a className='text-dark fw-bold'>Daftar sekarang</a>
-                </Link>
+                  Daftar sekarang
+                </a>
               </p>
             </div>
           </CForm>

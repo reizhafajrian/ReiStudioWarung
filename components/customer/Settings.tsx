@@ -40,11 +40,10 @@ const Settings = () => {
             {/* Modal Start*/}
             <Modal visible={visible} setVisible={setVisible}>
               <h3 className='fw-bold mb-5 text-center'>
-                Apakah anda yakin ingin
-                <br />
-                keluar?
+                Apakah anda yakin ingin{' '}
+                <span className='d-md-block'>keluar?</span>
               </h3>
-              <div className='d-flex justify-content-between px-4 pt-3'>
+              <div className='d-flex justify-content-between px-md-4 pt-3'>
                 <CButton
                   size='lg'
                   variant='outline'

@@ -2,9 +2,10 @@ import React, { useState, useMemo, BaseSyntheticEvent } from 'react'
 import Select from 'react-select'
 import filterSearch from '../../utils/filterSearch'
 import { useRouter } from 'next/router'
-import { CFormCheck } from '@coreui/react'
+import { CButton, CFormCheck } from '@coreui/react'
+import { CgMenuGridR } from 'react-icons/cg'
 
-const Filter = () => {
+const Filter = ({ sidebar }: any) => {
   const [sort, setSort] = useState()
 
   const router = useRouter()
@@ -42,10 +43,12 @@ const Filter = () => {
 
   return (
     <div
-      className='bg-white p-4 me-5'
+      className={`${
+        !sidebar && 'd-none'
+      } d-md-block position-absolute position-fixed bg-white p-4`}
       style={{
-        width: 314,
-        height: 'fit-content',
+        zIndex: 100,
+        width: 250,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         borderRadius: '0px 20px 20px 0px',
       }}
@@ -62,7 +65,7 @@ const Filter = () => {
       <h5 className='fw-bold pt-2 mt-2 mb-3'>Kategori</h5>
       {categories.map((kat, index) => (
         <CFormCheck
-          className='mb-2 fw-medium'
+          className='mb-lg-2 fw-medium'
           type='radio'
           name='kategori'
           id={kat}
