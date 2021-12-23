@@ -20,7 +20,7 @@ export const ProductController = {
     res: Response,
     next: NextFunction
   ) {
-    const { page, limit, search, sort, category } = req.query
+    let { page, limit, search, sort, category } = req.query
     let products = await Product.find()
 
     // Filtering
@@ -55,8 +55,11 @@ export const ProductController = {
     }
 
     // Paginating
-    const pageNum = parseInt(page) || 1
-    const limitNum = parseInt(limit) || 6
+    page = page ? page.toString() : '1'
+    limit = limit ? limit.toString() : '8'
+
+    const pageNum = parseInt(page)
+    const limitNum = parseInt(limit)
     const skip = (pageNum - 1) * limitNum
 
     const handleLimit = (c: any) => {
@@ -90,5 +93,27 @@ export const ProductController = {
         message: 'Products is not available',
       })
     }
+  },
+  deleteProduct: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { id } = req.query
+    const product = await Product.findById(id)
+
+    if (!product) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Product not found with this ID.',
+      })
+    }
+
+    await Product.findByIdAndRemove(id)
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Product is deleted.',
+    })
   },
 }

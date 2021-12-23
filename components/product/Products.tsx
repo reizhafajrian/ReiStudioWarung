@@ -57,7 +57,7 @@ const Products = ({ products, result }: any) => {
                 ))}
               </CRow>
               <div className='w-100 text-center mb-5'>
-                {result < page * 6 ? (
+                {result <= page * 8 ? (
                   ''
                 ) : (
                   <CButton

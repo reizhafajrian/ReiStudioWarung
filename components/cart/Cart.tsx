@@ -14,7 +14,7 @@ const Cart = () => {
           {cartItems.length > 0 ? <CartProducts /> : <h1>Keranjang kosong</h1>}
         </CCol>
         <CCol className='p-0 ps-md-4 mt-3 mt-md-0'>
-          <CCard className='py-4 px-4'>
+          <CCard className='p-4'>
             <CartForm />
           </CCard>
         </CCol>

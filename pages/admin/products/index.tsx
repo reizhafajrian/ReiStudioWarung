@@ -2,8 +2,15 @@ import type { ReactElement } from 'react'
 import AllProducts from '@components/admin/product/AllProducts'
 import Layout from '@components/layout/Layout'
 
-const AllProductsPage = ({ products }: any) => {
-  return <AllProducts products={products} />
+const AllProductsPage = (props: any) => {
+  console.log(props.result)
+
+  return (
+    <AllProducts
+      products={props.products ? props.products : []}
+      result={props.result}
+    />
+  )
 }
 
 export default AllProductsPage
@@ -13,12 +20,16 @@ AllProductsPage.getLayout = function getLayout(content: ReactElement) {
 }
 
 // fetching data
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ query }: any) => {
+  const page = query.page || 1
+
   const res = await fetch(
-    'http://localhost:3000/api/products?category=all&search=all'
+    `http://localhost:3000/api/products?limit=${
+      page * 8
+    }&category=all&search=all`
   )
 
   const data = await res.json()
 
-  return { props: { products: data.products } }
+  return { props: data }
 }

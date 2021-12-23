@@ -26,11 +26,13 @@ export const getServerSideProps = async ({ query }: any) => {
 
   const res = await fetch(
     `http://localhost:3000/api/products?limit=${
-      page * 6
+      page * 8
     }&category=${category}&sort=${sort}&search=${search}`
   )
 
   const data = await res.json()
+
+  console.log(data.products)
 
   return {
     props: data,

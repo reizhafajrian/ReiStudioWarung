@@ -1,9 +1,8 @@
-import Image from 'next/image'
-import BadgeStatus from '../BadgeStatus'
 import { RiPencilFill } from 'react-icons/ri'
 import { CAvatar, CButton, CCard, CCol, CRow } from '@coreui/react'
 import { useRouter } from 'next/router'
 import { RootStateOrAny, useSelector } from 'react-redux'
+import OrderHistory from '@components/order/OrderHistory'
 
 const ProfileDetails = () => {
   const router = useRouter()
@@ -20,9 +19,9 @@ const ProfileDetails = () => {
         className='position-absolute bg-light w-100'
         style={{ top: '-1rem', height: '16rem', zIndex: -1 }}
       ></div>
-      <div className='mx-auto' style={{ marginTop: '6rem' }}>
+      <div className='w-100' style={{ marginTop: '8rem' }}>
         <CRow className='w-100 m-0'>
-          <CCol xs={12}>
+          <CCol xs={12} md={7} className='mx-auto'>
             {/* USER PROFILE */}
             <CCard className='p-5 mb-2'>
               <div className='d-flex flex-wrap'>
@@ -58,39 +57,11 @@ const ProfileDetails = () => {
             <div className='mt-4 d-flex flex-wrap justify-content-between'>
               <div className='flex-grow-1 me-md-4'>
                 {/* RIWAYAT PESANAN */}
-                <CCard className='p-4 text-center mb-3 mb-md-0'>
-                  <h5 className='fw-bold'>Riwayat Pesanan Anda</h5>
-                  <div className='my-4 d-flex justify-content-between'>
-                    <div className='d-flex'>
-                      <div>
-                        <Image
-                          className='product-img__sm'
-                          src='https://picsum.photos/200'
-                          alt='product'
-                          width={80}
-                          height={80}
-                        />
-                      </div>
-                      <div className='ms-3'>
-                        <p className='text-gray fw-bold mb-1'>24/07/21</p>
-                        <p className='mb-1'>10 barang</p>
-                        <p className='text-secondary'>
-                          <small>Rp250.000</small>
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <a
-                        className='text-dark fw-bold'
-                        onClick={() =>
-                          router.push('/profile/detail-pesanan/1234')
-                        }
-                      >
-                        Lihat detail pesanan
-                      </a>
-                      <BadgeStatus bg='warning' title='Pembayaran' />
-                    </div>
-                  </div>
+                <CCard className='p-4 mb-3 mb-md-0'>
+                  <h5 className='fw-bold mb-4'>Riwayat Pesanan Anda</h5>
+                  <OrderHistory />
+                  <OrderHistory />
+                  <OrderHistory />
                   <div className='mx-auto'>
                     <CButton className='w-100'>Muat lebih banyak</CButton>
                   </div>

@@ -7,6 +7,8 @@ import {
   CTableRow,
   CTableDataCell,
 } from '@coreui/react'
+import BadgePayment from '@components/order/BadgePayment'
+import BadgeStatus from '@components/order/BadgeStatus'
 
 const TableOrders = () => {
   const router = useRouter()
@@ -47,6 +49,7 @@ const TableOrders = () => {
         <CTableBody className='h6 bg-white py-4 align-middle'>
           {history.map((order) => (
             <CTableRow
+              style={{ cursor: 'pointer' }}
               key={order.id}
               onClick={() => {
                 router.push(`/admin/history/${order.id}`)
@@ -55,8 +58,16 @@ const TableOrders = () => {
               <CTableDataCell>{order.name}</CTableDataCell>
               <CTableDataCell>{order.address}</CTableDataCell>
               <CTableDataCell>{order.total}</CTableDataCell>
-              <CTableDataCell>{order.paymentMehod}</CTableDataCell>
-              <CTableDataCell>{order.status}</CTableDataCell>
+              <CTableDataCell>
+                <div className='d-flex'>
+                  <BadgePayment title={order.paymentMehod} />
+                </div>
+              </CTableDataCell>
+              <CTableDataCell>
+                <div className='d-flex'>
+                  <BadgeStatus title={order.status} />
+                </div>
+              </CTableDataCell>
             </CTableRow>
           ))}
         </CTableBody>

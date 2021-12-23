@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Modal from '../Modal'
 
 interface props {
-  status: number
+  status: string
 }
 
 const AlertStatus = ({ status }: props) => {
@@ -21,9 +21,13 @@ const AlertStatus = ({ status }: props) => {
     setKeluhan(e.target.value)
   }
 
+  const handleSetKomplen = () => {
+    console.log(keluhan)
+  }
+
   return (
     <div className='mb-4'>
-      {status === 1 && (
+      {status === 'pembayaran' && (
         <CCard className='bg-yellow px-5 py-4 text-gray1'>
           <h5>
             <span className='fw-bold'>Status:&nbsp;</span>Menunggu Pembayaran
@@ -34,7 +38,7 @@ const AlertStatus = ({ status }: props) => {
           </p>
         </CCard>
       )}
-      {status === 2 && (
+      {status === 'sedang diproses' && (
         <CCard className='bg-orange px-5 py-4 text-gray1'>
           <h5 className='mb-0'>
             <span className='fw-bold'>Status:&nbsp;</span>Pembayaran Diterima.
@@ -42,7 +46,7 @@ const AlertStatus = ({ status }: props) => {
           </h5>
         </CCard>
       )}
-      {status === 3 && (
+      {status === 'sedang dikirim' && (
         <CCard className='bg-blue px-5 py-3 pe-3 text-gray1 '>
           <div className='d-flex align-items-center justify-content-between'>
             <h5 className='mb-0'>
@@ -59,7 +63,7 @@ const AlertStatus = ({ status }: props) => {
           </div>
         </CCard>
       )}
-      {status === 4 && (
+      {status === 'komplain' && (
         <CCard className='bg-gray2 px-5 py-3 pe-3 text-gray1 '>
           <div className='d-flex align-items-center justify-content-between'>
             <div className='d-flex'>
@@ -79,7 +83,7 @@ const AlertStatus = ({ status }: props) => {
           </div>
         </CCard>
       )}
-      {status === 5 && (
+      {status === 'selesai' && (
         <CCard className='bg-green px-5 py-4 text-gray1'>
           <h5 className='mb-0'>
             <span className='fw-bold'>Status:&nbsp;</span>Pesanan selesai
@@ -125,7 +129,9 @@ const AlertStatus = ({ status }: props) => {
           >
             Batal
           </CButton>
-          <CButton size='lg'>Kirim</CButton>
+          <CButton size='lg' onClick={handleSetKomplen}>
+            Kirim
+          </CButton>
         </div>
       </Modal>
       {/* Modal End  */}

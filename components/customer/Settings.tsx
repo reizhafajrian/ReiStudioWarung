@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
 import InputField from '../InputField'
 import Modal from '../Modal'
-import { CForm, CContainer, CCard, CButton } from '@coreui/react'
+import { CForm, CContainer, CCard, CButton, CRow, CCol } from '@coreui/react'
 
 const Settings = () => {
   const router = useRouter()
@@ -61,35 +61,43 @@ const Settings = () => {
           <div className='col-md-8 my-3 my-md-0 mx-auto'>
             <CCard className='w-100 p-5 py-4 '>
               <CForm className='mt-2'>
-                <InputField
-                  secure={true}
-                  type='password'
-                  label='Password Lama'
-                  placeholder='Password Lama'
-                  onChange={setPasswordLama}
-                  value={passwordLama}
-                  id='oldPass'
-                />
-                <div className='w-100 d-flex flex-wrap justify-content-between'>
-                  <InputField
-                    secure={true}
-                    type='password'
-                    label='Password Baru'
-                    placeholder='Password Baru'
-                    onChange={setPasswordBaru}
-                    value={passwordBaru}
-                    id='newPass'
-                  />
-                  <InputField
-                    secure={true}
-                    type='password'
-                    label='Konfirmasi Password'
-                    placeholder='Konfirmasi Password'
-                    onChange={setPasswordKonf}
-                    value={passwordKonf}
-                    id='passkonf'
-                  />
-                </div>
+                <CRow>
+                  <CCol md={6} className='px-md-4'>
+                    <InputField
+                      secure={true}
+                      type='password'
+                      label='Password Lama'
+                      placeholder='Password Lama'
+                      onChange={setPasswordLama}
+                      value={passwordLama}
+                      id='oldPass'
+                    />
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol xs={12} md={6} className='px-md-4'>
+                    <InputField
+                      secure={true}
+                      type='password'
+                      label='Password Baru'
+                      placeholder='Password Baru'
+                      onChange={setPasswordBaru}
+                      value={passwordBaru}
+                      id='newPass'
+                    />
+                  </CCol>
+                  <CCol className='px-md-4'>
+                    <InputField
+                      secure={true}
+                      type='password'
+                      label='Konfirmasi Password'
+                      placeholder='Konfirmasi Password'
+                      onChange={setPasswordKonf}
+                      value={passwordKonf}
+                      id='passkonf'
+                    />
+                  </CCol>
+                </CRow>
                 <div className='text-center mt-3 mb-2'>
                   <CButton size='lg'>Simpan</CButton>
                 </div>
