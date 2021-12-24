@@ -9,7 +9,7 @@ import { CgMenuGridR } from 'react-icons/cg'
 
 const Products = ({ products, result }: any) => {
   const [page, setPage] = useState(1)
-  const [sidebar, setSidebar] = useState(true)
+  const [sidebar, setSidebar] = useState(false)
   const router = useRouter()
 
   const handleLoadMore = () => {
@@ -34,7 +34,7 @@ const Products = ({ products, result }: any) => {
             <div className='d-flex'>
               <SearchFilter placeholder='Cari produk' />
               <CButton
-                className='d-lg-none w-auto d-flex align-items-center'
+                className='d-lg-none w-auto d-flex align-items-center ms-5'
                 onClick={() => setSidebar(!sidebar)}
               >
                 <CgMenuGridR size='24' />
@@ -47,7 +47,7 @@ const Products = ({ products, result }: any) => {
               <CRow className='m-0 flex-wrap mt-5 mb-5 w-100'>
                 {products.map((product: any) => (
                   <CCol
-                    sm={4}
+                    sm={6}
                     md={3}
                     className='p-0 d-flex justify-content-center'
                     key={product._id}

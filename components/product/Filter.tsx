@@ -2,8 +2,7 @@ import React, { useState, useMemo, BaseSyntheticEvent } from 'react'
 import Select from 'react-select'
 import filterSearch from '../../utils/filterSearch'
 import { useRouter } from 'next/router'
-import { CButton, CFormCheck } from '@coreui/react'
-import { CgMenuGridR } from 'react-icons/cg'
+import { CFormCheck } from '@coreui/react'
 
 const Filter = ({ sidebar }: any) => {
   const [sort, setSort] = useState()

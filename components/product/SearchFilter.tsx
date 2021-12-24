@@ -17,7 +17,7 @@ const SearchFilter = ({ placeholder }: any) => {
   return (
     <CForm onSubmit={handleSearch} className='d-flex'>
       <CFormInput
-        className='w-75 rounded-0 rounded-start'
+        className='w-75 rounded-0 rounded-start p-0 ps-2'
         type='text'
         placeholder={placeholder}
         value={search}

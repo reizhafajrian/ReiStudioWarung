@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react'
 import Layout from '@components/layout/Layout'
+import UpdateVoucher from '@components/admin/voucher/UpdateVoucher'
 
 const UpdateVoucherPage = () => {
   return (
     <>
-      <h1>edit voucher</h1>
+      <UpdateVoucher />
     </>
   )
 }

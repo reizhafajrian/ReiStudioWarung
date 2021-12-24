@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { RootStateOrAny, useSelector } from 'react-redux'
 import { CHeaderNav, CNavItem, CNavLink } from '@coreui/react'
 
-const Nav = () => {
+const Nav = ({ navbarOpen }: any) => {
   const router = useRouter()
 
   const { forAdmin } = useSelector((state: RootStateOrAny) => state.user)
@@ -28,7 +28,9 @@ const Nav = () => {
   }
 
   return (
-    <CHeaderNav className='mx-auto'>
+    <CHeaderNav
+      className={`${navbarOpen ? 'd-flex' : 'd-none'} d-md-flex mx-auto`}
+    >
       {navMenu.map((link, index) => (
         <CNavItem className='px-3' key={index}>
           <CNavLink
