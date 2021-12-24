@@ -7,7 +7,11 @@
   min-height: $header-min-height;
   padding: $header-padding-y $header-padding-x;
   background: var(--#{$variable-prefix}header-bg, $header-bg);
-  border-bottom: var(--#{$variable-prefix}header-border-width, $header-border-width) solid var(--#{$variable-prefix}header-border-color, $header-border-color);
+  border-bottom: var(
+      --#{$variable-prefix}header-border-width,
+      $header-border-width
+    )
+    solid var(--#{$variable-prefix}header-border-color, $header-border-color);
 
   // Because flex properties aren't inherited, we need to redeclare these first
   // few properties so that content nested within behave properly.
@@ -35,23 +39,33 @@
     min-height: $header-min-height - (2 * $header-padding-y);
   }
 
-  .container:nth-child(n+2),
-  .container-fluid:nth-child(n+2) {
+  .container:nth-child(n + 2),
+  .container-fluid:nth-child(n + 2) {
     min-height: $subheader-min-height - (2 * $header-padding-y);
   }
 
   &.header-sticky {
     position: sticky;
     top: 0;
-    z-index: $zindex-fixed - 1;
+    z-index: 10;
   }
 }
 
 .header-divider {
-  flex-basis: calc(100% + #{2 * $header-padding-x}); // stylelint-disable-line function-disallowed-list
+  flex-basis: calc(
+    100% + #{2 * $header-padding-x}
+  ); // stylelint-disable-line function-disallowed-list
   height: 0;
-  margin: $header-padding-y (- $header-padding-x);
-  border-top: var(--#{$variable-prefix}header-divider-border-width, $header-divider-border-width) solid var(--#{$variable-prefix}header-divider-border-color, $header-divider-border-color);
+  margin: $header-padding-y (-$header-padding-x);
+  border-top: var(
+      --#{$variable-prefix}header-divider-border-width,
+      $header-divider-border-width
+    )
+    solid
+    var(
+      --#{$variable-prefix}header-divider-border-color,
+      $header-divider-border-color
+    );
 }
 
 // Header brand
@@ -69,7 +83,10 @@
 
   &:hover,
   &:focus {
-    color: var(--#{$variable-prefix}header-brand-hover-color, $header-brand-hover-color);
+    color: var(
+      --#{$variable-prefix}header-brand-hover-color,
+      $header-brand-hover-color
+    );
     text-decoration: if($link-hover-decoration == underline, none, null);
   }
 }
@@ -96,7 +113,10 @@
     }
 
     &.disabled {
-      color: var(--#{$variable-prefix}header-disabled-color, $header-disabled-color);
+      color: var(
+        --#{$variable-prefix}header-disabled-color,
+        $header-disabled-color
+      );
     }
   }
 
@@ -109,7 +129,6 @@
     position: absolute;
   }
 }
-
 
 // Header text
 //
@@ -125,7 +144,10 @@
 
     &:hover,
     &:focus {
-      color: var(--#{$variable-prefix}header-active-color, $header-active-color);
+      color: var(
+        --#{$variable-prefix}header-active-color,
+        $header-active-color
+      );
     }
   }
 }
@@ -135,7 +157,10 @@
   padding: $header-toggler-padding-y $header-toggler-padding-x;
   @include font-size($header-toggler-font-size);
   color: var(--#{$variable-prefix}header-color, $header-color);
-  background-color: var(--#{$variable-prefix}header-toggler-bg, $header-toggler-bg);
+  background-color: var(
+    --#{$variable-prefix}header-toggler-bg,
+    $header-toggler-bg
+  );
   border: 0; // remove default button style
   // @include borders($header-toggler-border);
   @include border-radius($header-toggler-border-radius);
@@ -159,12 +184,18 @@
 .header-toggler-icon {
   display: block;
   height: $header-toggler-font-size * 1.25;
-  background-image: var(--#{$variable-prefix}header-toggler-icon-bg, escape-svg($header-toggler-icon-bg));
+  background-image: var(
+    --#{$variable-prefix}header-toggler-icon-bg,
+    escape-svg($header-toggler-icon-bg)
+  );
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
 
   &:hover {
-    background-image: var(--#{$variable-prefix}header-toggler-hover-icon-bg, escape-svg($header-toggler-hover-icon-bg));
+    background-image: var(
+      --#{$variable-prefix}header-toggler-hover-icon-bg,
+      escape-svg($header-toggler-hover-icon-bg)
+    );
   }
 }
