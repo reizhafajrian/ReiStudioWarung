@@ -35,6 +35,7 @@ const Header = () => {
   const { loggedIn, forAdmin } = useSelector(
     (state: RootStateOrAny) => state.user
   )
+
   const logout = () => {
     cookie.remove('cart')
     cookie.remove('token')
@@ -61,13 +62,20 @@ const Header = () => {
             </h5>
           </CHeaderBrand>
         </Link>
+
         <CButton
-          className={`ms-auto d-md-none w-auto `}
+          variant='outline'
+          className='border-0 ms-auto d-md-none w-auto'
           style={{ borderRadius: 0 }}
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
-          {navbarOpen ? <MdClose size={24} /> : <FiMenu size={24} />}
+          {navbarOpen ? (
+            <MdClose size={24} stroke='d38b8b' />
+          ) : (
+            <FiMenu size={24} fill='d38b8b' />
+          )}
         </CButton>
+
         {loggedIn ? (
           forAdmin ? (
             <>
@@ -130,8 +138,12 @@ const Header = () => {
           )
         ) : (
           <>
-            <Nav />
-            <div className='header-item end-0 mt-2 mt-md-0 mx-auto mx-md-0'>
+            <Nav navbarOpen={navbarOpen} />
+            <div
+              className={`${
+                navbarOpen ? 'd-block' : 'd-none'
+              } d-md-block header-item end-0 mt-2 mt-md-0 mx-auto mx-md-0`}
+            >
               <CButton
                 href={forAdmin ? '/admin/login' : '/customer/login'}
                 size='lg'
@@ -150,6 +162,7 @@ const Header = () => {
           </>
         )}
       </CContainer>
+
       {/* Modal Start*/}
       <Modal visible={visible} setVisible={setVisible}>
         <h3 className='fw-bold mb-5 text-center'>

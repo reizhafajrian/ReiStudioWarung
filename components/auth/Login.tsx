@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react'
+import { useState } from 'react'
 import Cookie from 'js-cookie'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -6,6 +6,7 @@ import { getUser } from '../../redux/actions/loggedActions'
 import InputField from '../InputField'
 import { CButton, CCard, CForm } from '@coreui/react'
 import Header from './Header'
+import { Post } from 'utils/axios'
 
 interface props {
   forAdmin?: boolean
@@ -18,51 +19,56 @@ const Login = ({ forAdmin = false }: props) => {
   const [emailOrUsername, setEmailOrUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault()
+  const check = emailOrUsername.length > 0 && password.length > 0
 
-    const userData = {
-      emailOrUsername,
-      password,
-    }
+  const handlePost = () => {
+    if (check) {
+      dispatch({
+        type: 'LOADING',
+        payload: true,
+      })
+      Post(forAdmin ? '/admin/login' : '/customer/login', {
+        emailOrUsername,
+        password,
+      }).then((res: any) => {
+        dispatch({
+          type: 'LOADING',
+          payload: false,
+        })
 
-    const config = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      Credential: 'include',
-      body: JSON.stringify(userData),
-    }
+        Cookie.set('token', res.token)
+      })
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'success',
+        message: 'Login Successfully',
+      })
 
-    const loginReq = await fetch(
-      forAdmin ? '/api/admin/login' : '/api/customer/login',
-      config
-    )
-
-    const loginRes = await loginReq.json()
-
-    if (loginRes.status === 200) {
-      Cookie.set('token', loginRes.token)
       dispatch(getUser())
-      return forAdmin ? router.push('/admin') : router.push('/customer')
+      forAdmin ? router.push('/admin') : router.push('/customer')
+    } else {
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'danger',
+        message: 'Harap Isi Semua Form',
+      })
     }
-
-    return console.log(loginRes.message)
   }
 
   return (
     <>
       <Header forAdmin={forAdmin} pageTitle='Login' />
       <div className='d-flex flex-column align-items-center mt-5'>
-        <div className='text-gray text-center'>
+        <div className='text-gray text-center mx-5 mx-md-0'>
           <h2 className='fw-bold lh-lg mb-0'>Masuk</h2>
           <h4 className='fw-normal lh-md-lg mb-4 mb-md-5'>
             Masuk ke dalam akun anda untuk dapat memesan di website ini
           </h4>
         </div>
         <CCard className='p-4'>
-          <CForm onSubmit={handleSubmit} className='pt-3 px-3'>
+          <CForm className='pt-3 px-3'>
             <InputField
               secure={false}
               type='text'
@@ -82,7 +88,13 @@ const Login = ({ forAdmin = false }: props) => {
               id='pass'
             />
             <div className='text-center'>
-              <CButton type='submit' size='lg'>
+              <CButton
+                size='lg'
+                onClick={(e) => {
+                  e.preventDefault()
+                  handlePost()
+                }}
+              >
                 Masuk
               </CButton>
               <p className='text-dark m-0 mt-3'>

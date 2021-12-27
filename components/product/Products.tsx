@@ -31,7 +31,7 @@ const Products = ({ products, result }: any) => {
         <div className='product-list me-lg-5 pe-lg-5'>
           <div className='d-flex flex-column flex-md-row align-items-center justify-content-between'>
             <h4 className='fw-bold me-lg-auto mb-3 mb-lg-0'>Semua Produk</h4>
-            <div className='d-flex'>
+            <div className='d-flex mx-3 mx-md-0'>
               <SearchFilter placeholder='Cari produk' />
               <CButton
                 className='d-lg-none w-auto d-flex align-items-center ms-5'
@@ -44,12 +44,13 @@ const Products = ({ products, result }: any) => {
           </div>
           {products.length > 0 ? (
             <>
-              <CRow className='m-0 flex-wrap mt-5 mb-5 w-100'>
+              <CRow className='m-0 my-5 w-100 justify-content-center justify-content-md-start'>
                 {products.map((product: any) => (
                   <CCol
-                    sm={6}
+                    xs={12}
+                    sm={5}
                     md={3}
-                    className='p-0 d-flex justify-content-center'
+                    className='p-0 mx-2 mx-md-0 d-flex flex-wrap justify-content-center'
                     key={product._id}
                   >
                     <ProductItem product={product} />
@@ -57,7 +58,7 @@ const Products = ({ products, result }: any) => {
                 ))}
               </CRow>
               <div className='w-100 text-center mb-5'>
-                {result <= page * 8 ? (
+                {result < page * 8 ? (
                   ''
                 ) : (
                   <CButton

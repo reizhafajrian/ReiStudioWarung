@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { CButton, CContainer, CForm } from '@coreui/react'
 import InputField from '../../InputField'
+import { Post } from 'utils/axios'
+import { useDispatch } from 'react-redux'
 
 const NewProduct = () => {
   const [nama, setNama] = useState('')
@@ -10,6 +12,50 @@ const NewProduct = () => {
   const [foto, setFoto] = useState('')
   const [kat, setKat] = useState('')
   const [tambahKat, setTambahKat] = useState('')
+  const dispatch = useDispatch()
+
+  const check =
+    nama.length > 0 &&
+    beli.length > 0 &&
+    jual.length > 0 &&
+    stok.length > 0 &&
+    foto.length > 0 &&
+    (kat.length > 0 || tambahKat.length > 0)
+
+  const handlePost = () => {
+    if (check) {
+      dispatch({
+        type: 'LOADING',
+        payload: true,
+      })
+      Post('/products', {
+        name: nama,
+        category: tambahKat,
+        image: foto,
+        buying_price: beli,
+        selling_price: jual,
+        stock: stok,
+      }).then((res) => {
+        dispatch({
+          type: 'LOADING',
+          payload: false,
+        })
+      })
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'success',
+        message: 'Berhasil menambahkan barang',
+      })
+    } else {
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'danger',
+        message: 'Harap Isi Semua Form',
+      })
+    }
+  }
 
   return (
     <CContainer className='my-5'>
@@ -80,7 +126,14 @@ const NewProduct = () => {
           </div>
         </div>
         <div className='text-center'>
-          <CButton className='w-auto' size='lg'>
+          <CButton
+            className='w-auto'
+            size='lg'
+            onClick={(e) => {
+              e.preventDefault()
+              handlePost()
+            }}
+          >
             Tambah produk
           </CButton>
         </div>

@@ -28,10 +28,14 @@ export const ProductController = {
       products = products.filter((p) => p.name.toLowerCase().includes(search))
     }
 
+    // if (category !== 'all') {
+    //   products = products.filter((p) =>
+    //     p.category.find((c: any) => c === category)
+    //   )
+    // }
+
     if (category !== 'all') {
-      products = products.filter((p) =>
-        p.category.find((c: any) => c === category)
-      )
+      products = products.filter((p) => p.category === category)
     }
 
     // Sorting
@@ -114,6 +118,28 @@ export const ProductController = {
     return res.status(200).json({
       status: 200,
       message: 'Product is deleted.',
+    })
+  },
+  createProduct: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { name, category, image, buying_price, selling_price, stock } =
+      req.body
+
+    const newProduct = await Product.create({
+      name,
+      category,
+      image,
+      buying_price,
+      selling_price,
+      stock,
+    })
+
+    return res.status(201).json({
+      status: 201,
+      newProduct,
     })
   },
 }

@@ -17,6 +17,6 @@ module.exports = {
     return config
   },
   images: {
-    domains: ['picsum.photos'],
+    domains: ['picsum.photos', 'image1ws.indotrading.com'],
   },
 }

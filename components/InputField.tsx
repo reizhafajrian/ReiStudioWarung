@@ -20,12 +20,10 @@ const InputField = ({
   label,
 }: props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(value)
     onChange(e.target.value)
   }
 
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(value)
     onChange(e.target.value)
   }
 

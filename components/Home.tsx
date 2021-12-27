@@ -33,7 +33,7 @@ const Home = ({ products }: any) => {
       </div>
 
       {/* --------PRODUCT TERLARIS-------- */}
-      <div className='bg-white d-flex flex-column align-items-center py-5 mb-4 px-5'>
+      <div className='bg-white d-flex flex-column align-items-center py-5 mb-4 px-4 px-md-5'>
         <div className='w-100 mb-5 position-relative'>
           <h2 className='fw-bold m-0 text-md-center'>Paling Laris</h2>
           <div className='position-absolute end-0 top-0 px-md-5'>
@@ -43,7 +43,7 @@ const Home = ({ products }: any) => {
           </div>
         </div>
         {/* Product List */}
-        <div className='w-100 d-flex flex-wrap justify-content-evenly '>
+        <div className='w-100 d-flex justify-content-between overflow-auto'>
           {products.slice(0, 5).map((product: any) => (
             <ProductItem key={product._id} product={product} />
           ))}
@@ -79,7 +79,7 @@ const Step = (props: any) => {
   return (
     <div
       className='d-flex flex-column align-items-center mb-4 mb-md-0'
-      style={{ width: 200, zIndex: 100 }}
+      style={{ width: 200, zIndex: 5 }}
     >
       <div className='w-100 d-flex flex-column align-items-center justify-content-center'>
         <div

@@ -2,6 +2,9 @@ import { ReactNode } from 'react'
 import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
+import { RootStateOrAny, useSelector } from 'react-redux'
+import Loading from '@components/Loading'
+import Alert from '@components/Alert'
 
 interface props {
   pageTitle: string
@@ -9,6 +12,8 @@ interface props {
 }
 
 const Layout = ({ pageTitle, children }: props) => {
+  const state = useSelector((state: RootStateOrAny) => state)
+
   return (
     <>
       <Head>
@@ -19,8 +24,11 @@ const Layout = ({ pageTitle, children }: props) => {
       </Head>
 
       <div className='min-vh-100 d-flex flex-column'>
+        {state.loading === true && <Loading />}
         <Header />
         <div>{children}</div>
+
+        {state.alert.isVisible === true && <Alert />}
         <Footer />
       </div>
     </>

@@ -246,3 +246,38 @@ tr:not(:last-child) {
     width: 100%;
   }
 }
+
+@keyframes example {
+  0% {
+    left: -1000px;
+    bottom: 0;
+  }
+  25% {
+    left: 10px;
+    bottom: 0;
+  }
+  50% {
+    left: 10px;
+    bottom: 0;
+  }
+  75% {
+    left: 10px;
+    bottom: 0;
+  }
+  100% {
+    left: -1000px;
+  }
+}
+
+.alert {
+  position: absolute;
+  // min-width: 700px;
+  // max-width: "100%";
+  width: max-content;
+  // bottom: 0;
+  z-index: 1;
+
+  animation-name: example;
+
+  animation-duration: 4s;
+}

@@ -44,7 +44,7 @@ const Filter = ({ sidebar }: any) => {
     <div
       className={`${
         !sidebar && 'd-none'
-      } d-md-block position-absolute position-fixed bg-white p-4`}
+      } d-lg-block position-absolute position-fixed bg-white p-4`}
       style={{
         zIndex: 100,
         width: 250,

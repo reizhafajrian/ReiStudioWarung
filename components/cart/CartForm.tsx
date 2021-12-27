@@ -4,7 +4,8 @@ import Select from 'react-select'
 import { CButton, CForm, CFormInput } from '@coreui/react'
 
 const OrderDetails = () => {
-  const { total } = useSelector((state: RootStateOrAny) => state.cart)
+  // const { total } = useSelector((state: RootStateOrAny) => state.cart)
+  const state = useSelector((state: RootStateOrAny) => state)
 
   const options = useMemo(
     () => [{ value: 'transferVA', label: 'Transfer VA' }],
@@ -20,6 +21,7 @@ const OrderDetails = () => {
         <CFormInput
           placeholder='Tambah alamat'
           className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
+          value={state.user.user.address}
         />
       </div>
       <div className='mb-3'>
@@ -40,7 +42,7 @@ const OrderDetails = () => {
       </div>
       <div className='mb-3'>
         <h5 className='fw-bold'>Total harga</h5>
-        <h5>Rp.{total.toLocaleString('id-ID')},-</h5>
+        <h5>Rp.{state.cart.total.toLocaleString('id-ID')},-</h5>
       </div>
       <div className='text-center'>
         <CButton

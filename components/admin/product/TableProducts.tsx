@@ -28,7 +28,7 @@ const TableProduct = ({ products, forDashboard = false, result }: props) => {
   const handleDelete = async (id: string) => {
     console.log(productId)
 
-    const req = await fetch(`/api/products/delete?id=${id}`, {
+    const req = await fetch(`/api/products?id=${id}`, {
       method: 'DELETE',
     })
 
@@ -68,6 +68,11 @@ const TableProduct = ({ products, forDashboard = false, result }: props) => {
             </CTableRow>
           </CTableHead>
           <CTableBody className='bg-white h6 align-middle'>
+            {!products && (
+              <CTableRow>
+                <CTableDataCell>Produk Kosong</CTableDataCell>
+              </CTableRow>
+            )}
             {forDashboard
               ? products.slice(0, 5).map((product: any) => (
                   <CTableRow key={product._id}>
