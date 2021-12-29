@@ -16,7 +16,7 @@ const ProductItem = ({ product }: any) => {
   }
 
   return (
-    <CCard style={{ minWidth: 200 }} className='mb-4 mx-2 mx-md-0'>
+    <CCard style={{ minWidth: 200 }} className='mb-4 mx-2 mx-lg-0'>
       <Image
         className='product-img'
         src={product.image}

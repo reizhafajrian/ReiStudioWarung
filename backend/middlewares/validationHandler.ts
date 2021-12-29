@@ -25,7 +25,7 @@ const validateMiddleware = (validations: any) => {
 
 // Base validation
 export const validations = (array: any) =>
-  initMiddleware(validateMiddleware(array, validationResult))
+  initMiddleware(validateMiddleware([array, validationResult]))
 
 /**
  * @description Validation handling for api route

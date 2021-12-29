@@ -7,6 +7,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../redux/actions/loggedActions'
 import CartButton from './CartButton'
 import Nav from './Nav'
+import Modal from '../Modal'
 import {
   CAvatar,
   CButton,
@@ -20,7 +21,6 @@ import {
 } from '@coreui/react'
 import { MdClose } from 'react-icons/md'
 import { FiMenu } from 'react-icons/fi'
-import Modal from '../Modal'
 
 const Header = () => {
   const [visible, setVisible] = useState(false)
@@ -65,7 +65,7 @@ const Header = () => {
 
         <CButton
           variant='outline'
-          className='border-0 ms-auto d-md-none w-auto'
+          className='border-0 ms-auto d-lg-none w-auto'
           style={{ borderRadius: 0 }}
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
@@ -83,7 +83,7 @@ const Header = () => {
               <div
                 className={`${
                   navbarOpen ? 'd-block' : 'd-none'
-                } mx-auto d-md-block header-item end-0`}
+                } mx-auto d-lg-block header-item end-0`}
               >
                 {/* <p className='text-light fw-bold m-0'>Admin Warung</p> */}
                 <CButton
@@ -101,7 +101,7 @@ const Header = () => {
               <div
                 className={`${
                   navbarOpen ? 'd-block' : 'd-none'
-                } mx-auto d-md-block header-item end-0`}
+                } mx-auto d-lg-block header-item end-0`}
               >
                 {/* keranjang */}
                 <CartButton />
@@ -142,7 +142,7 @@ const Header = () => {
             <div
               className={`${
                 navbarOpen ? 'd-block' : 'd-none'
-              } d-md-block header-item end-0 mt-2 mt-md-0 mx-auto mx-md-0`}
+              } d-lg-block header-item end-0 mt-2 mt-md-0 mx-auto mx-md-0`}
             >
               <CButton
                 href={forAdmin ? '/admin/login' : '/customer/login'}

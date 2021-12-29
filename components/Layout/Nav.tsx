@@ -29,7 +29,7 @@ const Nav = ({ navbarOpen }: any) => {
 
   return (
     <CHeaderNav
-      className={`${navbarOpen ? 'd-flex' : 'd-none'} d-md-flex mx-auto`}
+      className={`${navbarOpen ? 'd-flex' : 'd-none'} d-lg-flex mx-auto`}
     >
       {navMenu.map((link, index) => (
         <CNavItem className='px-3' key={index}>

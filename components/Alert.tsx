@@ -10,7 +10,7 @@ const Alert = () => {
     setTimeout(() => {
       dispatch({ type: 'SETALERT', isVisible: false })
     }, 5000)
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='alert'>

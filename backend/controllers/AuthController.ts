@@ -7,27 +7,24 @@ export const AuthController = {
   profile: async function (req: Request, res: Response, next: NextFunction) {
     const { token } = req.cookies
 
-    // console.log(token)
+    if (token) {
+      const decoded: any = verifyToken(token)
 
-    if (!token) {
-      return res.status(401).json({
-        message: 'Token not found',
+      const id = decoded.user._id
+
+      let user = await Admin.findById(id)
+
+      if (decoded.user.role == 0) {
+        user = await Customer.findById(id)
+      }
+
+      return res.status(200).json({
+        status: 200,
+        user,
       })
     }
-
-    const decoded = verifyToken(token)
-
-    const id = decoded?.user?._id
-
-    let user = await Admin.findById(id)
-
-    if (decoded.user.role == 0) {
-      user = await Customer.findById(id)
-    }
-
-    return res.status(200).json({
-      status: 200,
-      user,
+    return res.status(401).json({
+      message: 'Token not found',
     })
   },
 }

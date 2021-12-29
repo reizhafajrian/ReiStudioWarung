@@ -43,7 +43,7 @@ const Home = ({ products }: any) => {
           </div>
         </div>
         {/* Product List */}
-        <div className='w-100 d-flex justify-content-between overflow-auto'>
+        <div className='w-100 d-flex justify-content-between overflow-auto px-lg-5'>
           {products.slice(0, 5).map((product: any) => (
             <ProductItem key={product._id} product={product} />
           ))}

@@ -12,7 +12,7 @@ export const MidtransController = {
 
     let parameter = {
       transaction_details: {
-        order_id: new Date.now(),
+        order_id: Date.now(),
         gross_amount: 10000,
       },
       credit_card: {

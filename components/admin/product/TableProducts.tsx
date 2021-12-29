@@ -16,10 +16,14 @@ import { useState } from 'react'
 interface props {
   products: any
   forDashboard?: boolean
-  result: number
+  result?: number
 }
 
-const TableProduct = ({ products, forDashboard = false, result }: props) => {
+const TableProduct = ({
+  products,
+  forDashboard = false,
+  result = 6,
+}: props) => {
   const router = useRouter()
   const [visible, setVisible] = useState(false)
   const [message, setMessage] = useState('')

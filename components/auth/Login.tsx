@@ -38,12 +38,6 @@ const Login = ({ forAdmin = false }: props) => {
 
         Cookie.set('token', res.token)
       })
-      dispatch({
-        type: 'SETALERT',
-        isVisible: true,
-        color: 'success',
-        message: 'Login Successfully',
-      })
 
       dispatch(getUser())
       forAdmin ? router.push('/admin') : router.push('/customer')
