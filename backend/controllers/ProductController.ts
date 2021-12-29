@@ -20,7 +20,7 @@ export const ProductController = {
     res: Response,
     next: NextFunction
   ) {
-    const { page, limit, search, sort, category } = req.query;
+    let { page, limit, search, sort, category } = req.query;
     let products = await Product.find();
 
     // Filtering

@@ -16,9 +16,6 @@ export const getServerSideProps = async () => {
   const res = await fetch(
     "http://localhost:3000/api/products?sort=terlaris&category=all&search=all"
   );
-  Get("/customer/addtocart").then((res) => {
-    console.log(res, "res");
-  });
 
   const data = await res.json();
 

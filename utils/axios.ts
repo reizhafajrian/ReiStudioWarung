@@ -102,6 +102,6 @@ export const Delete = async (url) => {
     const del = await _axios.delete(url, head);
     return del;
   } catch (error: any) {
-    return errosr(error.message);
+    return errors(error.message);
   }
 };
