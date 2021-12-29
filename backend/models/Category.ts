@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const CategorySchema = new mongoose.Schema({
   name: {
@@ -6,9 +6,9 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-})
+});
 
 const Category =
-  mongoose.models.Category || mongoose.model('Category', CategorySchema)
+  mongoose.models.Category || mongoose.model("Category", CategorySchema);
 
-export default Category
+export default Category;

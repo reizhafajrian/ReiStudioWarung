@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookie from 'js-cookie'
 const config = {
   baseURL: 'http://localhost:3000/api',
   timeout: 60 * 1000,
@@ -31,20 +32,19 @@ _axios.interceptors.response.use(
   }
 )
 
-// const header = async () => {
-//   try {
-//     return {
-//       headers: {
-//         Authorization: jwt,
-//         "Content-Type": "application/json",
-//         lang: "id",
-//         currency: "idr",
-//       },
-//     };
-//   } catch (error) {
-//     return error.message;
-//   }
-// };
+const header = async () => {
+  const jwt = Cookie.get('token')
+  try {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  } catch (error: any) {
+    return error.message
+  }
+}
 
 const errors = (errors: any) => {
   return {
@@ -55,8 +55,8 @@ const errors = (errors: any) => {
 
 export const Get = async (url: any) => {
   try {
-    // const head = await header();
-    const get = await _axios.get(url)
+    const head = await header()
+    const get = await _axios.get(url, head)
     return get
   } catch (error: any) {
     return errors(error.message)
@@ -65,13 +65,20 @@ export const Get = async (url: any) => {
 
 export const Post = async (url: any, params: any) => {
   try {
-    // const head = await header();
+    const head = await header()
+
     // if (file) {
     //   head.headers["content-type"] = "multipart/form-data";
     // }
-    const post = await _axios.post(url, params)
+    console.log(head)
+
+    const post = await _axios.post(url, JSON.stringify(params), head)
+
+    // const res = post.json();
+
     return post
   } catch (error: any) {
+    console.log(error)
     return errors(error.message)
   }
 }
@@ -91,10 +98,10 @@ export const Put = async (url: any, params: any, file: any) => {
 
 export const Delete = async (url: any) => {
   try {
-    // const head = await header()
-    // const del = await _axios.delete(url, head)
-    // return del
+    const head = await header()
+    const del = await _axios.delete(url, head)
+    return del
   } catch (error: any) {
-    return error(error.message)
+    return errors(error.message)
   }
 }

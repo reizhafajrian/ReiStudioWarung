@@ -1,6 +1,6 @@
-import type { ReactElement } from 'react'
-import AllProducts from '@components/admin/product/AllProducts'
-import Layout from '@components/layout/Layout'
+import type { ReactElement } from "react";
+import AllProducts from "@components/admin/product/AllProducts";
+import Layout from "@components/layout/Layout";
 
 const AllProductsPage = (props: any) => {
   return (
@@ -11,23 +11,23 @@ const AllProductsPage = (props: any) => {
   )
 }
 
-export default AllProductsPage
+
+export default AllProductsPage;
 
 AllProductsPage.getLayout = function getLayout(content: ReactElement) {
-  return <Layout pageTitle='Products'>{content}</Layout>
-}
+
+  return <Layout pageTitle="Products">{content}</Layout>;
+};
 
 // fetching data
 export const getServerSideProps = async ({ query }: any) => {
   const page = query.page || 1
 
   const res = await fetch(
-    `http://localhost:3000/api/products?limit=${
-      page * 8
-    }&category=all&search=all`
-  )
+    "http://localhost:3000/api/products?category=all&search=all"
+  );
 
-  const data = await res.json()
+  const data = await res.json();
 
-  return { props: data }
-}
+  return { props: { products: data.products } };
+};

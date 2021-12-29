@@ -4,6 +4,7 @@ import { addToCart, incrementItem } from '../../redux/actions/cartActions'
 import cookie from 'js-cookie'
 import { CCard, CCardBody, CButton } from '@coreui/react'
 import { useRouter } from 'next/router'
+import { Post } from 'utils/axios'
 
 const ProductItem = ({ product }: any) => {
   const router = useRouter()
@@ -13,6 +14,22 @@ const ProductItem = ({ product }: any) => {
 
   const isInCart = (product: any) => {
     return !!cartItems.find((item: any) => item._id === product._id)
+  }
+  const handleAddtoCart = () => {
+    if (token) {
+      if (isInCart(product)) {
+        dispatch(incrementItem(product))
+      } else {
+        dispatch(addToCart(product))
+      }
+      Post('/customer/addtocart', {
+        data: cartItems,
+      }).then((res) => {
+        console.log(res, 'res')
+      })
+    } else {
+      router.push('/login')
+    }
   }
 
   return (
@@ -44,13 +61,10 @@ const ProductItem = ({ product }: any) => {
             </p>
           </div>
           <CButton
-            onClick={
-              token
-                ? isInCart(product)
-                  ? () => dispatch(incrementItem(product))
-                  : () => dispatch(addToCart(product))
-                : () => router.push('/customer/login')
-            }
+            onClick={(e) => {
+              e.preventDefault()
+              handleAddtoCart()
+            }}
           >
             Beli
           </CButton>

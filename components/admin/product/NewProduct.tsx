@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { CButton, CContainer, CForm } from '@coreui/react'
 import InputField from '../../InputField'
 import { Post } from 'utils/axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+// import FlashMessage from 'react-flash-message'
 
 const NewProduct = () => {
   const [nama, setNama] = useState('')
@@ -13,14 +14,14 @@ const NewProduct = () => {
   const [kat, setKat] = useState('')
   const [tambahKat, setTambahKat] = useState('')
   const dispatch = useDispatch()
-
+  const state = useSelector((state) => state)
   const check =
     nama.length > 0 &&
     beli.length > 0 &&
     jual.length > 0 &&
     stok.length > 0 &&
     foto.length > 0 &&
-    (kat.length > 0 || tambahKat.length > 0)
+    tambahKat.length > 0
 
   const handlePost = () => {
     if (check) {
@@ -59,6 +60,9 @@ const NewProduct = () => {
 
   return (
     <CContainer className='my-5'>
+      {/* <FlashMessage duration={5000} persistOnHover={true}>
+        <p>Message</p>
+      </FlashMessage> */}
       <h4 className='fw-bold mb-4'>Tambah Product</h4>
       <CForm className='bg-white p-5' style={{ borderRadius: 20 }}>
         <div className='pb-3 d-flex justify-content-between flex-wrap'>
@@ -79,14 +83,14 @@ const NewProduct = () => {
               value={beli}
               id='beli'
             />
-            <InputField
-              type='text'
-              label='Kategori'
-              placeholder='Kategori'
+            {/* <InputField
+              type="text"
+              label="Kategori"
+              placeholder="Kategori"
               onChange={setKat}
               value={kat}
-              id='kat'
-            />
+              id="kat"
+            /> */}
           </div>
           <div className='product-form'>
             <InputField

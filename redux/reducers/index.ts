@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { alertReducer } from './alertReducers'
+import { alertReducer } from './alertReducer'
 import { cartReducer } from './cartReducers'
 import { loadingReducer } from './loadingReducers'
 import { loggedReducer } from './loggedReducers'

@@ -3,7 +3,11 @@ import Layout from '@components/layout/Layout'
 import Dashboard from '@components/admin/Dashboard'
 
 const DashboardPage = ({ products }: any) => {
-  return <Dashboard products={products} />
+  return (
+    <>
+      <Dashboard products={products} />
+    </>
+  )
 }
 
 export default DashboardPage

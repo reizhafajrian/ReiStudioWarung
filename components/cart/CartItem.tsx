@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useDispatch } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import {
   decrementItem,
   deleteItem,
@@ -7,11 +7,33 @@ import {
 } from '../../redux/actions/cartActions'
 import { BiMinus, BiPlus } from 'react-icons/bi'
 import { CCol, CRow } from '@coreui/react'
+import { Post } from 'utils/axios'
 
 const CartItem = ({ product }: any) => {
   const dispatch = useDispatch()
+  const data = useSelector((state: RootStateOrAny) => state)
 
   const total = product.selling_price * product.quantity
+  const handlePost = async (type: any) => {
+    switch (type) {
+      case 'add':
+        dispatch(incrementItem(product))
+        break
+      case 'minus':
+        if (product.quantity === 1) {
+          dispatch(deleteItem(product))
+        } else {
+          dispatch(decrementItem(product))
+        }
+        break
+      default:
+        dispatch(incrementItem(product))
+        break
+    }
+    Post('/customer/addtocart', {
+      data: data.cart.cartItems,
+    })
+  }
 
   return (
     <CRow className='mb-4 px-md-3'>
@@ -31,14 +53,7 @@ const CartItem = ({ product }: any) => {
         </div>
       </CCol>
       <CCol xs={6} md={3} className='p-0 d-flex align-items-center'>
-        <button
-          className='btn'
-          onClick={
-            product.quantity === 1
-              ? () => dispatch(deleteItem(product))
-              : () => dispatch(decrementItem(product))
-          }
-        >
+        <button className='btn' onClick={() => handlePost('minus')}>
           <BiMinus
             size={20}
             fill='#ff9090'
@@ -49,7 +64,9 @@ const CartItem = ({ product }: any) => {
         <button
           className='btn'
           disabled={product.quantity === product.stock ? true : false}
-          onClick={() => dispatch(incrementItem(product))}
+          onClick={() => {
+            handlePost('add')
+          }}
         >
           <BiPlus
             size={20}

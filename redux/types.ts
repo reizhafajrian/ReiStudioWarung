@@ -1,6 +1,8 @@
 export const GET_USER = 'GET_USER'
 
 export const ADD_TO_CART = 'ADD_TO_CART'
+export const ADD_TO_CART_ALL = 'ADD_TO_CART_ALL'
 export const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
 export const INCREMENT_CART_ITEM = 'INCREMENT_CART_ITEM'
 export const DECREMENT_CART_ITEM = 'DECREMENT_CART_ITEM'
+export const DELETE_ALL_ITEM = 'DELETE_ALL_ITEM'
