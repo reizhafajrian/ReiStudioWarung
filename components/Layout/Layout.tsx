@@ -6,6 +6,7 @@ import Loading from "@components/Loading/Loading";
 import { useSelector } from "react-redux";
 import Alert from "@components/Alert/Alert";
 
+
 interface props {
   pageTitle: string;
   children: ReactNode;
@@ -20,7 +21,8 @@ const Layout = ({ pageTitle, children }: props) => {
         <title>Warung | {pageTitle}</title>
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
       </Head>
 
       <div className="min-vh-100 d-flex flex-column">
@@ -32,6 +34,7 @@ const Layout = ({ pageTitle, children }: props) => {
         {state.alert.isVisible === true && <Alert />}
 
         <Footer />
+   
       </div>
     </>
   );
