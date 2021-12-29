@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema(
   {
@@ -32,13 +32,21 @@ const customerSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    cart: {
+      type: Array,
+      required: false,
+    },
+    order: {
+      type: Array,
+      required: false,
+    },
   },
   {
     timestamps: true,
   }
-)
+);
 
 const Customer =
-  mongoose.models.Customer || mongoose.model('Customer', customerSchema)
+  mongoose.models.Customer || mongoose.model("Customer", customerSchema);
 
-export default Customer
+export default Customer;

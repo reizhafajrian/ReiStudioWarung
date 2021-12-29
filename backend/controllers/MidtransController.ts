@@ -1,35 +1,43 @@
-import { Request, Response, NextFunction } from 'express'
-const midtransClient = require('midtrans-client')
+const midtransClient = require("midtrans-client");
 // Create Snap API instance
-
+let snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: "SB-Mid-server-TqPfmnCEiR4EXMDnSP71mjaV",
+});
 export const MidtransController = {
   create: async (req: Request, res: Response, next: NextFunction) => {
-    let snap = new midtransClient.Snap({
-      // Set to true if you want Production Environment (accept real transaction).
-      isProduction: false,
-      serverKey: 'SB-Mid-server-TqPfmnCEiR4EXMDnSP71mjaV',
-    })
+    const { price, first_name, email, phone, last_name } = req.body;
 
     let parameter = {
       transaction_details: {
-        order_id: new Date.now(),
-        gross_amount: 10000,
+        order_id: Date.now(),
+        gross_amount: price,
       },
       credit_card: {
         secure: true,
       },
       customer_details: {
-        first_name: 'budi',
-        last_name: 'pratama',
-        email: 'budi.pra@example.com',
-        phone: '08111222333',
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        phone: phone,
       },
-    }
+    };
 
-    snap.createTransaction(parameter).then((transaction: any) => {
-      // transaction token
-      let transactionToken = transaction.token
-      console.log('transactionToken:', transaction)
-    })
+    snap.createTransaction(parameter).then((transaction) => {
+      return res.status(201).json({
+        status: 200,
+        transaction,
+      });
+    });
   },
-}
+  getStatus: async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req?.query;
+    snap.transaction.status(id).then((response) => {
+      return res.status(200).json({
+        status: 200,
+        response,
+      });
+    });
+  },
+};

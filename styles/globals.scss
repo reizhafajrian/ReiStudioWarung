@@ -1,24 +1,23 @@
 // colors
 $primary-base: #f8a3a3;
 $theme-colors: (
-  'primary': #f8a3a3,
-  'secondary': #96a3a3,
-  'success': #219653,
-  'info': #2d9cdb,
-  'warning': #f2c94c,
-  'danger': #eb5757,
-  'light': #fbbaba,
-  'dark': #ff9090,
+  "primary": #f8a3a3,
+  "secondary": #96a3a3,
+  "success": #219653,
+  "info": #56ccf2,
+  "warning": #f2c94c,
+  "danger": #eb5757,
+  "light": #fbbaba,
+  "dark": #ff9090,
   // ----------------
-  'gray': #4f4f4f,
-  'gray1': #2b2b2b,
-  'gray2': #e0e0e0,
-  'red': #eb5757,
-  'black': #000000,
-  'yellow': #fee390,
-  'orange': #f2994a,
-  'blue': #56ccf2,
-  'green': #6fcf97,
+  "gray": #4f4f4f,
+  "gray1": #2b2b2b,
+  "gray2": #e0e0e0,
+  "black": #000000,
+  "yellow": #fee390,
+  "orange": #f2994a,
+  "blue": #56ccf2,
+  "green": #6fcf97,
 );
 
 // input-variabel
@@ -41,8 +40,8 @@ $border-radius-sm: 8px;
 $card-border-radius: 20px;
 $card-border-width: 0;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-@import './scss/coreui.scss';
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+@import "./scss/coreui.scss";
 
 *,
 *::before,
@@ -51,7 +50,7 @@ $card-border-width: 0;
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   background: #f6f6f6;
   color: #000;
 
