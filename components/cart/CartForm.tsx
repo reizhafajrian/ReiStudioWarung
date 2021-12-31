@@ -32,18 +32,19 @@ const OrderDetails = () => {
     // window.location.href = post.transaction.redirect_url;
 
     window.snap.pay(post.transaction.token, {
-      onSuccess: async (result) => {
-        console.log(result, "result");
-      },
+      onSuccess: async (result) => {},
       onPending: async (result) => {
         Get(`/customer/pay?id=${result.order_id}`).then((res) => {
           if (res.response.transaction_status === "pending") {
             Post("/customer/createorder", {
               data: {
-                order_id: res.order_id,
+                order_id: res.response.order_id,
                 cart: cart.cartItems,
               },
             }).then((res) => {
+              Post("/customer/addtocart", {
+                data: [],
+              });
               dispatch(deleteAllItem());
             });
           }

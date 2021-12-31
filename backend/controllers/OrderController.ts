@@ -8,6 +8,7 @@ const OrderController = {
     const { data } = req.body;
 
     const r = verifyToken(String(token));
+    let example;
 
     if (typeof r.user !== "undefined") {
       const dataCustomer = await Customer.findById(r.user._id);
@@ -22,11 +23,16 @@ const OrderController = {
           dataCustomer.order.push(data);
         }
       }
-      dataCustomer.save();
+      await dataCustomer.save();
+      example = dataCustomer.order.filter(
+        (v, i, a) => a.findIndex((t) => t.order_id === v.order_id) === i
+      );
+      dataCustomer.order = example;
+      await dataCustomer.save();
 
       return res.status(201).json({
         status: 201,
-        dataCustomer,
+        example,
       });
     }
   },

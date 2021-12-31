@@ -78,6 +78,7 @@ export const cartReducer = (state = initialState, action: any) => {
         cartItems: [...state.cartItems],
       };
     case types.DELETE_ALL_ITEM:
+      
       return {
         ...state,
         ...sumItems([]),
