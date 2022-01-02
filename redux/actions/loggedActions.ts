@@ -5,7 +5,6 @@ export const getUser = () => async (dispatch: any) => {
 
   const userRes = await userReq.json()
 
-<<<<<<< HEAD
   console.log(userRes)
 
   if (userRes.user) {
@@ -22,17 +21,3 @@ export const getUser = () => async (dispatch: any) => {
     }
   }
 }
-=======
-  if (typeof userRes.status !== "undefined" && userRes.status === 200) {
-    console.log("userRes", userRes);
-    dispatch({
-      type: types.GET_USER,
-      payload: userRes,
-    });
-    dispatch({
-      type: types.ADD_TO_CART_ALL,
-      payload: [...userRes.user.cart],
-    });
-  }
-};
->>>>>>> 08c1a034aafa99b86fe2a568264103ab261daa05

@@ -35,9 +35,15 @@ const ReportController = {
           barang = barang.concat(p.cart)
         })
 
-        // let barangReport=barang.map((b1)=>{
-        //     const terjual = barang.map((b2))
-        // })
+        let barangReport = barang.map((b1: any) => {
+          const barangTerjual = barang.filter((b2: any) => b1._id === b2._id)
+          let jumlahTerjual = 0
+          jumlahTerjual = barangTerjual.map(
+            (b: any) => (jumlahTerjual += b.quantity)
+          )
+          return { ...b1, jumlahTerjual }
+        })
+
         //paginating
         // page = page ? page.toString() : '1'
         // limit = limit ? limit.toString() : '3'
@@ -71,6 +77,7 @@ const ReportController = {
           barangTerjual,
           pesanan,
           barang,
+          barangReport,
           result: orders.length,
         })
       }

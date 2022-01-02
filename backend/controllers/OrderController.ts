@@ -65,7 +65,7 @@ const OrderController = {
         const skip = (pageNum - 1) * limitNum
 
         const handleLimit = (c: any) => {
-          return orders.filter((x, i) => {
+          return orders.filter((x: any, i: any) => {
             if (i <= c - 1) {
               return true
             }
@@ -73,7 +73,7 @@ const OrderController = {
         }
 
         const handleSkip = (c: any) => {
-          return orders.filter((x, i) => {
+          return orders.filter((x: any, i: any) => {
             if (i > c - 1) {
               return true
             }
@@ -183,7 +183,7 @@ const OrderController = {
         const skip = (pageNum - 1) * limitNum
 
         const handleLimit = (c: any) => {
-          return orders.filter((x, i) => {
+          return orders.filter((x: any, i: any) => {
             if (i <= c - 1) {
               return true
             }
@@ -191,7 +191,7 @@ const OrderController = {
         }
 
         const handleSkip = (c: any) => {
-          return orders.filter((x, i) => {
+          return orders.filter((x: any, i: any) => {
             if (i > c - 1) {
               return true
             }
