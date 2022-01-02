@@ -49,6 +49,7 @@ const OrderDetails = () => {
     // window.location.href = post.transaction.redirect_url;
 
     window.snap.pay(post.transaction.token, {
+<<<<<<< HEAD
       onSuccess: async (result: any) => {
         console.log(result, 'result')
       },
@@ -56,6 +57,13 @@ const OrderDetails = () => {
         Get(`/customer/pay?id=${result.order_id}`, token).then((res: any) => {
           if (res.response.transaction_status === 'pending') {
             Post('/customer/createorder', {
+=======
+      onSuccess: async (result) => {},
+      onPending: async (result) => {
+        Get(`/customer/pay?id=${result.order_id}`).then((res) => {
+          if (res.response.transaction_status === "pending") {
+            Post("/customer/createorder", {
+>>>>>>> 08c1a034aafa99b86fe2a568264103ab261daa05
               data: {
                 order_id: res.response.order_id,
                 cart: cart.cartItems,
@@ -69,12 +77,20 @@ const OrderDetails = () => {
                 created_at: res.response.transaction_time,
               },
             }).then((res) => {
+<<<<<<< HEAD
               router.push('/customer/profile')
               Post('/customer/addtocart', {
                 data: [],
               })
               dispatch(deleteAllItem())
             })
+=======
+              Post("/customer/addtocart", {
+                data: [],
+              });
+              dispatch(deleteAllItem());
+            });
+>>>>>>> 08c1a034aafa99b86fe2a568264103ab261daa05
           }
         })
       },
