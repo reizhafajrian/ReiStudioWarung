@@ -35,13 +35,46 @@ const ReportController = {
           barang = barang.concat(p.cart)
         })
 
-        let barangReport = barang.map((b1: any) => {
-          const barangTerjual = barang.filter((b2: any) => b1._id === b2._id)
-          let jumlahTerjual = 0
-          jumlahTerjual = barangTerjual.map(
-            (b: any) => (jumlahTerjual += b.quantity)
-          )
-          return { ...b1, jumlahTerjual }
+        let temp = barang.map((b1: any) => {
+          const namaBarang = b1.name
+          const hargaBeli = b1.buying_price
+          const hargaJual = b1.selling_price
+          const kategori = b1.category
+          const kuantitas = b1.quantity
+          return {
+            _id: b1._id,
+            namaBarang,
+            hargaBeli,
+            hargaJual,
+            kategori,
+            kuantitas,
+          }
+        })
+
+        let barangReport: any = []
+
+        temp.map((b: any) => {
+          let terjual = 0
+          let laba = 0
+
+          temp.map((b2: any) => {
+            if (b._id === b2._id) {
+              terjual += b.kuantitas
+            }
+          })
+
+          const data = {
+            terjual,
+            laba,
+          }
+
+          const found = barangReport.find((br: any) => br._id === b._id)
+
+          console.log(found)
+
+          if (!found) {
+            barangReport = [...barangReport, { ...b, ...data }]
+          }
         })
 
         //paginating
@@ -76,8 +109,7 @@ const ReportController = {
           jumlahOrder,
           barangTerjual,
           pesanan,
-          barang,
-          barangReport,
+          barang: barangReport,
           result: orders.length,
         })
       }
