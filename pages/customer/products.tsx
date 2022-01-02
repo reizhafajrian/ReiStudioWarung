@@ -1,12 +1,15 @@
 import { ReactElement } from 'react'
 import Layout from '@components/layout/Layout'
 import Products from '@components/product/Products'
+import { Get } from 'utils/axios'
+import { getCookie } from 'cookies-next'
 
-const ProductsPage = (props: any) => {
+const ProductsPage = ({ p, categories }: any) => {
   return (
     <Products
-      products={props.products ? props.products : []}
-      result={props.result}
+      products={p.products || []}
+      result={p.result}
+      categories={categories}
     />
   )
 }
@@ -18,23 +21,26 @@ ProductsPage.getLayout = function getLayout(content: ReactElement) {
 }
 
 // fetching data
-export const getServerSideProps = async ({ query }: any) => {
+export const getServerSideProps = async ({ req, res, query }: any) => {
+  const token = getCookie('token', { req, res })
   const page = query.page || 1
   const category = query.category || 'all'
   const sort = query.sort || ''
   const search = query.search || 'all'
 
-  const res = await fetch(
-    `http://localhost:3000/api/products?limit=${
+  const data: any = await Get(
+    `/products?limit=${
       page * 8
-    }&category=${category}&sort=${sort}&search=${search}`
+    }&category=${category}&sort=${sort}&search=${search}`,
+    token
   )
 
-  const data = await res.json()
-
-  console.log(data.products)
+  const cat: any = await Get('/products/categories', token)
 
   return {
-    props: data,
+    props: {
+      p: data,
+      categories: cat.categories,
+    },
   }
 }

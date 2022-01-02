@@ -1,12 +1,11 @@
-import { useMemo, useState } from 'react'
 import * as React from 'react'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import Select from 'react-select'
 import Script from 'next/script'
 import { CButton, CForm, CFormInput } from '@coreui/react'
-import axios from 'axios'
 import { Get, Post } from 'utils/axios'
 import { deleteAllItem } from 'redux/actions/cartActions'
+import cookie from 'js-cookie'
+import { useRouter } from 'next/router'
 
 declare global {
   interface Window {
@@ -15,19 +14,32 @@ declare global {
 }
 
 const OrderDetails = () => {
-  const { cart, user } = useSelector((state: RootStateOrAny) => state)
-  const options = useMemo(
-    () => [{ value: 'transferVA', label: 'Transfer VA' }],
-    []
-  )
-
-  const [disabled, setDisabled] = useState(false)
+  const token = cookie.get('token')
   const dispatch = useDispatch()
-  const [temp, settemp] = useState([])
+  const router = useRouter()
+
+  const { cart, user } = useSelector((state: RootStateOrAny) => state)
+  const [total, setTotal] = React.useState(cart.total)
+  const [voucher, setVoucher] = React.useState({})
+  const [isDiscount, setIsDiscount] = React.useState(false)
+
+  console.log(isDiscount)
+
+  const handleVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
+    Get(`/vouchers?code=${e.target.value}`, token).then((res: any) => {
+      if (res.voucher.length > 0) {
+        setTotal(cart.total - res.voucher[0].amount)
+        setIsDiscount(true)
+        setVoucher(res.voucher[0])
+      } else {
+        setIsDiscount(false)
+      }
+    })
+  }
 
   const handlePost = async () => {
     const post: any = await Post('/customer/pay', {
-      price: cart.total,
+      price: total,
       email: user.user.email,
       first_name: user.user.name,
       last_name: user.user.name,
@@ -41,14 +53,26 @@ const OrderDetails = () => {
         console.log(result, 'result')
       },
       onPending: async (result: any) => {
-        Get(`/customer/pay?id=${result.order_id}`).then((res: any) => {
+        Get(`/customer/pay?id=${result.order_id}`, token).then((res: any) => {
           if (res.response.transaction_status === 'pending') {
             Post('/customer/createorder', {
               data: {
-                order_id: res.order_id,
+                order_id: res.response.order_id,
                 cart: cart.cartItems,
+                voucher: voucher,
+                total: total,
+                status: {
+                  title: 'sedang diproses',
+                  content: '',
+                },
+                payment: res.response.store,
+                created_at: res.response.transaction_time,
               },
             }).then((res) => {
+              router.push('/customer/profile')
+              Post('/customer/addtocart', {
+                data: [],
+              })
               dispatch(deleteAllItem())
             })
           }
@@ -74,34 +98,39 @@ const OrderDetails = () => {
             placeholder='Tambah alamat'
             className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
             readOnly
-            value={user.address}
+            value={user.user.address}
           />
         </div>
         <div className='mb-3'>
           <h5 className='fw-bold'>Voucher Belanja</h5>
           <CFormInput
-            placeholder='Kode voucher'
+            type='search'
             className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
+            onChange={(e) => handleVoucher(e)}
           />
         </div>
-        {/* <div className="mb-3">
-        <h5 className="fw-bold">Metode Pembayaran</h5>
-        <Select
-          className="top"
-          classNamePrefix="inner"
-          options={options}
-          placeholder="-Pilih-"
-        />
-      </div> */}
         <div className='mb-3'>
           <h5 className='fw-bold'>Total harga</h5>
-          <h5>Rp.{cart?.total.toLocaleString('id-ID')},-</h5>
+          <h5
+            className={`${
+              isDiscount && 'text-gray m-0 text-decoration-line-through'
+            }`}
+          >
+            Rp.
+            {cart.total.toLocaleString('id-ID')}
+            ,-
+          </h5>
+          {isDiscount && (
+            <h5 className='text-success m-0 mt-2'>
+              Rp.
+              {total.toLocaleString('id-ID')}
+              ,-
+            </h5>
+          )}
         </div>
         <div className='text-center'>
           <CButton
-            className={`w-auto text-white px-3 py-2 ${
-              disabled ? 'disabled bg-gray  border-gray' : 'bg-dark'
-            }`}
+            className='w-auto text-white px-3 py-2'
             onClick={(e) => {
               e.preventDefault()
               handlePost()

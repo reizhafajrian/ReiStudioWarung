@@ -1,5 +1,7 @@
 export const GET_USER = 'GET_USER'
-
+export const GET_ORDERS = 'GET_ORDERS'
+export const GET_ORDERS_ADMIN = 'GET_ORDERS_ADMIN'
+export const GET_ORDER_DETAILS = 'GET_ORDER_DETAILS'
 export const ADD_TO_CART = 'ADD_TO_CART'
 export const ADD_TO_CART_ALL = 'ADD_TO_CART_ALL'
 export const DELETE_CART_ITEM = 'DELETE_CART_ITEM'

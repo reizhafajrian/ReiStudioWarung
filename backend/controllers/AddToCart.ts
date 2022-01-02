@@ -13,7 +13,7 @@ const AddToCart = {
       const r: any = verifyToken(String(token))
 
       if (typeof r.user !== 'undefined') {
-        const dataCustomer = await Customer.findById(r.user._id)
+        const dataCustomer = await Customer.findById(r.user.id)
         dataCustomer.cart = data
         dataCustomer.save()
         return res.status(201).json({
@@ -32,7 +32,7 @@ const AddToCart = {
       const r: any = verifyToken(String(token))
 
       if (typeof r.user !== 'undefined') {
-        const dataCustomer = await Customer.findById(r.user._id)
+        const dataCustomer = await Customer.findById(r.user.id)
         return res.status(200).json({
           status: 201,
           cart: dataCustomer.cart,

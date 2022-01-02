@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { check } from 'express-validator'
 import { comparePassword, encrypt } from '../middlewares/encrypt'
-import { generateToken } from '../middlewares/jwt'
+import { generateToken, verifyToken } from '../middlewares/jwt'
 import Customer from '../models/Customer'
 import {
   validationHandler,
@@ -9,12 +9,28 @@ import {
 } from '../middlewares/validationHandler'
 
 export const CustomerController = {
+  getProfile: async function (req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers
+
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (typeof r.user !== 'undefined') {
+        const user = await Customer.findById(r.user.id)
+
+        return res.status(200).json({ status: 200, user })
+      }
+    }
+  },
   updateProfile: async function (
     req: Request,
     res: Response,
     next: NextFunction
   ) {
-    const { id, name, username, email, phone, address } = req.body
+    const { name, username, email, phone, address } = req.body
+    const { id } = req.query
 
     await validationHandler(
       req,
@@ -64,16 +80,17 @@ export const CustomerController = {
     const isMatch = await comparePassword(password, user.password)
 
     if (isMatch) {
-      const token = await generateToken(user)
+      let rest = {
+        id: user._id,
+        role: user.role,
+      }
+
+      const token = await generateToken(rest)
+
       return res.status(200).json({
         status: 200,
         user: user,
         token: token,
-      })
-    } else {
-      res.status(400).json({
-        status: 400,
-        message: 'Invalid email or password',
       })
     }
   },
@@ -122,5 +139,61 @@ export const CustomerController = {
       message: 'User created successfully',
       user,
     })
+  },
+  changePassword: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { password, newPassword } = req.body
+    const { token } = req.cookies
+
+    await validationHandler(
+      req,
+      res,
+      validations([
+        check('newPassword', 'Password at least 8 characters')
+          .isLength({
+            min: 8,
+          })
+          .custom((value, { req }) => {
+            if (value !== req.body.confPassword) {
+              throw new Error('The password is not the same as the new one')
+            } else {
+              return value
+            }
+          }),
+      ])
+    )
+    console.log('done validation')
+
+    if (token) {
+      const decoded: any = verifyToken(token)
+
+      const id = decoded.user.id
+
+      let user = await Customer.findById(id)
+
+      const isMatch = await comparePassword(password, user.password)
+
+      console.log(isMatch)
+
+      if (isMatch) {
+        const newPasswordHash = await encrypt(newPassword)
+
+        const user = await Customer.findByIdAndUpdate(id, {
+          password: newPasswordHash,
+        })
+        return res.status(200).json({
+          status: 200,
+          user,
+        })
+      }
+
+      return res.status(401).json({
+        status: 401,
+        message: 'Invalid password',
+      })
+    }
   },
 }

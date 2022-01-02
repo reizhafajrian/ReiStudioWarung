@@ -15,7 +15,7 @@ const Modal = ({ children, visible, setVisible }: props) => {
       onClose={() => setVisible(false)}
       style={{ borderRadius: 20 }}
     >
-      <div className=''>{children}</div>
+      <div>{children}</div>
     </CModal>
   )
 }

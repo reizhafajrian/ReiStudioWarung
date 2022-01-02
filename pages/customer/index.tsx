@@ -1,23 +1,26 @@
-import { ReactElement } from "react";
-import Home from "@components/Home";
-import Layout from "@components/layout/Layout";
-import { Get } from "utils/axios";
+import { ReactElement } from 'react'
+import Home from '@components/Home'
+import Layout from '@components/layout/Layout'
+import { Get } from 'utils/axios'
+import { getCookie } from 'cookies-next'
 
-export default function HomePage({ products }: any) {
-  return <Home products={products} />;
+export default function HomePage(props: any) {
+  return <Home products={props.products} />
 }
 
 HomePage.getLayout = function getLayout(content: ReactElement) {
-  return <Layout pageTitle="Home">{content}</Layout>;
-};
+  return <Layout pageTitle='Home'>{content}</Layout>
+}
 
 // fetching data
-export const getServerSideProps = async () => {
-  const res = await fetch(
-    "http://localhost:3000/api/products?sort=terlaris&category=all&search=all"
-  );
+export const getServerSideProps = async ({ req, res, query }: any) => {
+  const token = getCookie('token', { req, res })
+  const page = query.page || 1
 
-  const data = await res.json();
+  const data: any = await Get(
+    `/products?sort=terlaris&category=all&search=all`,
+    token
+  )
 
-  return { props: { products: data.products } };
-};
+  return { props: data }
+}

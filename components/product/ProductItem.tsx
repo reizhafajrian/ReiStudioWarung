@@ -28,7 +28,7 @@ const ProductItem = ({ product }: any) => {
         console.log(res, 'res')
       })
     } else {
-      router.push('/login')
+      router.push('/customer/login')
     }
   }
 

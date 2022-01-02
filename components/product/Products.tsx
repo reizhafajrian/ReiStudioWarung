@@ -7,7 +7,7 @@ import filterSearch from 'utils/filterSearch'
 import { useRouter } from 'next/router'
 import { CgMenuGridR } from 'react-icons/cg'
 
-const Products = ({ products, result }: any) => {
+const Products = ({ products, result, categories }: any) => {
   const [page, setPage] = useState(1)
   const [sidebar, setSidebar] = useState(false)
   const router = useRouter()
@@ -24,7 +24,7 @@ const Products = ({ products, result }: any) => {
   return (
     <div className='position-relative mt-5'>
       {/* -------SIDEBAR MENU------- */}
-      <Filter sidebar={sidebar} />
+      <Filter sidebar={sidebar} categories={categories} />
 
       {/* -------PRODUCT LIST------- */}
       <div className='d-flex justify-content-center justify-content-md-end'>

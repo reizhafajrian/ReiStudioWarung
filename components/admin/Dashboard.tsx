@@ -4,7 +4,7 @@ import TableOrders from './order/TableOrders'
 import TableProducts from './product/TableProducts'
 import ReportCard from './report/ReportCard'
 
-const Dashboard = ({ products }: any) => {
+const Dashboard = ({ products, orders, vouchers }: any) => {
   return (
     <CContainer className='dashboard'>
       {/* LAPORAN PESANAN */}
@@ -28,7 +28,7 @@ const Dashboard = ({ products }: any) => {
         <h5 className='fw-bold mb-3'>Kelola Voucher</h5>
         <div className='title bg-white p-4' style={{ borderRadius: 20 }}>
           <h6 className='fw-normal mb-2 m-md-0'>
-            Ada 5 voucher yang sudah kamu tambahkan
+            Ada {vouchers.length} voucher yang sudah kamu tambahkan
           </h6>
           <Link href='/admin/vouchers'>
             <a>
@@ -47,7 +47,7 @@ const Dashboard = ({ products }: any) => {
             </a>
           </Link>
         </div>
-        <TableOrders />
+        <TableOrders orders={orders} forDashboard={true} />
       </div>
       {/* PERSEDIAAN PRODUK */}
       <div className='my-5'>

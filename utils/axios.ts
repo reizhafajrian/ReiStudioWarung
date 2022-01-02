@@ -46,6 +46,19 @@ const header = async () => {
   }
 }
 
+const headerForGet = async (jwt: any) => {
+  try {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  } catch (error: any) {
+    return error.message
+  }
+}
+
 const errors = (errors: any) => {
   return {
     status: false,
@@ -53,9 +66,9 @@ const errors = (errors: any) => {
   }
 }
 
-export const Get = async (url: any) => {
+export const Get = async (url: any, jwt: any) => {
   try {
-    const head = await header()
+    const head = await headerForGet(jwt)
     const get = await _axios.get(url, head)
     return get
   } catch (error: any) {
@@ -67,14 +80,9 @@ export const Post = async (url: any, params: any) => {
   try {
     const head = await header()
 
-    // if (file) {
-    //   head.headers["content-type"] = "multipart/form-data";
-    // }
     console.log(head)
 
     const post = await _axios.post(url, JSON.stringify(params), head)
-
-    // const res = post.json();
 
     return post
   } catch (error: any) {
@@ -83,13 +91,13 @@ export const Post = async (url: any, params: any) => {
   }
 }
 
-export const Put = async (url: any, params: any, file: any) => {
+export const Put = async (url: any, params: any) => {
   try {
-    // const head = await header();
-    // if (file) {
-    //   head.headers["content-type"] = "multipart/form-data";
-    // }
-    const post = await _axios.put(url, params)
+    const head = await header()
+
+    console.log(head)
+
+    const post = await _axios.put(url, JSON.stringify(params), head)
     return post
   } catch (error: any) {
     return errors(error.message)

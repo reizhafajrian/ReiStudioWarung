@@ -3,12 +3,7 @@ interface props {
   bg?: string
 }
 const BadgePayment = ({ title }: props) => {
-  return (
-    <>
-      {title === 'COD' && <Container title={title} bg='orange' />}
-      {title === 'Transfer Bank' && <Container title={title} bg='blue' />}
-    </>
-  )
+  return <Container title={title} bg='orange' />
 }
 
 const Container = ({ title, bg }: props) => {

@@ -1,13 +1,22 @@
 import { RiPencilFill } from 'react-icons/ri'
 import { CAvatar, CButton, CCard, CCol, CRow } from '@coreui/react'
 import { useRouter } from 'next/router'
-import { RootStateOrAny, useSelector } from 'react-redux'
 import OrderHistory from '@components/order/OrderHistory'
+import { useEffect, useState } from 'react'
+import filterSearch from 'utils/filterSearch'
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ user, result, orders, total, jumlah }: any) => {
   const router = useRouter()
+  const [page, setPage] = useState(1)
 
-  const { user } = useSelector((state: RootStateOrAny) => state.user)
+  const handleLoadMore = () => {
+    setPage(page + 1)
+    filterSearch({ router, page: page + 1 })
+  }
+
+  useEffect(() => {
+    if (Object.keys(router.query).length === 0) setPage(1)
+  }, [router.query])
 
   function getFirstWord(name: string): string {
     return name?.charAt(0).toUpperCase()
@@ -59,11 +68,19 @@ const ProfileDetails = () => {
                 {/* RIWAYAT PESANAN */}
                 <CCard className='p-4 mb-3 mb-md-0'>
                   <h5 className='fw-bold mb-4'>Riwayat Pesanan Anda</h5>
-                  <OrderHistory />
-                  <OrderHistory />
-                  <OrderHistory />
+                  {orders
+                    ? orders.map((order: any) => (
+                        <OrderHistory key={order.order_id} order={order} />
+                      ))
+                    : ''}
                   <div className='mx-auto'>
-                    <CButton className='w-100'>Muat lebih banyak</CButton>
+                    {result < page * 3 ? (
+                      ''
+                    ) : (
+                      <CButton onClick={handleLoadMore} className='w-100'>
+                        Muat lebih banyak
+                      </CButton>
+                    )}
                   </div>
                 </CCard>
               </div>
@@ -74,7 +91,7 @@ const ProfileDetails = () => {
                     <br />
                     Bulan ini
                   </h5>
-                  <h2 className='fw-bold mt-4 mb-5'>15</h2>
+                  <h2 className='fw-bold mt-4 mb-5'>{orders ? jumlah : 0}</h2>
                 </CCard>
                 <CCard className='py-4 px-5 text-center'>
                   <h5 className='text-secondary fw-bold'>
@@ -82,7 +99,11 @@ const ProfileDetails = () => {
                     <br />
                     Bulan ini
                   </h5>
-                  <h2 className='fw-bold mt-4 mb-5'>Rp235,5rb</h2>
+                  <h2 className='fw-bold mt-4 mb-5'>
+                    Rp.
+                    {total.toLocaleString('id-ID') || '0'}
+                    ,-
+                  </h2>
                 </CCard>
               </div>
             </div>

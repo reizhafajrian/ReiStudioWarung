@@ -10,18 +10,8 @@ import {
 import BadgePayment from '@components/order/BadgePayment'
 import BadgeStatus from '@components/order/BadgeStatus'
 
-const TableOrders = () => {
+const TableOrders = ({ orders, result, forDashboard = false }: any) => {
   const router = useRouter()
-  const history = [
-    {
-      id: '1234',
-      name: 'Johnny Doe',
-      address: 'Jalan Lapangan Banteng no. 15...',
-      total: 'Rp. 125.000,-',
-      paymentMehod: 'Transfer Bank',
-      status: 'selesai',
-    },
-  ]
 
   const headers = [
     'Nama',
@@ -47,29 +37,60 @@ const TableOrders = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody className='h6 bg-white py-4 align-middle'>
-          {history.map((order) => (
-            <CTableRow
-              style={{ cursor: 'pointer' }}
-              key={order.id}
-              onClick={() => {
-                router.push(`/admin/history/${order.id}`)
-              }}
-            >
-              <CTableDataCell>{order.name}</CTableDataCell>
-              <CTableDataCell>{order.address}</CTableDataCell>
-              <CTableDataCell>{order.total}</CTableDataCell>
-              <CTableDataCell>
-                <div className='d-flex'>
-                  <BadgePayment title={order.paymentMehod} />
-                </div>
-              </CTableDataCell>
-              <CTableDataCell>
-                <div className='d-flex'>
-                  <BadgeStatus title={order.status} />
-                </div>
-              </CTableDataCell>
+          {!orders && (
+            <CTableRow>
+              <CTableDataCell>Order Kosong</CTableDataCell>
             </CTableRow>
-          ))}
+          )}
+          {forDashboard
+            ? orders.slice(0, 5).map((o: any) => (
+                <CTableRow
+                  style={{ cursor: 'pointer' }}
+                  key={o.order_detail.order_id}
+                  onClick={() => {
+                    router.push(`/admin/history/${o.order_detail.order_id}`)
+                  }}
+                >
+                  <CTableDataCell>{o.name}</CTableDataCell>
+                  <CTableDataCell>{o.address}</CTableDataCell>
+                  <CTableDataCell>{o.order_detail.total}</CTableDataCell>
+                  <CTableDataCell>
+                    <div className='d-flex'>
+                      <BadgePayment title={o.order_detail.payment} />
+                    </div>
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <div className='d-flex'>
+                      <BadgeStatus title={o.order_detail.status.title} />
+                    </div>
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            : orders
+                .slice(result == 6 ? 0 : result - 6, orders.length)
+                .map((o: any) => (
+                  <CTableRow
+                    style={{ cursor: 'pointer' }}
+                    key={o.order_detail.order_id}
+                    onClick={() => {
+                      router.push(`/admin/history/${o.order_detail.order_id}`)
+                    }}
+                  >
+                    <CTableDataCell>{o.name}</CTableDataCell>
+                    <CTableDataCell>{o.address}</CTableDataCell>
+                    <CTableDataCell>{o.order_detail.total}</CTableDataCell>
+                    <CTableDataCell>
+                      <div className='d-flex'>
+                        <BadgePayment title={o.order_detail.payment} />
+                      </div>
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      <div className='d-flex'>
+                        <BadgeStatus title={o.order_detail.status.title} />
+                      </div>
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
         </CTableBody>
       </CTable>
     </div>

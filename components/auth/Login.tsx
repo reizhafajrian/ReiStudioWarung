@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import Cookie from 'js-cookie'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../redux/actions/loggedActions'
 import InputField from '../InputField'
 import { CButton, CCard, CForm } from '@coreui/react'
 import Header from './Header'
 import { Post } from 'utils/axios'
+import Alert from '@components/Alert'
+import Loading from '@components/Loading'
 
 interface props {
   forAdmin?: boolean
@@ -15,7 +17,7 @@ interface props {
 const Login = ({ forAdmin = false }: props) => {
   const router = useRouter()
   const dispatch = useDispatch()
-
+  const state = useSelector((state: RootStateOrAny) => state)
   const [emailOrUsername, setEmailOrUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -31,16 +33,14 @@ const Login = ({ forAdmin = false }: props) => {
         emailOrUsername,
         password,
       }).then((res: any) => {
+        Cookie.set('token', res.token)
+        dispatch(getUser())
+        forAdmin ? router.push('/admin') : router.push('/customer')
         dispatch({
           type: 'LOADING',
           payload: false,
         })
-
-        Cookie.set('token', res.token)
       })
-
-      dispatch(getUser())
-      forAdmin ? router.push('/admin') : router.push('/customer')
     } else {
       dispatch({
         type: 'SETALERT',
@@ -52,7 +52,8 @@ const Login = ({ forAdmin = false }: props) => {
   }
 
   return (
-    <>
+    <div className='min-vh-100 d-flex flex-column'>
+      {state.loading === true && <Loading />}
       <Header forAdmin={forAdmin} pageTitle='Login' />
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center mx-5 mx-md-0'>
@@ -104,7 +105,8 @@ const Login = ({ forAdmin = false }: props) => {
           </CForm>
         </CCard>
       </div>
-    </>
+      {state.alert.isVisible === true && <Alert />}
+    </div>
   )
 }
 

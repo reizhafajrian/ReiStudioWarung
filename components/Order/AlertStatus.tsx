@@ -1,5 +1,8 @@
 import { CButton, CCard, CFormTextarea } from '@coreui/react'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Post } from 'utils/axios'
 import Modal from '../Modal'
 
 interface props {
@@ -17,12 +20,40 @@ const AlertStatus = ({ status }: props) => {
   }
 
   const handleKomplen = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(keluhan)
     setKeluhan(e.target.value)
   }
 
   const handleSetKomplen = () => {
-    console.log(keluhan)
+    setKomplen(false)
+    handleUpdateStatus({
+      title: 'komplain',
+      content: keluhan,
+    })
+  }
+
+  const router = useRouter()
+  const { query } = useRouter()
+  const dispatch = useDispatch()
+
+  const handleUpdateStatus = (status: any) => {
+    dispatch({
+      type: 'LOADING',
+      payload: true,
+    })
+
+    Post(`/orders?id=${query.id}`, { status: status }).then((res) => {
+      dispatch({
+        type: 'LOADING',
+        payload: false,
+      })
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'success',
+        message: 'Berhasil mengupdate status',
+      })
+      router.reload()
+    })
   }
 
   return (
@@ -73,6 +104,22 @@ const AlertStatus = ({ status }: props) => {
                 tindak lanjut komplen
               </h5>
             </div>
+            <CButton className='w-25' size='lg' disabled>
+              Pesanan diterima
+            </CButton>
+          </div>
+        </CCard>
+      )}
+      {status === 'komplain diproses' && (
+        <CCard className='bg-gray2 px-5 py-3 pe-3 text-gray1 '>
+          <div className='d-flex align-items-center justify-content-between'>
+            <div className='d-flex'>
+              <h5 className='fw-bold me-1'>Status:</h5>
+              <h5 className='mb-0'>
+                Pihak warung akan menghubungi anda untuk <br />
+                tindak lanjut komplen
+              </h5>
+            </div>
             <CButton
               className='w-25'
               size='lg'
@@ -106,7 +153,17 @@ const AlertStatus = ({ status }: props) => {
           >
             Ajukan komplen
           </CButton>
-          <CButton className='w-50' size='lg'>
+          <CButton
+            onClick={() => {
+              setVisible(false)
+              handleUpdateStatus({
+                title: 'selesai',
+                content: '',
+              })
+            }}
+            className='w-50'
+            size='lg'
+          >
             Ya, sudah sesuai
           </CButton>
         </div>

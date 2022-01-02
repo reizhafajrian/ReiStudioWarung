@@ -4,12 +4,25 @@ interface props {
   category?: string
   sort?: string
   search?: string
+  status?: string
 }
 
-const filterSearch = ({ router, page, category, sort, search }: props) => {
+const filterSearch = ({
+  router,
+  page,
+  category,
+  sort,
+  search,
+  status,
+}: props) => {
   const path =
     router.pathname === '/customer' ? '/customer/products' : router.pathname
   const query = router.query
+
+  if (status) {
+    query.status = status
+    delete query.page
+  }
 
   if (category) {
     query.category = category

@@ -4,7 +4,7 @@ import filterSearch from '../../utils/filterSearch'
 import { useRouter } from 'next/router'
 import { CFormCheck } from '@coreui/react'
 
-const Filter = ({ sidebar }: any) => {
+const Filter = ({ sidebar, categories }: any) => {
   const [sort, setSort] = useState()
 
   const router = useRouter()
@@ -29,17 +29,6 @@ const Filter = ({ sidebar }: any) => {
     []
   )
 
-  const categories = [
-    'Sembako',
-    'Makanan',
-    'Minuman',
-    'Bumbu Masakan',
-    'Keperluan Bayi',
-    'Keperluan Wanita',
-    'Kesehatan',
-    'Lain-lain',
-  ]
-
   return (
     <div
       className={`${
@@ -62,15 +51,15 @@ const Filter = ({ sidebar }: any) => {
         onChange={handleSort}
       />
       <h5 className='fw-bold pt-2 mt-2 mb-3'>Kategori</h5>
-      {categories.map((kat, index) => (
+      {categories.map((c: any) => (
         <CFormCheck
           className='mb-lg-2 fw-medium'
           type='radio'
           name='kategori'
-          id={kat}
-          label={kat}
-          key={index}
-          value={kat}
+          id={c.name}
+          label={c.name}
+          key={c._id}
+          value={c.name}
           onChange={handleCategory}
         />
       ))}

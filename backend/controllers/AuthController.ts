@@ -10,7 +10,7 @@ export const AuthController = {
     if (token) {
       const decoded: any = verifyToken(token)
 
-      const id = decoded.user._id
+      const id = decoded.user.id
 
       let user = await Admin.findById(id)
 

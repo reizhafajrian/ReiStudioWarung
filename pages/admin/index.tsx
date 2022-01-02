@@ -1,11 +1,13 @@
 import type { ReactElement } from 'react'
 import Layout from '@components/layout/Layout'
 import Dashboard from '@components/admin/Dashboard'
+import { getCookie } from 'cookies-next'
+import { Get } from 'utils/axios'
 
-const DashboardPage = ({ products }: any) => {
+const DashboardPage = ({ products, orders, vouchers }: any) => {
   return (
     <>
-      <Dashboard products={products} />
+      <Dashboard products={products} orders={orders} vouchers={vouchers} />
     </>
   )
 }
@@ -17,12 +19,18 @@ DashboardPage.getLayout = function getLayout(content: ReactElement) {
 }
 
 // fetching data
-export const getServerSideProps = async () => {
-  const res = await fetch(
-    'http://localhost:3000/api/products?category=all&search=all'
-  )
+export const getServerSideProps = async ({ req, res, query }: any) => {
+  const token = getCookie('token', { req, res })
 
-  const data = await res.json()
+  const orderReq: any = await Get('/admin/orders?limit=5&status=all', token)
+  const productReq: any = await Get('/products?category=all&search=all', token)
+  const voucherReq: any = await Get('/admin/vouchers', token)
 
-  return { props: { products: data.products } }
+  return {
+    props: {
+      products: productReq.products,
+      orders: orderReq.orders,
+      vouchers: voucherReq.vouchers,
+    },
+  }
 }

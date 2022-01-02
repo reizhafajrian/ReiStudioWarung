@@ -34,12 +34,20 @@ const AllProducts = ({ products, result }: any) => {
       </div>
       <TableProduct products={products} result={result} />
       <div className='d-flex justify-content-end align-items-center'>
-        <CButton onClick={handlePrev} disabled={page == 1 && true}>
+        <CButton
+          onClick={handlePrev}
+          disabled={page == 1 && true}
+          style={{ borderRadius: 0, fontWeight: 'bold' }}
+        >
           Prev
         </CButton>
         <h5 className='m-0 mx-2 p-2 px-3 bg-white border'>{page}</h5>
-        <CButton onClick={handleNext} disabled={result < page * 8 && true}>
-          next
+        <CButton
+          onClick={handleNext}
+          disabled={result < page * 6 && true}
+          style={{ borderRadius: 0, fontWeight: 'bold' }}
+        >
+          Next
         </CButton>
       </div>
     </CContainer>

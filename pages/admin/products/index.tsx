@@ -1,33 +1,28 @@
-import type { ReactElement } from "react";
-import AllProducts from "@components/admin/product/AllProducts";
-import Layout from "@components/layout/Layout";
+import type { ReactElement } from 'react'
+import AllProducts from '@components/admin/product/AllProducts'
+import Layout from '@components/layout/Layout'
+import { getCookie } from 'cookies-next'
+import { Get } from 'utils/axios'
 
 const AllProductsPage = (props: any) => {
-  return (
-    <AllProducts
-      products={props.products ? props.products : []}
-      result={props.result}
-    />
-  )
+  return <AllProducts products={props.products} result={props.result} />
 }
 
-
-export default AllProductsPage;
+export default AllProductsPage
 
 AllProductsPage.getLayout = function getLayout(content: ReactElement) {
-
-  return <Layout pageTitle="Products">{content}</Layout>;
-};
+  return <Layout pageTitle='Products'>{content}</Layout>
+}
 
 // fetching data
-export const getServerSideProps = async ({ query }: any) => {
+export const getServerSideProps = async ({ req, res, query }: any) => {
+  const token = getCookie('token', { req, res })
   const page = query.page || 1
 
-  const res = await fetch(
-    "http://localhost:3000/api/products?category=all&search=all"
-  );
+  const data: any = await Get(
+    `/products?limit=${page * 6}&category=all&search=all`,
+    token
+  )
 
-  const data = await res.json();
-
-  return { props: { products: data.products } };
-};
+  return { props: data }
+}

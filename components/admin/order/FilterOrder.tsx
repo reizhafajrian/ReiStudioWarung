@@ -5,27 +5,31 @@ import {
   CDropdownToggle,
   CFormCheck,
 } from '@coreui/react'
+import { useRouter } from 'next/router'
 import { BaseSyntheticEvent } from 'react'
 import { CgMenuGridR } from 'react-icons/cg'
+import filterSearch from 'utils/filterSearch'
 
 const FilterOrder = () => {
+  const router = useRouter()
   const status = [
-    'Pembayaran',
-    'Pembayaran diterima',
-    'Dalam pengiriman',
-    'Komplain',
-    'Selesai',
+    { label: 'Pembayaran', value: 'pembayaran' },
+    { label: 'Pembayaran diterima', value: 'sedang diproses' },
+    { label: 'Dalam pengiriman', value: 'sedang dikirim' },
+    { label: 'Komplain', value: 'komplain' },
+    { label: 'Komplain diproses', value: 'komplain diproses' },
+    { label: 'Selesai', value: 'selesai' },
   ]
 
-  const paymentMethod = ['Transfer', 'COD']
+  // const paymentMethod = ['Transfer', 'COD']
 
   const handleStatus = (e: BaseSyntheticEvent) => {
-    console.log(e.target.value)
+    filterSearch({ router, status: e.target.value })
   }
 
-  const handlePayment = (e: BaseSyntheticEvent) => {
-    console.log(e.target.value)
-  }
+  // const handlePayment = (e: BaseSyntheticEvent) => {
+  //   console.log(e.target.value)
+  // }
 
   return (
     <CDropdown>
@@ -34,22 +38,22 @@ const FilterOrder = () => {
         <p className='m-0 ms-2'>Filter</p>
       </CDropdownToggle>
       <CDropdownMenu>
-        <CDropdownItemPlain>
+        <CDropdownItemPlain style={{ width: 220 }}>
           <p className='fw-bold'>Status</p>
           {status.map((s, index) => (
             <CFormCheck
               className='mb-2 fw-medium'
               type='radio'
               name='status'
-              id={s}
-              label={s}
+              id={s.label}
+              label={s.label}
               key={index}
-              value={s}
+              value={s.value}
               onChange={handleStatus}
             />
           ))}
         </CDropdownItemPlain>
-        <CDropdownItemPlain style={{ width: 220 }}>
+        {/* <CDropdownItemPlain style={{ width: 220 }}>
           <p className='fw-bold'>Metode Pembayaran</p>
           {paymentMethod.map((p, index) => (
             <CFormCheck
@@ -63,7 +67,7 @@ const FilterOrder = () => {
               onChange={handlePayment}
             />
           ))}
-        </CDropdownItemPlain>
+        </CDropdownItemPlain> */}
       </CDropdownMenu>
     </CDropdown>
   )

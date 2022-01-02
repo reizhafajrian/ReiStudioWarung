@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import Product from '../models/Product'
 import products from '../../data/products'
+import categories from 'data/categories'
+import Category from '@backend/models/Category'
+import { verifyToken } from '@backend/middlewares/jwt'
 
 export const ProductController = {
   seedProducts: async function (
@@ -13,6 +16,54 @@ export const ProductController = {
     return res.status(200).json({
       status: 200,
       createdProducts,
+    })
+  },
+  seedCategories: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const createdCats = await Category.insertMany(categories)
+
+    return res.status(200).json({
+      status: 200,
+      createdCats,
+    })
+  },
+  getCategories: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const categories = await Category.find()
+
+    if (categories.length > 0) {
+      res.status(200).json({
+        status: 200,
+        categories,
+      })
+    } else {
+      res.status(200).json({
+        status: 200,
+        message: 'Categories is not available',
+      })
+    }
+  },
+  createCategory: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { name } = req.body
+
+    const newCategory = await Category.create({
+      name,
+    })
+
+    return res.status(201).json({
+      status: 201,
+      newCategory,
+      message: 'categories created successfully',
     })
   },
   getProducts: async function (
@@ -92,48 +143,113 @@ export const ProductController = {
       })
     }
   },
-  deleteProduct: async function (
+  getProductDetails: async function (
     req: Request,
     res: Response,
     next: NextFunction
   ) {
-    const { id } = req.query
-    const product = await Product.findById(id)
+    const { authorization } = req.headers
 
-    if (!product) {
-      return res.status(404).json({
-        status: 404,
-        message: 'Product not found with this ID.',
-      })
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (typeof r.user !== 'undefined') {
+        const { id } = req.query
+
+        const product = await Product.findById(id)
+
+        return res.status(200).json({
+          status: 200,
+          product,
+        })
+      }
     }
-
-    await Product.findByIdAndRemove(id)
-
-    return res.status(200).json({
-      status: 200,
-      message: 'Product is deleted.',
-    })
   },
-  createProduct: async function (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    const { name, category, image, buying_price, selling_price, stock } =
-      req.body
+  delete: async function (req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers
 
-    const newProduct = await Product.create({
-      name,
-      category,
-      image,
-      buying_price,
-      selling_price,
-      stock,
-    })
+    if (authorization) {
+      const token = authorization.split(' ')[1]
 
-    return res.status(201).json({
-      status: 201,
-      newProduct,
-    })
+      const r: any = verifyToken(String(token))
+
+      if (r.user.role === 1) {
+        const { id } = req.query
+        const product = await Product.findById(id)
+
+        if (!product) {
+          return res.status(404).json({
+            status: 404,
+            message: 'Product not found with this ID.',
+          })
+        }
+
+        await Product.findByIdAndRemove(id)
+
+        return res.status(200).json({
+          status: 200,
+          message: 'product deleted successfully',
+        })
+      }
+    }
+  },
+  create: async function (req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers
+
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (r.user.role === 1) {
+        const { name, category, image, buying_price, selling_price, stock } =
+          req.body
+        const newProduct = await Product.create({
+          name,
+          category,
+          image,
+          buying_price,
+          selling_price,
+          stock,
+        })
+
+        return res.status(201).json({
+          status: 201,
+          newProduct,
+          message: 'product created successfully',
+        })
+      }
+    }
+  },
+  update: async function (req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers
+
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (r.user.role === 1) {
+        const { id } = req.query
+        const { name, category, image, buying_price, selling_price, stock } =
+          req.body
+
+        await Product.findByIdAndUpdate(id, {
+          name,
+          category,
+          image,
+          buying_price,
+          selling_price,
+          stock,
+        })
+
+        return res.status(200).json({
+          status: 200,
+          message: 'product updated successfully',
+        })
+      }
+    }
   },
 }

@@ -32,7 +32,11 @@ export const AdminController = {
 
     if (user.role === 1) {
       if (isMatch) {
-        const token = await generateToken(user)
+        let rest = {
+          id: user._id,
+          role: user.role,
+        }
+        const token = await generateToken(rest)
         return res.status(200).json({
           status: 200,
           user: user,

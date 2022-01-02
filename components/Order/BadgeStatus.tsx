@@ -14,9 +14,13 @@ const BadgeStatus = ({ title, forAdmin }: props) => {
       {title === 'sedang dikirim' && (
         <Container title={forAdmin ? 'dalam pengiriman' : title} bg='green' />
       )}
-      {title === 'komplain' && (
-        <Container title={forAdmin ? 'pengajuan komplen' : title} bg='danger' />
-      )}
+      {title === 'komplain' ||
+        (title === 'komplain diproses' && (
+          <Container
+            title={forAdmin ? 'pengajuan komplen' : title}
+            bg='danger'
+          />
+        ))}
       {title === 'selesai' && (
         <Container title={forAdmin ? 'pesanan selesai' : title} bg='success' />
       )}

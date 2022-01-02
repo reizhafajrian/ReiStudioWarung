@@ -12,6 +12,8 @@ import {
   CTableDataCell,
 } from '@coreui/react'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Delete } from 'utils/axios'
 
 interface props {
   products: any
@@ -26,22 +28,29 @@ const TableProduct = ({
 }: props) => {
   const router = useRouter()
   const [visible, setVisible] = useState(false)
-  const [message, setMessage] = useState('')
   const [productId, SetProductId] = useState('')
+  const dispatch = useDispatch()
 
-  const handleDelete = async (id: string) => {
-    console.log(productId)
-
-    const req = await fetch(`/api/products?id=${id}`, {
-      method: 'DELETE',
+  const handleDelete = (id: string) => {
+    setVisible(!visible)
+    dispatch({
+      type: 'LOADING',
+      payload: true,
     })
 
-    const res = await req.json()
-
-    setVisible(!visible)
-    setMessage(res.message)
-
-    return router.push({ pathname: router.pathname, query: router.query })
+    Delete(`/admin/products?id=${id}`).then((res: any) => {
+      router.push('/admin/products')
+      dispatch({
+        type: 'LOADING',
+        payload: false,
+      })
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'success',
+        message: res.message,
+      })
+    })
   }
 
   const headers = [
@@ -57,7 +66,6 @@ const TableProduct = ({
   return (
     <>
       <div className='mt-4'>
-        {message && <h5>{message}</h5>}
         <CTable borderless hover responsive>
           <CTableHead className='h6'>
             <CTableRow>

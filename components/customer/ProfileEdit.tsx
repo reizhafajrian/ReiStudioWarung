@@ -1,16 +1,17 @@
-import { SyntheticEvent, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import InputField from '../InputField'
 import { CAvatar, CButton, CCard, CForm } from '@coreui/react'
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { getUser } from 'redux/actions/loggedActions'
+import { useDispatch } from 'react-redux'
+import { getUser } from '../../redux/actions/loggedActions'
+import { Post } from '../../utils/axios'
 
-const ProfileEdit = () => {
+const ProfileEdit = ({ user }: any) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const { user } = useSelector((state: RootStateOrAny) => state.user)
-  const id = user._id
+  // const { user } = useSelector((state: RootStateOrAny) => state.user)
+  // const id = user._id
   const [name, setName] = useState(user.name)
   const [username, setUsername] = useState(user.username)
   const [email, setEmail] = useState(user.email)
@@ -20,37 +21,47 @@ const ProfileEdit = () => {
   function getFirstWord(name: string) {
     return name?.charAt(0).toUpperCase()
   }
+  const check =
+    name.length > 0 &&
+    username.length > 0 &&
+    email.length > 0 &&
+    phone.length > 0 &&
+    address.length > 0
 
-  const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault()
-
-    const updateData = {
-      id,
-      name,
-      username,
-      email,
-      phone,
-      address,
+  const handlePost = () => {
+    if (check) {
+      dispatch({
+        type: 'LOADING',
+        payload: true,
+      })
+      Post(`/customer?id=${user._id}`, {
+        name,
+        username,
+        email,
+        phone,
+        address,
+      }).then((res) => {
+        dispatch(getUser())
+        router.push('/customer/profile')
+        dispatch({
+          type: 'LOADING',
+          payload: false,
+        })
+      })
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'success',
+        message: 'Berhasil menperbarui profile',
+      })
+    } else {
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'danger',
+        message: 'Harap Isi Semua Form',
+      })
     }
-
-    const config = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      Credential: 'include',
-      body: JSON.stringify(updateData),
-    }
-
-    const updateReq = await fetch('/api/customer/update', config)
-
-    const updateRes = await updateReq.json()
-
-    if (updateRes) {
-      dispatch(getUser())
-      return router.push('/customer/profile')
-    }
-    return console.log(updateRes.message)
   }
 
   return (
@@ -63,7 +74,7 @@ const ProfileEdit = () => {
               {getFirstWord(name)}
             </CAvatar>
           </div>
-          <CForm onSubmit={handleSubmit}>
+          <CForm>
             <div className='d-flex flex-wrap justify-content-between mb-4'>
               <div className='profile-form pe-md-3 me-md-4'>
                 <InputField
@@ -116,7 +127,14 @@ const ProfileEdit = () => {
               </div>
             </div>
             <div className='text-center'>
-              <CButton type='submit' className='w-25' size='lg'>
+              <CButton
+                onClick={(e) => {
+                  e.preventDefault()
+                  handlePost()
+                }}
+                className='w-25'
+                size='lg'
+              >
                 Simpan
               </CButton>
             </div>

@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { CButton, CContainer, CForm } from '@coreui/react'
+import { BaseSyntheticEvent, useState } from 'react'
+import { CButton, CContainer, CForm, CFormSelect } from '@coreui/react'
 import InputField from '../../InputField'
 import { Post } from 'utils/axios'
-import { useDispatch, useSelector } from 'react-redux'
-// import FlashMessage from 'react-flash-message'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
-const NewProduct = () => {
+const NewProduct = ({ categories }: any) => {
   const [nama, setNama] = useState('')
   const [beli, setBeli] = useState('')
   const [jual, setJual] = useState('')
@@ -14,14 +14,15 @@ const NewProduct = () => {
   const [kat, setKat] = useState('')
   const [tambahKat, setTambahKat] = useState('')
   const dispatch = useDispatch()
-  const state = useSelector((state) => state)
+  const router = useRouter()
+
   const check =
     nama.length > 0 &&
     beli.length > 0 &&
     jual.length > 0 &&
     stok.length > 0 &&
     foto.length > 0 &&
-    tambahKat.length > 0
+    (kat.length > 0 || tambahKat.length > 0)
 
   const handlePost = () => {
     if (check) {
@@ -29,24 +30,28 @@ const NewProduct = () => {
         type: 'LOADING',
         payload: true,
       })
-      Post('/products', {
+      Post('/admin/products', {
         name: nama,
-        category: tambahKat,
+        category: tambahKat ? tambahKat : kat,
         image: foto,
         buying_price: beli,
         selling_price: jual,
         stock: stok,
-      }).then((res) => {
+      }).then((res: any) => {
+        if (tambahKat) {
+          Post('/products/categories', { name: tambahKat })
+        }
         dispatch({
           type: 'LOADING',
           payload: false,
         })
-      })
-      dispatch({
-        type: 'SETALERT',
-        isVisible: true,
-        color: 'success',
-        message: 'Berhasil menambahkan barang',
+        dispatch({
+          type: 'SETALERT',
+          isVisible: true,
+          color: 'success',
+          message: res.message,
+        })
+        router.push('/admin/products')
       })
     } else {
       dispatch({
@@ -58,11 +63,12 @@ const NewProduct = () => {
     }
   }
 
+  const handleCategory = (e: BaseSyntheticEvent) => {
+    setKat(e.target.value)
+  }
+
   return (
     <CContainer className='my-5'>
-      {/* <FlashMessage duration={5000} persistOnHover={true}>
-        <p>Message</p>
-      </FlashMessage> */}
       <h4 className='fw-bold mb-4'>Tambah Product</h4>
       <CForm className='bg-white p-5' style={{ borderRadius: 20 }}>
         <div className='pb-3 d-flex justify-content-between flex-wrap'>
@@ -83,14 +89,17 @@ const NewProduct = () => {
               value={beli}
               id='beli'
             />
-            {/* <InputField
-              type="text"
-              label="Kategori"
-              placeholder="Kategori"
-              onChange={setKat}
-              value={kat}
-              id="kat"
-            /> */}
+            <div className='mb-3'>
+              <label className='h6 fw-bold mb-3'>Kategori</label>
+              <CFormSelect onChange={handleCategory}>
+                <option>pilih kategori</option>
+                {categories.map((c: any) => (
+                  <option value={c.name} key={c._id}>
+                    {c.name}
+                  </option>
+                ))}
+              </CFormSelect>
+            </div>
           </div>
           <div className='product-form'>
             <InputField

@@ -4,18 +4,78 @@ import cookie from 'js-cookie'
 import InputField from '../InputField'
 import Modal from '../Modal'
 import { CForm, CContainer, CCard, CButton, CRow, CCol } from '@coreui/react'
+import { useDispatch } from 'react-redux'
+import { Post } from 'utils/axios'
 
 const Settings = () => {
   const router = useRouter()
-  const [passwordLama, setPasswordLama] = useState('')
-  const [passwordBaru, setPasswordBaru] = useState('')
-  const [passwordKonf, setPasswordKonf] = useState('')
+  const dispatch = useDispatch()
+
+  const [password, setPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confPassword, setConfPassword] = useState('')
   const [visible, setVisible] = useState(false)
 
   const logout = () => {
+    dispatch({
+      type: 'LOADING',
+      payload: true,
+    })
     cookie.remove('cart')
     cookie.remove('token')
     router.push('/customer/login')
+    dispatch({
+      type: 'LOADING',
+      payload: false,
+    })
+  }
+
+  const check =
+    password.length > 0 && newPassword.length > 0 && confPassword.length > 0
+
+  const handlePost = () => {
+    if (check) {
+      dispatch({
+        type: 'LOADING',
+        payload: true,
+      })
+      Post(`/customer/changepass`, {
+        password,
+        newPassword,
+        confPassword,
+      }).then((res) => {
+        dispatch({
+          type: 'LOADING',
+          payload: false,
+        })
+
+        if (res.status === 200) {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'success',
+            message: 'Berhasil mengubah password',
+          })
+          setPassword('')
+          setNewPassword('')
+          setConfPassword('')
+        } else {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'danger',
+            message: 'Invalid password',
+          })
+        }
+      })
+    } else {
+      dispatch({
+        type: 'SETALERT',
+        isVisible: true,
+        color: 'danger',
+        message: 'Harap Isi Semua Form',
+      })
+    }
   }
 
   return (
@@ -68,8 +128,8 @@ const Settings = () => {
                       type='password'
                       label='Password Lama'
                       placeholder='Password Lama'
-                      onChange={setPasswordLama}
-                      value={passwordLama}
+                      onChange={setPassword}
+                      value={password}
                       id='oldPass'
                     />
                   </CCol>
@@ -81,8 +141,8 @@ const Settings = () => {
                       type='password'
                       label='Password Baru'
                       placeholder='Password Baru'
-                      onChange={setPasswordBaru}
-                      value={passwordBaru}
+                      onChange={setNewPassword}
+                      value={newPassword}
                       id='newPass'
                     />
                   </CCol>
@@ -92,14 +152,22 @@ const Settings = () => {
                       type='password'
                       label='Konfirmasi Password'
                       placeholder='Konfirmasi Password'
-                      onChange={setPasswordKonf}
-                      value={passwordKonf}
+                      onChange={setConfPassword}
+                      value={confPassword}
                       id='passkonf'
                     />
                   </CCol>
                 </CRow>
                 <div className='text-center mt-3 mb-2'>
-                  <CButton size='lg'>Simpan</CButton>
+                  <CButton
+                    size='lg'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handlePost()
+                    }}
+                  >
+                    Simpan
+                  </CButton>
                 </div>
               </CForm>
             </CCard>

@@ -1,18 +1,17 @@
 import AlertStatus from './AlertStatus'
 import { CCard, CCol, CContainer, CFormInput, CRow } from '@coreui/react'
 import OrderItem from './OrderItem'
+import { useState } from 'react'
 
-const OrderDetails = () => {
+const OrderDetails = ({ order, user }: any) => {
   return (
     <CContainer className='p-0 my-5'>
       <h3 className='fw-bold mb-5'>Detail Pesanan</h3>
       <CRow className='mx-3 mx-md-5'>
         <CCol xs={12} md={8} className='p-0 pe-md-5'>
-          <AlertStatus status='pengiriman' />
+          <AlertStatus status={order.status.title} />
           <CCard className='pt-4 px-5'>
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
+            <OrderItem items={order.cart} />
           </CCard>
         </CCol>
 
@@ -23,7 +22,7 @@ const OrderDetails = () => {
               <h5 className='fw-bold'>Alamat Pengiriman</h5>
               <CFormInput
                 className='bg-white border-0 border-bottom border-2 rounded-0 ps-2 py-0'
-                value='Jl. Singkong, No. 15, Dekat Lap...'
+                value={user.address}
                 disabled
               />
             </div>
@@ -31,16 +30,24 @@ const OrderDetails = () => {
               <h5 className='fw-bold'>Voucher Belanja</h5>
               <CFormInput
                 className='bg-white border-0 border-bottom border-2 rounded-0 ps-2 py-0'
-                value='ASIKGRATIS10K'
+                value={order.voucher && order.voucher.code}
                 disabled
               />
             </div>
             <div>
               <h5 className='fw-bold'>Total harga</h5>
-              <h5 className='text-gray m-0 text-decoration-line-through'>
-                Rp.27.000,-
+              {order.voucher && (
+                <h5 className='text-gray m-0 text-decoration-line-through'>
+                  Rp.
+                  {(order.total + order.voucher.amount).toLocaleString('id-ID')}
+                  ,-
+                </h5>
+              )}
+              <h5 className={order.voucher && 'text-success m-0 mt-2'}>
+                Rp.
+                {order.total.toLocaleString('id-ID')}
+                ,-
               </h5>
-              <h5 className='text-success m-0 mt-2'>Rp.17.000,-</h5>
             </div>
           </CCard>
         </CCol>
