@@ -7,7 +7,7 @@ import { Get } from 'utils/axios'
 const ReportPage = (props: any) => {
   console.log(props)
 
-  return <Report />
+  return <Report report={props} />
 }
 
 export default ReportPage

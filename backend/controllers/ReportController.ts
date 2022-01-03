@@ -27,90 +27,102 @@ const ReportController = {
           o.cart.map((c: any) => (barangTerjual += c.quantity))
         )
 
-        const pesanan = orders
-
         let barang: any = []
-
-        pesanan.map((p: any) => {
-          barang = barang.concat(p.cart)
+        let diskon = 0
+        orders.map((p: any) => {
+          diskon = 0
+          if (p.voucher.amount) {
+            diskon = p.voucher.amount / p.cart.length
+          }
+          const b = [...p.cart]
+          b.map((x) => (x.diskon = diskon))
+          barang = barang.concat(b)
         })
 
         let temp = barang.map((b1: any) => {
-          const namaBarang = b1.name
-          const hargaBeli = b1.buying_price
-          const hargaJual = b1.selling_price
-          const kategori = b1.category
-          const kuantitas = b1.quantity
           return {
             _id: b1._id,
-            namaBarang,
-            hargaBeli,
-            hargaJual,
-            kategori,
-            kuantitas,
+            namaBarang: b1.name,
+            hargaBeli: b1.buying_price,
+            hargaJual: b1.selling_price,
+            kategori: b1.category,
+            kuantitas: b1.quantity,
+            diskon: b1.diskon,
           }
         })
 
         let barangReport: any = []
 
+        // jumlah setiap barang terjual
         temp.map((b: any) => {
           let terjual = 0
-          let laba = 0
+          let diskon = 0
 
           temp.map((b2: any) => {
             if (b._id === b2._id) {
-              terjual += b.kuantitas
+              terjual += b2.kuantitas
+              diskon += b2.diskon
             }
           })
 
-          const data = {
-            terjual,
-            laba,
-          }
-
           const found = barangReport.find((br: any) => br._id === b._id)
 
-          console.log(found)
-
           if (!found) {
-            barangReport = [...barangReport, { ...b, ...data }]
+            const { kuantitas, ...rest } = b
+            barangReport = [...barangReport, { ...rest, terjual, diskon }]
           }
         })
 
+        // laba setiap barang terjual
+        let newBarangReport: any = []
+        barangReport.map((b: any) => {
+          const totalJual = b.hargaJual * b.terjual
+          const totalBeli = b.hargaBeli * b.terjual
+          const laba = totalJual - totalBeli - b.diskon
+
+          newBarangReport = [...newBarangReport, { ...b, laba }]
+        })
+
+        // total laba
+        let totalLaba = 0
+        newBarangReport.map((b: any) => {
+          totalLaba += b.laba
+        })
+
         //paginating
-        // page = page ? page.toString() : '1'
-        // limit = limit ? limit.toString() : '3'
+        page = page ? page.toString() : '1'
+        limit = limit ? limit.toString() : '6'
 
-        // const pageNum = parseInt(page)
-        // const limitNum = parseInt(limit)
-        // const skip = (pageNum - 1) * limitNum
+        const pageNum = parseInt(page)
+        const limitNum = parseInt(limit)
+        const skip = (pageNum - 1) * limitNum
 
-        // const handleLimit = (c: any) => {
-        //   return orders.filter((x, i) => {
-        //     if (i <= c - 1) {
-        //       return true
-        //     }
-        //   })
-        // }
+        const handleLimit = (c: any) => {
+          return newBarangReport.filter((x, i) => {
+            if (i <= c - 1) {
+              return true
+            }
+          })
+        }
 
-        // const handleSkip = (c: any) => {
-        //   return orders.filter((x, i) => {
-        //     if (i > c - 1) {
-        //       return true
-        //     }
-        //   })
-        // }
+        const handleSkip = (c: any) => {
+          return newBarangReport.filter((x, i) => {
+            if (i > c - 1) {
+              return true
+            }
+          })
+        }
 
-        // orders = handleSkip(skip)
-        // orders = handleLimit(limitNum)
+        newBarangReport = handleSkip(skip)
+        newBarangReport = handleLimit(limitNum)
 
         return res.status(200).json({
           status: 200,
           jumlahOrder,
           barangTerjual,
-          pesanan,
-          barang: barangReport,
-          result: orders.length,
+          totalLaba,
+          barangReport: newBarangReport,
+          result: newBarangReport.length,
         })
       }
     }

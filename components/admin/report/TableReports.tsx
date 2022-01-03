@@ -8,20 +8,8 @@ import {
   CTableDataCell,
 } from '@coreui/react'
 
-const TableReports = () => {
+const TableReports = ({ products }: any) => {
   const router = useRouter()
-  const products = [
-    {
-      id: '1234',
-      name: 'Beras Subang 2kg',
-      sold: 100,
-      buyingPrice: 'Rp. 35.000,-',
-      sellingPrice: 'Rp. 35.000,-',
-      category: 'Sembako',
-      diskon: 'Rp. 800.000,-',
-      laba: 'Rp. 200.000,-',
-    },
-  ]
 
   const headers = [
     'Nama Barang',
@@ -49,13 +37,13 @@ const TableReports = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody className='bg-white h6 align-middle'>
-          {products.map((product) => (
-            <CTableRow key={product.id}>
-              <CTableDataCell>{product.name}</CTableDataCell>
-              <CTableDataCell>{product.sold}</CTableDataCell>
-              <CTableDataCell>{product.buyingPrice}</CTableDataCell>
-              <CTableDataCell>{product.sellingPrice}</CTableDataCell>
-              <CTableDataCell>{product.category}</CTableDataCell>
+          {products.map((product: any) => (
+            <CTableRow key={product._id}>
+              <CTableDataCell>{product.namaBarang}</CTableDataCell>
+              <CTableDataCell>{product.terjual}</CTableDataCell>
+              <CTableDataCell>{product.hargaBeli}</CTableDataCell>
+              <CTableDataCell>{product.hargaJual}</CTableDataCell>
+              <CTableDataCell>{product.kategori}</CTableDataCell>
               <CTableDataCell>{product.diskon}</CTableDataCell>
               <CTableDataCell>{product.laba}</CTableDataCell>
             </CTableRow>
