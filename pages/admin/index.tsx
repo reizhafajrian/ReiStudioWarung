@@ -4,10 +4,17 @@ import Dashboard from '@components/admin/Dashboard'
 import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
-const DashboardPage = ({ products, orders, vouchers }: any) => {
+const DashboardPage = ({ reports, products, orders, vouchers }: any) => {
+  console.log(reports)
+
   return (
     <>
-      <Dashboard products={products} orders={orders} vouchers={vouchers} />
+      <Dashboard
+        reports={reports}
+        products={products}
+        orders={orders}
+        vouchers={vouchers}
+      />
     </>
   )
 }
@@ -25,12 +32,14 @@ export const getServerSideProps = async ({ req, res, query }: any) => {
   const orderReq: any = await Get('/admin/orders?limit=5&status=all', token)
   const productReq: any = await Get('/products?category=all&search=all', token)
   const voucherReq: any = await Get('/admin/vouchers', token)
+  const reportReq: any = await Get(`/admin/reports`, token)
 
   return {
     props: {
       products: productReq.products,
       orders: orderReq.orders,
       vouchers: voucherReq.vouchers,
+      reports: reportReq,
     },
   }
 }

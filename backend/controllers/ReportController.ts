@@ -27,6 +27,25 @@ const ReportController = {
           o.cart.map((c: any) => (barangTerjual += c.quantity))
         )
 
+        const timeElapsed = Date.now()
+        const today = new Date(timeElapsed)
+        const currentMonth = today.getMonth() + 1
+
+        // Jumlah order hari ini dan bulan ini
+        let todayOrders = 0
+        let currentMonthOrders = 0
+
+        orders.map((o: any) => {
+          const orderDate = new Date(o.created_at)
+          const orderMonth = orderDate.getMonth() + 1
+          if (orderDate.toString() === today.toString()) {
+            todayOrders++
+          }
+          if (orderMonth === currentMonth) {
+            currentMonthOrders++
+          }
+        })
+
         let barang: any = []
         let diskon = 0
         orders.map((p: any) => {
@@ -118,6 +137,9 @@ const ReportController = {
 
         return res.status(200).json({
           status: 200,
+          orders,
+          todayOrders,
+          currentMonthOrders,
           jumlahOrder,
           barangTerjual,
           totalLaba,

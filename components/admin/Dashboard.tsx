@@ -4,7 +4,7 @@ import TableOrders from './order/TableOrders'
 import TableProducts from './product/TableProducts'
 import ReportCard from './report/ReportCard'
 
-const Dashboard = ({ products, orders, vouchers }: any) => {
+const Dashboard = ({ reports, products, orders, vouchers }: any) => {
   return (
     <CContainer className='dashboard'>
       {/* LAPORAN PESANAN */}
@@ -18,9 +18,12 @@ const Dashboard = ({ products, orders, vouchers }: any) => {
           </Link>
         </div>
         <div className='d-flex flex-wrap justify-content-center justify-content-md-start'>
-          <ReportCard title='Order (hari ini)' value={25} />
-          <ReportCard title='Order (bulan ini)' value={750} />
-          <ReportCard title='Barang Terjual' value={1000} />
+          <ReportCard title='Order (hari ini)' value={reports.todayOrders} />
+          <ReportCard
+            title='Order (bulan ini)'
+            value={reports.currentMonthOrders}
+          />
+          <ReportCard title='Barang Terjual' value={reports.barangTerjual} />
         </div>
       </div>
       {/* KELOLA VOUCHER */}
