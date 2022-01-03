@@ -41,6 +41,7 @@ const ProductItem = ({ product }: any) => {
         width={200}
         height={200}
         objectFit='contain'
+        unoptimized
       />
       <CCardBody>
         <p className='fw-bold mb-2'>{product.name}</p>

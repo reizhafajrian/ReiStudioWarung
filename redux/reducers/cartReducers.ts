@@ -23,7 +23,7 @@ const storage = cookie.get('cart') ? JSON.parse(cookie.get('cart')!) : []
 const initialState = {
   cartItems: storage,
   ...sumItems(storage),
-  checkout: false,
+  // checkout: false,
 }
 
 export const cartReducer = (state = initialState, action: any) => {
@@ -78,7 +78,6 @@ export const cartReducer = (state = initialState, action: any) => {
         cartItems: [...state.cartItems],
       }
     case types.DELETE_ALL_ITEM:
-      
       return {
         ...state,
         ...sumItems([]),

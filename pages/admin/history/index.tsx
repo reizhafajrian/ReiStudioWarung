@@ -5,8 +5,6 @@ import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
 const AllOrdersPage = (props: any) => {
-  console.log(props)
-
   return <AllOrders orders={props.orders} result={props.result} />
 }
 

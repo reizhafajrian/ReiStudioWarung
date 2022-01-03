@@ -43,10 +43,13 @@ export const AdminController = {
           token: token,
         })
       } else {
-        res.status(400).json({
-          status: 400,
-          message: 'Invalid email or password',
-        })
+        res
+          .status(400)
+          .json({
+            status: 400,
+            message: 'Invalid email or password',
+          })
+          .send({ error: 'Invalid email or password' })
       }
     } else {
       res.status(200).json({

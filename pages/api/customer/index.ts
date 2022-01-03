@@ -6,5 +6,5 @@ import connectDB from '@backend/app'
 export default connectDB(
   nc({ onError, onNoMatch })
     .get(CustomerController.getProfile)
-    .post(CustomerController.updateProfile)
+    .put(CustomerController.updateProfile)
 )

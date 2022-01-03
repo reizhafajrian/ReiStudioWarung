@@ -4,7 +4,7 @@ import InputField from '../InputField'
 import { CAvatar, CButton, CCard, CForm } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { getUser } from '../../redux/actions/loggedActions'
-import { Post } from '../../utils/axios'
+import { Put } from '../../utils/axios'
 
 const ProfileEdit = ({ user }: any) => {
   const router = useRouter()
@@ -34,7 +34,7 @@ const ProfileEdit = ({ user }: any) => {
         type: 'LOADING',
         payload: true,
       })
-      Post(`/customer?id=${user._id}`, {
+      Put(`/customer?id=${user._id}`, {
         name,
         username,
         email,

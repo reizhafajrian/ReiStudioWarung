@@ -21,11 +21,11 @@ const OrderDetails = () => {
   const { cart, user } = useSelector((state: RootStateOrAny) => state)
   const [total, setTotal] = React.useState(cart.total)
   const [voucher, setVoucher] = React.useState({})
+  const [code, setCode] = React.useState('')
   const [isDiscount, setIsDiscount] = React.useState(false)
 
-  console.log(isDiscount)
-
   const handleVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCode(e.target.value)
     Get(`/vouchers?code=${e.target.value}`, token).then((res: any) => {
       if (res.voucher.length > 0) {
         setTotal(cart.total - res.voucher[0].amount)
@@ -108,6 +108,7 @@ const OrderDetails = () => {
             className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
             onChange={(e) => handleVoucher(e)}
           />
+          {!isDiscount && code && <p className='text-danger'>invalid code</p>}
         </div>
         <div className='mb-3'>
           <h5 className='fw-bold'>Total harga</h5>

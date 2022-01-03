@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import {
   CTable,
   CTableBody,
@@ -9,8 +8,6 @@ import {
 } from '@coreui/react'
 
 const TableReports = ({ products, result }: any) => {
-  const router = useRouter()
-
   const headers = [
     'Nama Barang',
     'Terjual',
@@ -43,11 +40,27 @@ const TableReports = ({ products, result }: any) => {
               <CTableRow key={product._id}>
                 <CTableDataCell>{product.namaBarang}</CTableDataCell>
                 <CTableDataCell>{product.terjual}</CTableDataCell>
-                <CTableDataCell>{product.hargaBeli}</CTableDataCell>
-                <CTableDataCell>{product.hargaJual}</CTableDataCell>
+                <CTableDataCell>
+                  Rp.
+                  {product.hargaBeli.toLocaleString('id-ID')}
+                  ,-
+                </CTableDataCell>
+                <CTableDataCell>
+                  Rp.
+                  {product.hargaJual.toLocaleString('id-ID')}
+                  ,-
+                </CTableDataCell>
                 <CTableDataCell>{product.kategori}</CTableDataCell>
-                <CTableDataCell>{product.diskon}</CTableDataCell>
-                <CTableDataCell>{product.laba}</CTableDataCell>
+                <CTableDataCell>
+                  Rp.
+                  {product.diskon.toLocaleString('id-ID')}
+                  ,-
+                </CTableDataCell>
+                <CTableDataCell>
+                  Rp.
+                  {product.laba.toLocaleString('id-ID')}
+                  ,-
+                </CTableDataCell>
               </CTableRow>
             ))}
         </CTableBody>

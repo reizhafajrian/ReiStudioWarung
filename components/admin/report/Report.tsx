@@ -34,7 +34,10 @@ const Report = ({ report, result }: any) => {
         <div className='d-flex flex-wrap justify-content-center justify-content-md-start'>
           <ReportCard title='Barang Terjual' value={report.barangTerjual} />
           <ReportCard title='Jumlah Order' value={report.jumlahOrder} />
-          <ReportCard title='Laba' value={`Rp. ${report.totalLaba},-`} />
+          <ReportCard
+            title='Laba'
+            value={`Rp.${report.totalLaba.toLocaleString('id-ID')},-`}
+          />
         </div>
       </div>
       <div className='my-5'>

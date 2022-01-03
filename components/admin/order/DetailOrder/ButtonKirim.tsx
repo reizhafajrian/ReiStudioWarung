@@ -1,11 +1,9 @@
 import { CButton } from '@coreui/react'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Post } from 'utils/axios'
+import { Put } from 'utils/axios'
 
 const ButtonKirim = ({ status }: any) => {
-  const [prosesKomplen, setProsesKomplen] = useState(false)
   const router = useRouter()
   const { query } = useRouter()
   const dispatch = useDispatch()
@@ -20,7 +18,7 @@ const ButtonKirim = ({ status }: any) => {
       title: 'sedang dikirim',
       content: '',
     }
-    Post(`/orders?id=${query.oid}`, { status: status }).then((res) => {
+    Put(`/orders?id=${query.oid}`, { status: status }).then((res) => {
       dispatch({
         type: 'LOADING',
         payload: false,
@@ -45,7 +43,7 @@ const ButtonKirim = ({ status }: any) => {
       title: 'komplain diproses',
       content: status.content,
     }
-    Post(`/orders?id=${query.oid}`, { status: komplainData }).then((res) => {
+    Put(`/orders?id=${query.oid}`, { status: komplainData }).then((res) => {
       dispatch({
         type: 'LOADING',
         payload: false,

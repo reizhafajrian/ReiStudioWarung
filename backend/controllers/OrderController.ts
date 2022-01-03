@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { verifyToken } from '@backend/middlewares/jwt'
 import Customer from '@backend/models/Customer'
+import Product from '@backend/models/Product'
 
 const OrderController = {
   create: async function (req: Request, res: Response, next: NextFunction) {
@@ -34,6 +35,14 @@ const OrderController = {
 
         dataCustomer.order = example
         await dataCustomer.save()
+
+        data.cart.map(async (p: any) => {
+          const product = await Product.findById(p._id)
+          await Product.findByIdAndUpdate(p._id, {
+            stock: product.stock - p.quantity,
+            sold: product.sold + p.quantity,
+          })
+        })
 
         return res.status(201).json({
           status: 201,

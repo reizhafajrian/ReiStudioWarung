@@ -80,13 +80,10 @@ export const Post = async (url: any, params: any) => {
   try {
     const head = await header()
 
-    console.log(head)
-
     const post = await _axios.post(url, JSON.stringify(params), head)
 
     return post
   } catch (error: any) {
-    console.log(error)
     return errors(error.message)
   }
 }

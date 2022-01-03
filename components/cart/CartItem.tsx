@@ -45,6 +45,7 @@ const CartItem = ({ product }: any) => {
             alt={product.name}
             width={80}
             height={80}
+            unoptimized
           />
         </div>
         <div className='ms-4'>

@@ -33,13 +33,24 @@ const Login = ({ forAdmin = false }: props) => {
         emailOrUsername,
         password,
       }).then((res: any) => {
-        Cookie.set('token', res.token)
-        dispatch(getUser())
-        forAdmin ? router.push('/admin') : router.push('/customer')
         dispatch({
           type: 'LOADING',
           payload: false,
         })
+        console.log(res)
+
+        if (res.status === 200) {
+          Cookie.set('token', res.token)
+          dispatch(getUser())
+          forAdmin ? router.push('/admin') : router.push('/customer')
+        } else {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'danger',
+            message: res.error,
+          })
+        }
       })
     } else {
       dispatch({
@@ -57,10 +68,14 @@ const Login = ({ forAdmin = false }: props) => {
       <Header forAdmin={forAdmin} pageTitle='Login' />
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center mx-5 mx-md-0'>
-          <h2 className='fw-bold lh-lg mb-0'>Masuk</h2>
-          <h4 className='fw-normal lh-md-lg mb-4 mb-md-5'>
-            Masuk ke dalam akun anda untuk dapat memesan di website ini
-          </h4>
+          <h2 className='fw-bold lh-lg mb-0'>
+            Masuk{forAdmin && ' Sebagai Admin'}
+          </h2>
+          {!forAdmin && (
+            <h4 className='fw-normal lh-md-lg mb-4 mb-md-5'>
+              Masuk ke dalam akun anda untuk dapat memesan di website ini
+            </h4>
+          )}
         </div>
         <CCard className='p-4'>
           <CForm className='pt-3 px-3'>

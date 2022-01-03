@@ -54,16 +54,24 @@ const Register = ({ forAdmin = false }: props) => {
             type: 'LOADING',
             payload: false,
           })
-
-          dispatch({
-            type: 'SETALERT',
-            isVisible: true,
-            color: 'success',
-            message: 'Berhasil Mendaftarkan akun',
-          })
-          forAdmin
-            ? router.push('/admin/login')
-            : router.push('/customer/login')
+          if (res.status === 200) {
+            dispatch({
+              type: 'SETALERT',
+              isVisible: true,
+              color: 'success',
+              message: 'Berhasil Mendaftarkan akun',
+            })
+            forAdmin
+              ? router.push('/admin/login')
+              : router.push('/customer/login')
+          } else {
+            dispatch({
+              type: 'SETALERT',
+              isVisible: true,
+              color: 'danger',
+              message: res.error,
+            })
+          }
         }
       )
     } else {
@@ -82,10 +90,14 @@ const Register = ({ forAdmin = false }: props) => {
       <Header forAdmin={forAdmin} pageTitle='Register' />
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center'>
-          <h2 className='fw-bold lh-lg mb-0'>Registrasi akun anda!</h2>
-          <h4 className='fw-normal lh-md-lg mb-3'>
-            Registrasi sekarang untuk dapat memesan di website ini
-          </h4>
+          <h2 className='fw-bold lh-lg mb-0'>
+            Registrasi akun {forAdmin ? 'admin' : 'anda!'}
+          </h2>
+          {!forAdmin && (
+            <h4 className='fw-normal lh-md-lg mb-3'>
+              Registrasi sekarang untuk dapat memesan di website ini
+            </h4>
+          )}
         </div>
         <CCard className='px-4 py-4 mx-3 mb-3 mx-md-0'>
           <CForm className='px-3 pt-3'>

@@ -90,11 +90,23 @@ const TableProduct = ({
                   <CTableRow key={product._id}>
                     <CTableDataCell>{product.name}</CTableDataCell>
                     <CTableDataCell>{product.stock}</CTableDataCell>
-                    <CTableDataCell>{product.buying_price}</CTableDataCell>
-                    <CTableDataCell>{product.selling_price}</CTableDataCell>
+                    <CTableDataCell>
+                      Rp.
+                      {product.buying_price.toLocaleString('id-ID')}
+                      ,-
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      Rp.
+                      {product.selling_price.toLocaleString('id-ID')}
+                      ,-
+                    </CTableDataCell>
                     <CTableDataCell>{product.category}</CTableDataCell>
                     <CTableDataCell>
-                      {new Date(product.updatedAt).toLocaleDateString()}
+                      {new Date(product.updatedAt).toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })}
                     </CTableDataCell>
                     <CTableDataCell className='d-flex'>
                       <CButton
@@ -118,11 +130,26 @@ const TableProduct = ({
                     <CTableRow key={product._id}>
                       <CTableDataCell>{product.name}</CTableDataCell>
                       <CTableDataCell>{product.stock}</CTableDataCell>
-                      <CTableDataCell>{product.buying_price}</CTableDataCell>
-                      <CTableDataCell>{product.selling_price}</CTableDataCell>
+                      <CTableDataCell>
+                        Rp.
+                        {product.buying_price.toLocaleString('id-ID')}
+                        ,-
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        Rp.
+                        {product.selling_price.toLocaleString('id-ID')}
+                        ,-
+                      </CTableDataCell>
                       <CTableDataCell>{product.category}</CTableDataCell>
                       <CTableDataCell>
-                        {new Date(product.updatedAt).toLocaleDateString()}
+                        {new Date(product.updatedAt).toLocaleDateString(
+                          'id-ID',
+                          {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                          }
+                        )}
                       </CTableDataCell>
                       <CTableDataCell className='d-flex'>
                         <CButton

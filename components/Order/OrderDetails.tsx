@@ -1,7 +1,6 @@
 import AlertStatus from './AlertStatus'
 import { CCard, CCol, CContainer, CFormInput, CRow } from '@coreui/react'
 import OrderItem from './OrderItem'
-import { useState } from 'react'
 
 const OrderDetails = ({ order, user }: any) => {
   return (
@@ -30,20 +29,20 @@ const OrderDetails = ({ order, user }: any) => {
               <h5 className='fw-bold'>Voucher Belanja</h5>
               <CFormInput
                 className='bg-white border-0 border-bottom border-2 rounded-0 ps-2 py-0'
-                value={order.voucher && order.voucher.code}
+                value={order.voucher.code ? order.voucher.code : '-'}
                 disabled
               />
             </div>
             <div>
               <h5 className='fw-bold'>Total harga</h5>
-              {order.voucher && (
+              {order.voucher.code && (
                 <h5 className='text-gray m-0 text-decoration-line-through'>
                   Rp.
                   {(order.total + order.voucher.amount).toLocaleString('id-ID')}
                   ,-
                 </h5>
               )}
-              <h5 className={order.voucher && 'text-success m-0 mt-2'}>
+              <h5 className={order.voucher.code && 'text-success m-0 mt-2'}>
                 Rp.
                 {order.total.toLocaleString('id-ID')}
                 ,-

@@ -5,7 +5,7 @@ import InputField from '../InputField'
 import Modal from '../Modal'
 import { CForm, CContainer, CCard, CButton, CRow, CCol } from '@coreui/react'
 import { useDispatch } from 'react-redux'
-import { Post } from 'utils/axios'
+import { Put } from 'utils/axios'
 
 const Settings = () => {
   const router = useRouter()
@@ -39,7 +39,7 @@ const Settings = () => {
         type: 'LOADING',
         payload: true,
       })
-      Post(`/customer/changepass`, {
+      Put(`/customer/changepass`, {
         password,
         newPassword,
         confPassword,

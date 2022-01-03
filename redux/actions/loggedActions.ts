@@ -1,11 +1,10 @@
+import cookie from 'js-cookie'
+import { Get } from 'utils/axios'
 import * as types from '../types'
 
 export const getUser = () => async (dispatch: any) => {
-  const userReq = await fetch('http://localhost:3000/api/auth')
-
-  const userRes = await userReq.json()
-
-  console.log(userRes)
+  const token = cookie.get('token')
+  const userRes: any = await Get('http://localhost:3000/api/auth', token)
 
   if (userRes.user) {
     dispatch({

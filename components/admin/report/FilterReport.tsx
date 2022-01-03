@@ -1,6 +1,6 @@
 import { CFormInput } from '@coreui/react'
 import { useRouter } from 'next/router'
-import { BaseSyntheticEvent, useState } from 'react'
+import { BaseSyntheticEvent } from 'react'
 import { BiMinus } from 'react-icons/bi'
 import filterSearch from 'utils/filterSearch'
 

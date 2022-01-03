@@ -18,14 +18,21 @@ const OrderItem = ({ items }: any) => {
             </div>
             <div className='ms-4'>
               <h4 className='fw-bold mb-3'>{item.name}</h4>
-              <h5>Rp.{item.selling_price},-</h5>
+              <h5>
+                Rp.
+                {item.selling_price.toLocaleString('id-ID')}
+                ,-
+              </h5>
             </div>
           </CCol>
           <CCol xs={6} md={3} className='p-0 d-flex align-items-center'>
             <h5 className='m-0 mx-auto'>{item.quantity}</h5>
           </CCol>
           <CCol xs={6} md={3} className='p-0 text-end my-auto'>
-            <h5 className='mb-0'>Rp.{item.selling_price * item.quantity},-</h5>
+            <h5 className='mb-0'>
+              Rp.{(item.selling_price * item.quantity).toLocaleString('id-ID')}
+              ,-
+            </h5>
           </CCol>
         </CRow>
       ))}

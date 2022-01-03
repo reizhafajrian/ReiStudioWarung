@@ -66,9 +66,15 @@ const TableVouchers = ({ vouchers }: any) => {
             {vouchers.map((v: any) => (
               <CTableRow key={v._id}>
                 <CTableDataCell>{v.code}</CTableDataCell>
-                <CTableDataCell>{v.amount}</CTableDataCell>
                 <CTableDataCell>
-                  {new Date(v.updatedAt).toLocaleDateString()}
+                  Rp.{v.amount.toLocaleString('id-ID')},-
+                </CTableDataCell>
+                <CTableDataCell>
+                  {new Date(v.updatedAt).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })}
                 </CTableDataCell>
                 <CTableDataCell className='d-flex'>
                   <CButton

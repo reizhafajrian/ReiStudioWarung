@@ -12,7 +12,9 @@ const DetailCustomer = ({ user, order }: any) => {
         <CCol>
           <h5 className='lh-lg'>{user.address}</h5>
           <h5 className='lh-lg'>
-            <b>Total harga</b>: Rp{order.total},-
+            <b>Total harga</b>: Rp.
+            {order.total.toLocaleString('id-ID')}
+            ,-
           </h5>
         </CCol>
         <CCol className='text-end'>

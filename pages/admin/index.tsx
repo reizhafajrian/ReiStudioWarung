@@ -5,8 +5,6 @@ import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
 const DashboardPage = ({ reports, products, orders, vouchers }: any) => {
-  console.log(reports)
-
   return (
     <>
       <Dashboard

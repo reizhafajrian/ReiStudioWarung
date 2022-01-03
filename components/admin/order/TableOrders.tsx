@@ -53,7 +53,11 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                 >
                   <CTableDataCell>{o.name}</CTableDataCell>
                   <CTableDataCell>{o.address}</CTableDataCell>
-                  <CTableDataCell>{o.order_detail.total}</CTableDataCell>
+                  <CTableDataCell>
+                    Rp.
+                    {o.order_detail.total.toLocaleString('id-ID')}
+                    ,-
+                  </CTableDataCell>
                   <CTableDataCell>
                     <div className='d-flex'>
                       <BadgePayment title={o.order_detail.payment} />
@@ -78,7 +82,11 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                   >
                     <CTableDataCell>{o.name}</CTableDataCell>
                     <CTableDataCell>{o.address}</CTableDataCell>
-                    <CTableDataCell>{o.order_detail.total}</CTableDataCell>
+                    <CTableDataCell>
+                      Rp.
+                      {o.order_detail.total.toLocaleString('id-ID')}
+                      ,-
+                    </CTableDataCell>
                     <CTableDataCell>
                       <div className='d-flex'>
                         <BadgePayment title={o.order_detail.payment} />
