@@ -5,9 +5,7 @@ import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
 const ReportPage = (props: any) => {
-  console.log(props)
-
-  return <Report report={props} />
+  return <Report report={props} result={props.result} />
 }
 
 export default ReportPage
@@ -19,14 +17,13 @@ ReportPage.getLayout = function getLayout(content: ReactElement) {
 export const getServerSideProps = async ({ req, res, query }: any) => {
   const token = getCookie('token', { req, res })
   const page: any = query.page || 1
-  const status = query.status || 'all'
+  const s = query.s || 'all'
+  const e = query.e || 'all'
 
-  // const data: any = await Get(
-  //   `/admin/orders?limit=${page * 6}&status=${status}`,
-  //   token
-  // )
-
-  const data: any = await Get(`/admin/reports`, token)
+  const data: any = await Get(
+    `/admin/reports?s=${s}&e=${e}&limit=${page * 6}`,
+    token
+  )
 
   return {
     props: data,

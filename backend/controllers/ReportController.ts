@@ -5,7 +5,7 @@ import Customer from '@backend/models/Customer'
 const ReportController = {
   getReport: async function (req: Request, res: Response, next: NextFunction) {
     const { authorization } = req.headers
-    let { page, limit } = req.query
+    let { page, limit, s, e } = req.query
 
     if (authorization) {
       const token = authorization.split(' ')[1]
@@ -18,9 +18,12 @@ const ReportController = {
         let orders: any = []
 
         customer.map((c: any) =>
-          c.order.map((o: any) => (orders = [...orders, o]))
+          c.order.map((o: any) => {
+            o.created_at = new Date(o.created_at).valueOf()
+            orders = [...orders, o]
+          })
         )
-        const jumlahOrder = orders.length
+        let jumlahOrder = orders.length
         let barangTerjual = 0
 
         orders.map((o: any) =>
@@ -54,7 +57,10 @@ const ReportController = {
             diskon = p.voucher.amount / p.cart.length
           }
           const b = [...p.cart]
-          b.map((x) => (x.diskon = diskon))
+          b.map((x) => {
+            x.diskon = diskon
+            x.created_at = p.created_at
+          })
           barang = barang.concat(b)
         })
 
@@ -67,6 +73,7 @@ const ReportController = {
             kategori: b1.category,
             kuantitas: b1.quantity,
             diskon: b1.diskon,
+            created_at: new Date(b1.created_at).valueOf(),
           }
         })
 
@@ -108,6 +115,80 @@ const ReportController = {
           totalLaba += b.laba
         })
 
+        // filter by date
+        let reportFiltered: any = []
+        if (s !== 'all') {
+          barangTerjual = 0
+          jumlahOrder = 0
+          totalLaba = 0
+          reportFiltered = []
+          newBarangReport.map((b: any) => {
+            if (b.created_at >= s) {
+              reportFiltered.push(b)
+              totalLaba += b.laba
+            }
+          })
+          newBarangReport = reportFiltered
+          orders.map((o: any) => {
+            if (o.created_at >= s) {
+              jumlahOrder++
+            }
+          })
+          temp.map((b: any) => {
+            if (b.created_at >= s) {
+              barangTerjual += b.kuantitas
+            }
+          })
+        }
+
+        if (e !== 'all') {
+          barangTerjual = 0
+          jumlahOrder = 0
+          totalLaba = 0
+          reportFiltered = []
+          newBarangReport.map((b: any) => {
+            if (b.created_at <= e) {
+              reportFiltered.push(b)
+              totalLaba += b.laba
+            }
+          })
+          newBarangReport = reportFiltered
+          orders.map((o: any) => {
+            if (o.created_at <= e) {
+              jumlahOrder++
+            }
+          })
+          temp.map((b: any) => {
+            if (b.created_at <= e) {
+              barangTerjual += b.kuantitas
+            }
+          })
+        }
+
+        if (s !== 'all' && e !== 'all') {
+          barangTerjual = 0
+          jumlahOrder = 0
+          totalLaba = 0
+          reportFiltered = []
+          newBarangReport.map((b: any) => {
+            if (b.created_at >= s && b.created_at <= e) {
+              reportFiltered.push(b)
+              totalLaba += b.laba
+            }
+          })
+          newBarangReport = reportFiltered
+          orders.map((o: any) => {
+            if (o.created_at >= s && o.created_at <= e) {
+              jumlahOrder++
+            }
+          })
+          temp.map((b: any) => {
+            if (b.created_at >= s && b.created_at <= e) {
+              barangTerjual += b.kuantitas
+            }
+          })
+        }
+
         //paginating
         page = page ? page.toString() : '1'
         limit = limit ? limit.toString() : '6'
@@ -137,7 +218,6 @@ const ReportController = {
 
         return res.status(200).json({
           status: 200,
-          orders,
           todayOrders,
           currentMonthOrders,
           jumlahOrder,

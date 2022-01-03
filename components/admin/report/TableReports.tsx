@@ -8,7 +8,7 @@ import {
   CTableDataCell,
 } from '@coreui/react'
 
-const TableReports = ({ products }: any) => {
+const TableReports = ({ products, result }: any) => {
   const router = useRouter()
 
   const headers = [
@@ -37,17 +37,19 @@ const TableReports = ({ products }: any) => {
           </CTableRow>
         </CTableHead>
         <CTableBody className='bg-white h6 align-middle'>
-          {products.map((product: any) => (
-            <CTableRow key={product._id}>
-              <CTableDataCell>{product.namaBarang}</CTableDataCell>
-              <CTableDataCell>{product.terjual}</CTableDataCell>
-              <CTableDataCell>{product.hargaBeli}</CTableDataCell>
-              <CTableDataCell>{product.hargaJual}</CTableDataCell>
-              <CTableDataCell>{product.kategori}</CTableDataCell>
-              <CTableDataCell>{product.diskon}</CTableDataCell>
-              <CTableDataCell>{product.laba}</CTableDataCell>
-            </CTableRow>
-          ))}
+          {products
+            .slice(result == 6 ? 0 : result - 6, products.length)
+            .map((product: any) => (
+              <CTableRow key={product._id}>
+                <CTableDataCell>{product.namaBarang}</CTableDataCell>
+                <CTableDataCell>{product.terjual}</CTableDataCell>
+                <CTableDataCell>{product.hargaBeli}</CTableDataCell>
+                <CTableDataCell>{product.hargaJual}</CTableDataCell>
+                <CTableDataCell>{product.kategori}</CTableDataCell>
+                <CTableDataCell>{product.diskon}</CTableDataCell>
+                <CTableDataCell>{product.laba}</CTableDataCell>
+              </CTableRow>
+            ))}
         </CTableBody>
       </CTable>
     </div>

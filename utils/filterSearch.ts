@@ -5,6 +5,8 @@ interface props {
   sort?: string
   search?: string
   status?: string
+  s?: string
+  e?: string
 }
 
 const filterSearch = ({
@@ -14,16 +16,24 @@ const filterSearch = ({
   sort,
   search,
   status,
+  s,
+  e,
 }: props) => {
   const path =
     router.pathname === '/customer' ? '/customer/products' : router.pathname
   const query = router.query
 
+  // filter report admin by date start - end
+  if (s) query.s = s
+  if (e) query.e = e
+
+  // filter orders admin by status
   if (status) {
     query.status = status
     delete query.page
   }
 
+  // filter products
   if (category) {
     query.category = category
     delete query.page
