@@ -1,10 +1,19 @@
-import type { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import Layout from '@components/layout/Layout'
 import Dashboard from '@components/admin/Dashboard'
 import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
+import { useRouter } from 'next/router'
 
 const DashboardPage = ({ reports, products, orders, vouchers }: any) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!getCookie('token')) {
+      router.push('/admin/login')
+    }
+  }, [router])
+
   return (
     <>
       <Dashboard
@@ -24,7 +33,7 @@ DashboardPage.getLayout = function getLayout(content: ReactElement) {
 }
 
 // fetching data
-export const getServerSideProps = async ({ req, res, query }: any) => {
+export const getServerSideProps = async ({ req, res }: any) => {
   const token = getCookie('token', { req, res })
 
   const orderReq: any = await Get('/admin/orders?limit=5&status=all', token)
@@ -34,10 +43,10 @@ export const getServerSideProps = async ({ req, res, query }: any) => {
 
   return {
     props: {
-      products: productReq.products,
-      orders: orderReq.orders,
-      vouchers: voucherReq.vouchers,
-      reports: reportReq,
+      products: productReq.products || null,
+      orders: orderReq.orders || null,
+      vouchers: voucherReq.vouchers || null,
+      reports: reportReq || null,
     },
   }
 }

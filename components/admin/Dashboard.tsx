@@ -31,7 +31,7 @@ const Dashboard = ({ reports, products, orders, vouchers }: any) => {
         <h5 className='fw-bold mb-3'>Kelola Voucher</h5>
         <div className='title bg-white p-4' style={{ borderRadius: 20 }}>
           <h6 className='fw-normal mb-2 m-md-0'>
-            Ada {vouchers.length} voucher yang sudah kamu tambahkan
+            Ada {vouchers?.length || 0} voucher yang sudah kamu tambahkan
           </h6>
           <Link href='/admin/vouchers'>
             <a>

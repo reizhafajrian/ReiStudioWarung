@@ -43,7 +43,7 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
             </CTableRow>
           )}
           {forDashboard
-            ? orders.slice(0, 5).map((o: any) => (
+            ? orders?.slice(0, 5).map((o: any) => (
                 <CTableRow
                   style={{ cursor: 'pointer' }}
                   key={o.order_detail.order_id}

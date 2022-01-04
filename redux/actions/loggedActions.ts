@@ -11,7 +11,6 @@ export const getUser = () => async (dispatch: any) => {
       type: types.GET_USER,
       payload: userRes,
     })
-
     if (userRes.user.role == 0) {
       dispatch({
         type: types.ADD_TO_CART_ALL,
