@@ -54,6 +54,8 @@ const Register = ({ forAdmin = false }: props) => {
             type: 'LOADING',
             payload: false,
           })
+          console.log(res)
+
           if (res.status === 201) {
             dispatch({
               type: 'SETALERT',

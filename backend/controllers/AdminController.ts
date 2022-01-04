@@ -97,6 +97,8 @@ export const AdminController = {
     //   })
     // }
     const passwordhash = await encrypt(password)
+    console.log(passwordhash)
+
     const createUser = await Admin.create({
       name,
       username,
@@ -107,7 +109,11 @@ export const AdminController = {
       role: 1,
       //   privacy_policy: valid,
     })
+    console.log(createUser)
+
     const user = await Admin.findOne(createUser, { password: 0, __v: 0 })
+    console.log(user)
+
     res.status(201).send({
       status: 201,
       message: 'Admin created successfully',
