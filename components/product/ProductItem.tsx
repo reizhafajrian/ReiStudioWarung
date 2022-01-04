@@ -24,8 +24,13 @@ const ProductItem = ({ product }: any) => {
       }
       Post('/customer/addtocart', {
         data: cartItems,
-      }).then((res) => {
-        console.log(res, 'res')
+      }).then((res: any) => {
+        dispatch({
+          type: 'SETALERT',
+          isVisible: true,
+          color: 'success',
+          message: 'item added successfully',
+        })
       })
     } else {
       router.push('/customer/login')

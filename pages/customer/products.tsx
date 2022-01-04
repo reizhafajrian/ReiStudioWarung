@@ -1,8 +1,8 @@
 import { ReactElement } from 'react'
-import Layout from '@components/layout/Layout'
-import Products from '@components/product/Products'
 import { Get } from 'utils/axios'
 import { getCookie } from 'cookies-next'
+import Layout from '@components/layout/Layout'
+import Products from '@components/product/Products'
 
 const ProductsPage = ({ p, categories }: any) => {
   return (

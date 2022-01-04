@@ -37,8 +37,6 @@ const Login = ({ forAdmin = false }: props) => {
           type: 'LOADING',
           payload: false,
         })
-        console.log(res)
-
         if (res.status === 200) {
           Cookie.set('token', res.token)
           dispatch(getUser())

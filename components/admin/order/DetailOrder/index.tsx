@@ -22,14 +22,14 @@ const DetailOrder = ({ user, order }: any) => {
           className='ms-md-4 bg-white p-4 d-flex'
           style={{ borderRadius: 20 }}
         >
-          <CRow>
-            <CCol className='text-end'>
+          <CRow className='w-100'>
+            <CCol xs={6} className='text-end p-0 pe-2'>
               <h5 className='lh-lg fw-bold'>Kirim barang: </h5>
               <h5 className='lh-lg fw-bold'>Komplen: </h5>
             </CCol>
-            <CCol xs='auto' className='mt-1'>
+            <CCol xs={6} className='mt-1 p-0'>
               <ButtonKirim status={order.status} />
-              <h5 className='lh-lg '>
+              <h5 className='lh-lg'>
                 {order.status.title === 'komplain' ||
                 order.status.title === 'komplain diproses'
                   ? order.status.content

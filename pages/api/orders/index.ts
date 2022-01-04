@@ -5,6 +5,6 @@ import connectDB from '@backend/app'
 
 export default connectDB(
   nc({ onError, onNoMatch })
-    .post(OrderController.changeOrderStatus)
+    .put(OrderController.changeOrderStatus)
     .get(OrderController.getOrderDetails)
 )

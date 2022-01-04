@@ -16,6 +16,7 @@ const OrderHistory = ({ order }: any) => {
             alt={order.cart[0].name}
             width={80}
             height={80}
+            unoptimized
           />
         </div>
         <div className='ms-3'>

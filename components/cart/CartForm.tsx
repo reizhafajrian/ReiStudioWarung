@@ -37,12 +37,14 @@ const OrderDetails = () => {
     })
   }
 
+  const fullname = user.user.name.split(' ')
+
   const handlePost = async () => {
     const post: any = await Post('/customer/pay', {
       price: total,
       email: user.user.email,
-      first_name: user.user.name,
-      last_name: user.user.name,
+      first_name: fullname[0],
+      last_name: fullname[fullname.length - 1],
       phone: user.user.phone,
     })
     // alert("s")
