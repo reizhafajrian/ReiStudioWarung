@@ -51,7 +51,9 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                     router.push(`/admin/history/${o.order_detail.order_id}`)
                   }}
                 >
-                  <CTableDataCell>{o.name}</CTableDataCell>
+                  <CTableDataCell className='text-capitalize'>
+                    {o.name}
+                  </CTableDataCell>
                   <CTableDataCell>{o.address}</CTableDataCell>
                   <CTableDataCell>
                     Rp.
@@ -80,7 +82,9 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                       router.push(`/admin/history/${o.order_detail.order_id}`)
                     }}
                   >
-                    <CTableDataCell>{o.name}</CTableDataCell>
+                    <CTableDataCell className='text-capitalize'>
+                      {o.name}
+                    </CTableDataCell>
                     <CTableDataCell>{o.address}</CTableDataCell>
                     <CTableDataCell>
                       Rp.

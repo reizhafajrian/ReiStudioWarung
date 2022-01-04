@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux'
 import { Put } from 'utils/axios'
 
 const ButtonKirim = ({ status }: any) => {
+  console.log(status)
+
   const router = useRouter()
   const { query } = useRouter()
   const dispatch = useDispatch()
@@ -74,7 +76,10 @@ const ButtonKirim = ({ status }: any) => {
         </CButton>
       )}
       {status.title === 'sedang dikirim' && (
-        <CButton className='w-auto border text-dark border-dark bg-white px-3 py-2'>
+        <CButton
+          className='w-auto border text-dark border-dark bg-white px-3 py-2'
+          disabled
+        >
           Sedang Dikirim
         </CButton>
       )}
@@ -87,13 +92,19 @@ const ButtonKirim = ({ status }: any) => {
         </CButton>
       )}
       {status.title === 'komplain diproses' && (
-        <CButton className='w-auto px-3 py-2 text-danger bg-white border border-danger'>
+        <CButton
+          className='w-auto px-3 py-2 text-danger bg-white border border-danger'
+          disabled
+        >
           Komplen Diproses
         </CButton>
       )}
       {status.title === 'selesai' && (
-        <CButton className='w-auto px-3 py-2 text-secondary bg-white border-secondary'>
-          Kirim Sekarang
+        <CButton
+          className='w-auto px-3 py-2 text-secondary bg-white border-secondary'
+          disabled
+        >
+          selesai
         </CButton>
       )}
     </div>

@@ -13,12 +13,12 @@ declare global {
   }
 }
 
-const OrderDetails = () => {
+const OrderDetails = ({ user }: any) => {
   const token = cookie.get('token')
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const { cart, user } = useSelector((state: RootStateOrAny) => state)
+  const { cart } = useSelector((state: RootStateOrAny) => state)
   const [total, setTotal] = React.useState(cart.total)
   const [voucher, setVoucher] = React.useState({})
   const [code, setCode] = React.useState('')
@@ -28,7 +28,8 @@ const OrderDetails = () => {
     setCode(e.target.value)
     Get(`/vouchers?code=${e.target.value}`, token).then((res: any) => {
       if (res.voucher.length > 0) {
-        setTotal(cart.total - res.voucher[0].amount)
+        const calculate = cart.total - res.voucher[0].amount
+        setTotal(calculate < 0 ? 0 : calculate)
         setIsDiscount(true)
         setVoucher(res.voucher[0])
       } else {
@@ -37,15 +38,15 @@ const OrderDetails = () => {
     })
   }
 
-  const fullname = user.user.name.split(' ')
+  const fullname = user.name.split(' ')
 
   const handlePost = async () => {
     const post: any = await Post('/customer/pay', {
       price: total,
-      email: user.user.email,
+      email: user.email,
       first_name: fullname[0],
       last_name: fullname[fullname.length - 1],
-      phone: user.user.phone,
+      phone: user.phone,
     })
     // alert("s")
     // window.location.href = post.transaction.redirect_url;
@@ -100,7 +101,7 @@ const OrderDetails = () => {
             placeholder='Tambah alamat'
             className='border-0 border-bottom border-2 rounded-0 ps-2 py-0'
             readOnly
-            value={user.user.address}
+            value={user.address}
           />
         </div>
         <div className='mb-3'>

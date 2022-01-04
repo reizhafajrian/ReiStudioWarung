@@ -44,7 +44,7 @@ const Report = ({ report, result }: any) => {
         <div className='mb-3'>
           <h5 className='fw-bold'>Laporan barang terjual</h5>
         </div>
-        <TableReports products={report.barangReport} />
+        <TableReports products={report.barangReport} result={result} />
         <div className='d-flex justify-content-end align-items-center'>
           <CButton
             onClick={handlePrev}
