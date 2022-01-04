@@ -2,7 +2,7 @@ import { CButton, CCard, CFormTextarea } from '@coreui/react'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Post } from 'utils/axios'
+import { Put } from 'utils/axios'
 import Modal from '../Modal'
 
 interface props {
@@ -41,7 +41,7 @@ const AlertStatus = ({ status }: props) => {
       payload: true,
     })
 
-    Post(`/orders?id=${query.id}`, { status: status }).then((res) => {
+    Put(`/orders?id=${query.id}`, { status: status }).then((res) => {
       dispatch({
         type: 'LOADING',
         payload: false,

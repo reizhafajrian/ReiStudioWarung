@@ -3,6 +3,8 @@ import { CCard, CCol, CContainer, CFormInput, CRow } from '@coreui/react'
 import OrderItem from './OrderItem'
 
 const OrderDetails = ({ order, user }: any) => {
+  console.log(order)
+
   return (
     <CContainer className='p-0 my-5'>
       <h3 className='fw-bold mb-5'>Detail Pesanan</h3>

@@ -134,8 +134,6 @@ const OrderController = {
 
         const order = orders.find((o: any) => o.order.order_id === id)
 
-        console.log(order)
-
         return res.status(200).json({
           status: 200,
           order: order.order,
