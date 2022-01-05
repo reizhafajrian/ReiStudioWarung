@@ -45,8 +45,10 @@ const Products = ({ products, result, categories }: any) => {
           {products.length > 0 ? (
             <>
               <CRow className='m-0 my-5 w-100 justify-content-center justify-content-md-start'>
-                {products.map((product: any) => {
-                  product.stock !== 0 && (
+                {products.map((product: any) =>
+                  product.stock < 0 ? (
+                    ''
+                  ) : (
                     <CCol
                       xs={12}
                       sm={5}
@@ -57,7 +59,7 @@ const Products = ({ products, result, categories }: any) => {
                       <ProductItem product={product} />
                     </CCol>
                   )
-                })}
+                )}
               </CRow>
               <div className='w-100 text-center mb-5'>
                 {result < page * 8 ? (
