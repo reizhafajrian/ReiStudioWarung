@@ -12,7 +12,7 @@ export const sumItems = (cartItems: []) => {
     0
   )
   let total = cartItems.reduce(
-    (total, product: any) => total + product.selling_price * product.quantity,
+    (total, product: any) => total + product.price * product.quantity,
     0
   )
   return { itemCount, total }

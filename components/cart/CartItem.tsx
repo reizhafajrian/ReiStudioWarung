@@ -6,14 +6,14 @@ import {
   incrementItem,
 } from '../../redux/actions/cartActions'
 import { BiMinus, BiPlus } from 'react-icons/bi'
-import { CCol, CRow } from '@coreui/react'
+import { CBadge, CCol, CRow } from '@coreui/react'
 import { Post } from 'utils/axios'
 
 const CartItem = ({ product }: any) => {
   const dispatch = useDispatch()
   const data = useSelector((state: RootStateOrAny) => state)
 
-  const total = product.selling_price * product.quantity
+  const total = product.price * product.quantity
   const handlePost = async (type: any) => {
     switch (type) {
       case 'add':
@@ -49,8 +49,13 @@ const CartItem = ({ product }: any) => {
           />
         </div>
         <div className='ms-4'>
-          <h4 className='fw-bold mb-3'>{product.name}</h4>
-          <h5>Rp. {product.selling_price.toLocaleString('id-ID')},-</h5>
+          <h4
+            className={`fw-bold ${product.type === 'rent' ? 'mb-0' : 'mb-3'}`}
+          >
+            {product.name}
+          </h4>
+          {product.type === 'rent' && <CBadge color='danger'>sewa</CBadge>}
+          <h5>Rp. {product.price.toLocaleString('id-ID')},-</h5>
         </div>
       </CCol>
       <CCol xs={6} md={3} className='p-0 d-flex align-items-center'>

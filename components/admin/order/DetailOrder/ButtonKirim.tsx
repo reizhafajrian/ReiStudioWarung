@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux'
 import { Put } from 'utils/axios'
 
 const ButtonKirim = ({ status }: any) => {
-  console.log(status)
-
   const router = useRouter()
   const { query } = useRouter()
   const dispatch = useDispatch()

@@ -37,8 +37,11 @@ const OrderController = {
         await dataCustomer.save()
 
         data.cart.map(async (p: any) => {
-          const product = await Product.findById(p._id)
-          await Product.findByIdAndUpdate(p._id, {
+          const product = await Product.findById(
+            p._id.slice(0, p._id.length - 1)
+          )
+
+          await Product.findByIdAndUpdate(p._id.slice(0, p._id.length - 1), {
             stock: product.stock - p.quantity,
             sold: product.sold + p.quantity,
           })
@@ -64,6 +67,19 @@ const OrderController = {
         const dataCustomer = await Customer.findById(r.user.id)
 
         let orders = dataCustomer.order
+
+        const currentMonth = new Date().getMonth() + 1
+        let cmOrders = 0
+        let cmExpense = 0
+
+        orders.map((o: any) => {
+          const orderDate = new Date(o.created_at)
+          const orderMonth = orderDate.getMonth() + 1
+          if (orderMonth === currentMonth) {
+            cmOrders++
+            cmExpense += o.total
+          }
+        })
 
         //paginating
         page = page ? page.toString() : '1'
@@ -96,6 +112,8 @@ const OrderController = {
           status: 200,
           orders,
           result: orders.length,
+          cmOrders,
+          cmExpense,
         })
       }
     }

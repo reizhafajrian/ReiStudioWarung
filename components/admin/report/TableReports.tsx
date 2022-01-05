@@ -5,6 +5,7 @@ import {
   CTableHeaderCell,
   CTableRow,
   CTableDataCell,
+  CBadge,
 } from '@coreui/react'
 
 const TableReports = ({ products, result }: any) => {
@@ -12,7 +13,7 @@ const TableReports = ({ products, result }: any) => {
     'Nama Barang',
     'Terjual',
     'Harga Beli',
-    'Harga Jual',
+    'Harga Jual/Sewa',
     'Kategori',
     'Diskon',
     'Laba',
@@ -38,7 +39,12 @@ const TableReports = ({ products, result }: any) => {
             .slice(result == 6 ? 0 : result - 6, products.length)
             .map((product: any) => (
               <CTableRow key={product._id}>
-                <CTableDataCell>{product.namaBarang}</CTableDataCell>
+                <CTableDataCell>
+                  {product.namaBarang}{' '}
+                  {product.type === 'rent' && (
+                    <CBadge color='danger'>sewa</CBadge>
+                  )}
+                </CTableDataCell>
                 <CTableDataCell>{product.terjual}</CTableDataCell>
                 <CTableDataCell>
                   Rp.

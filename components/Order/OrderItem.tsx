@@ -1,4 +1,4 @@
-import { CCol, CRow } from '@coreui/react'
+import { CBadge, CCol, CRow } from '@coreui/react'
 import Image from 'next/image'
 
 const OrderItem = ({ items }: any) => {
@@ -18,10 +18,15 @@ const OrderItem = ({ items }: any) => {
               />
             </div>
             <div className='ms-4'>
-              <h4 className='fw-bold mb-3'>{item.name}</h4>
+              <h4
+                className={`fw-bold ${item.type === 'rent' ? 'mb-0' : 'mb-3'}`}
+              >
+                {item.name}
+              </h4>
+              {item.type === 'rent' && <CBadge color='danger'>sewa</CBadge>}
               <h5>
                 Rp.
-                {item.selling_price.toLocaleString('id-ID')}
+                {item.price.toLocaleString('id-ID')}
                 ,-
               </h5>
             </div>
@@ -31,7 +36,7 @@ const OrderItem = ({ items }: any) => {
           </CCol>
           <CCol xs={6} md={3} className='p-0 text-end my-auto'>
             <h5 className='mb-0'>
-              Rp.{(item.selling_price * item.quantity).toLocaleString('id-ID')}
+              Rp.{(item.price * item.quantity).toLocaleString('id-ID')}
               ,-
             </h5>
           </CCol>

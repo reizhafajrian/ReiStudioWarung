@@ -1,9 +1,10 @@
-import { BaseSyntheticEvent, useState } from 'react'
-import { CButton, CContainer, CForm, CFormSelect } from '@coreui/react'
+import { useMemo, useState } from 'react'
+import { CButton, CContainer, CForm } from '@coreui/react'
 import InputField from '../../InputField'
 import { useDispatch } from 'react-redux'
 import { Post, Put } from 'utils/axios'
 import { useRouter } from 'next/router'
+import Select from 'react-select'
 
 const UpdateProduct = ({ product, categories }: any) => {
   const dispatch = useDispatch()
@@ -11,10 +12,19 @@ const UpdateProduct = ({ product, categories }: any) => {
   const [nama, setNama] = useState(product.name)
   const [beli, setBeli] = useState(product.buying_price)
   const [jual, setJual] = useState(product.selling_price)
+  const [sewa, setSewa] = useState(product.renting_price)
   const [stok, setStok] = useState(product.stock)
   const [foto, setFoto] = useState(product.image)
   const [kat, setKat] = useState(product.category)
   const [tambahKat, setTambahKat] = useState('')
+
+  let listKategori: any = []
+
+  categories.map((c: any) => {
+    listKategori = [...listKategori, { value: c.name, label: c.name }]
+  })
+
+  const options = useMemo(() => listKategori, [])
 
   const check =
     nama.length > 0 &&
@@ -24,20 +34,23 @@ const UpdateProduct = ({ product, categories }: any) => {
     foto.length > 0 &&
     (kat.length > 0 || tambahKat.length > 0)
 
+  let data: any = {
+    name: nama,
+    category: tambahKat ? tambahKat : kat,
+    image: foto,
+    buying_price: beli,
+    selling_price: jual,
+    stock: stok,
+  }
+  sewa ? (data.renting_price = sewa) : undefined
+
   const handlePut = () => {
     if (check) {
       dispatch({
         type: 'LOADING',
         payload: true,
       })
-      Put(`/admin/products?id=${router.query.pid}`, {
-        name: nama,
-        category: tambahKat ? tambahKat : kat,
-        image: foto,
-        buying_price: beli,
-        selling_price: jual,
-        stock: stok,
-      }).then((res: any) => {
+      Put(`/admin/products?id=${router.query.pid}`, data).then((res: any) => {
         if (tambahKat) {
           Post('/products/categories', { name: tambahKat })
         }
@@ -45,13 +58,22 @@ const UpdateProduct = ({ product, categories }: any) => {
           type: 'LOADING',
           payload: false,
         })
-        dispatch({
-          type: 'SETALERT',
-          isVisible: true,
-          color: 'success',
-          message: res.message,
-        })
-        router.push('/admin/products')
+        if (res.status === 200) {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'success',
+            message: res.message,
+          })
+          router.push('/admin/products')
+        } else {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'danger',
+            message: res.error,
+          })
+        }
       })
     } else {
       dispatch({
@@ -63,8 +85,8 @@ const UpdateProduct = ({ product, categories }: any) => {
     }
   }
 
-  const handleCategory = (e: BaseSyntheticEvent) => {
-    setKat(e.target.value)
+  const handleCategory = (cat: any) => {
+    setKat(cat.value)
   }
 
   return (
@@ -91,13 +113,14 @@ const UpdateProduct = ({ product, categories }: any) => {
             />
             <div className='mb-3'>
               <label className='h6 fw-bold mb-3'>Kategori</label>
-              <CFormSelect onChange={handleCategory} value={kat}>
-                {categories.map((c: any) => (
-                  <option value={c.name} key={c._id}>
-                    {c.name}
-                  </option>
-                ))}
-              </CFormSelect>
+              <Select
+                className='top'
+                classNamePrefix='inner'
+                options={options}
+                placeholder={kat}
+                onChange={handleCategory}
+                value={kat}
+              />
             </div>
           </div>
           <div className='product-form'>
@@ -127,6 +150,16 @@ const UpdateProduct = ({ product, categories }: any) => {
             />
           </div>
           <div className='my-auto product-form'>
+            {kat === 'Tabung Gas' && (
+              <InputField
+                type='number'
+                label='Harga Sewa'
+                placeholder='Harga sewa'
+                onChange={setSewa}
+                value={sewa}
+                id='sewa'
+              />
+            )}
             <InputField
               type='text'
               label='Foto Barang'

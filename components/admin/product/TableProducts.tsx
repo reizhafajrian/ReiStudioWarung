@@ -57,7 +57,7 @@ const TableProduct = ({
     'Nama Barang',
     'Jumlah',
     'Harga Beli',
-    'Harga Jual',
+    'Harga Jual/Sewa',
     'Kategori',
     'Update Terakhir',
     'Aksi',
@@ -139,6 +139,13 @@ const TableProduct = ({
                         Rp.
                         {product.selling_price.toLocaleString('id-ID')}
                         ,-
+                        {product.renting_price && (
+                          <p className='m-0 mt-1'>
+                            Rp.
+                            {product.renting_price.toLocaleString('id-ID')}
+                            ,-
+                          </p>
+                        )}
                       </CTableDataCell>
                       <CTableDataCell>{product.category}</CTableDataCell>
                       <CTableDataCell>

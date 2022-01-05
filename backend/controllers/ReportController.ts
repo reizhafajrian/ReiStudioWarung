@@ -69,10 +69,11 @@ const ReportController = {
             _id: b1._id,
             namaBarang: b1.name,
             hargaBeli: b1.buying_price,
-            hargaJual: b1.selling_price,
+            hargaJual: b1.price,
             kategori: b1.category,
             kuantitas: b1.quantity,
             diskon: b1.diskon,
+            type: b1.type,
             created_at: new Date(b1.created_at).valueOf(),
           }
         })

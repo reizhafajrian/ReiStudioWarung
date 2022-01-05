@@ -204,16 +204,17 @@ export const ProductController = {
       const r: any = verifyToken(String(token))
 
       if (r.user.role === 1) {
-        const { name, category, image, buying_price, selling_price, stock } =
-          req.body
-        const newProduct = await Product.create({
-          name,
-          category,
-          image,
-          buying_price,
-          selling_price,
-          stock,
-        })
+        // const {
+        //   name,
+        //   category,
+        //   image,
+        //   buying_price,
+        //   selling_price,
+        //   renting_price,
+        //   stock,
+        // } = req.body
+
+        const newProduct = await Product.create(req.body)
 
         return res.status(201).json({
           status: 201,
@@ -233,17 +234,17 @@ export const ProductController = {
 
       if (r.user.role === 1) {
         const { id } = req.query
-        const { name, category, image, buying_price, selling_price, stock } =
-          req.body
+        // const {
+        //   name,
+        //   category,
+        //   image,
+        //   buying_price,
+        //   selling_price,
+        //   renting_price,
+        //   stock,
+        // } = req.body
 
-        await Product.findByIdAndUpdate(id, {
-          name,
-          category,
-          image,
-          buying_price,
-          selling_price,
-          stock,
-        })
+        await Product.findByIdAndUpdate(id, req.body)
 
         return res.status(200).json({
           status: 200,

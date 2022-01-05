@@ -1,20 +1,30 @@
-import { BaseSyntheticEvent, useState } from 'react'
-import { CButton, CContainer, CForm, CFormSelect } from '@coreui/react'
+import { useMemo, useState } from 'react'
+import { CButton, CContainer, CForm } from '@coreui/react'
 import InputField from '../../InputField'
 import { Post } from 'utils/axios'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
+import Select from 'react-select'
 
 const NewProduct = ({ categories }: any) => {
+  const dispatch = useDispatch()
+  const router = useRouter()
   const [nama, setNama] = useState('')
   const [beli, setBeli] = useState('')
   const [jual, setJual] = useState('')
+  const [sewa, setSewa] = useState('')
   const [stok, setStok] = useState('')
   const [foto, setFoto] = useState('')
   const [kat, setKat] = useState('')
   const [tambahKat, setTambahKat] = useState('')
-  const dispatch = useDispatch()
-  const router = useRouter()
+
+  let listKategori: any = []
+
+  categories.map((c: any) => {
+    listKategori = [...listKategori, { value: c.name, label: c.name }]
+  })
+
+  const options = useMemo(() => listKategori, [])
 
   const check =
     nama.length > 0 &&
@@ -24,20 +34,25 @@ const NewProduct = ({ categories }: any) => {
     foto.length > 0 &&
     (kat.length > 0 || tambahKat.length > 0)
 
+  let data: any = {
+    name: nama,
+    category: tambahKat ? tambahKat : kat,
+    image: foto,
+    buying_price: beli,
+    selling_price: jual,
+    stock: stok,
+  }
+  sewa ? (data.renting_price = sewa) : undefined
+
   const handlePost = () => {
     if (check) {
       dispatch({
         type: 'LOADING',
         payload: true,
       })
-      Post('/admin/products', {
-        name: nama,
-        category: tambahKat ? tambahKat : kat,
-        image: foto,
-        buying_price: beli,
-        selling_price: jual,
-        stock: stok,
-      }).then((res: any) => {
+      console.log(data)
+
+      Post('/admin/products', data).then((res: any) => {
         if (tambahKat) {
           Post('/products/categories', { name: tambahKat })
         }
@@ -45,13 +60,24 @@ const NewProduct = ({ categories }: any) => {
           type: 'LOADING',
           payload: false,
         })
-        dispatch({
-          type: 'SETALERT',
-          isVisible: true,
-          color: 'success',
-          message: res.message,
-        })
-        router.push('/admin/products')
+        if (res.status === 201) {
+          console.log(res)
+
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'success',
+            message: res.message,
+          })
+          router.push('/admin/products')
+        } else {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'danger',
+            message: res.error,
+          })
+        }
       })
     } else {
       dispatch({
@@ -63,8 +89,8 @@ const NewProduct = ({ categories }: any) => {
     }
   }
 
-  const handleCategory = (e: BaseSyntheticEvent) => {
-    setKat(e.target.value)
+  const handleCategory = (cat: any) => {
+    setKat(cat.value)
   }
 
   return (
@@ -91,14 +117,13 @@ const NewProduct = ({ categories }: any) => {
             />
             <div className='mb-3'>
               <label className='h6 fw-bold mb-3'>Kategori</label>
-              <CFormSelect onChange={handleCategory}>
-                <option>pilih kategori</option>
-                {categories.map((c: any) => (
-                  <option value={c.name} key={c._id}>
-                    {c.name}
-                  </option>
-                ))}
-              </CFormSelect>
+              <Select
+                className='top'
+                classNamePrefix='inner'
+                options={options}
+                placeholder='pilih kategori'
+                onChange={handleCategory}
+              />
             </div>
           </div>
           <div className='product-form'>
@@ -128,6 +153,16 @@ const NewProduct = ({ categories }: any) => {
             />
           </div>
           <div className='my-auto product-form'>
+            {kat === 'Tabung Gas' && (
+              <InputField
+                type='number'
+                label='Harga Sewa'
+                placeholder='Harga sewa'
+                onChange={setSewa}
+                value={sewa}
+                id='sewa'
+              />
+            )}
             <InputField
               type='text'
               label='Foto Barang'

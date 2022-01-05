@@ -25,26 +25,18 @@ ProfileDetailsPage.getLayout = function getLayout(content: ReactElement) {
 export const getServerSideProps = async ({ req, res, query }: any) => {
   const token = getCookie('token', { req, res })
   const page: any = query.page || 1
-  let totalPengeluaran = 0
-  let jumlahOrder = 0
 
   const data: any = await Get(`/customer/orders?limit=${page * 3}`, token)
   const user: any = await Get('/customer', token)
 
-  await Get(`/customer/orders?limit=100`, token).then((res: any) => {
-    totalPengeluaran = 0
-    res.orders.map((o: any) => (totalPengeluaran += o.total))
-    jumlahOrder = res.result
-  })
-
-  console.log(user)
+  await Get(`/customer/orders?limit=100`, token)
 
   return {
     props: {
       orders: data.orders,
       result: data.result,
-      total: totalPengeluaran,
-      jumlah: jumlahOrder,
+      total: data.cmExpense,
+      jumlah: data.cmOrders,
       user: user.user,
     },
   }

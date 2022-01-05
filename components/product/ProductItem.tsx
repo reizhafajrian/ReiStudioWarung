@@ -15,12 +15,18 @@ const ProductItem = ({ product }: any) => {
   const isInCart = (product: any) => {
     return !!cartItems.find((item: any) => item._id === product._id)
   }
+
   const handleAddtoCart = () => {
+    const { renting_price, selling_price, ...buyProduct } = product
+    buyProduct._id = buyProduct._id + '0'
+    buyProduct.type = 'buy'
+    buyProduct.price = selling_price
+
     if (token) {
-      if (isInCart(product)) {
-        dispatch(incrementItem(product))
+      if (isInCart(buyProduct)) {
+        dispatch(incrementItem(buyProduct))
       } else {
-        dispatch(addToCart(product))
+        dispatch(addToCart(buyProduct))
       }
       Post('/customer/addtocart', {
         data: cartItems,
@@ -37,6 +43,34 @@ const ProductItem = ({ product }: any) => {
     }
   }
 
+  const handleSewa = () => {
+    const { selling_price, renting_price, ...rentProduct } = product
+    rentProduct._id = rentProduct._id + '1'
+    rentProduct.type = 'rent'
+    rentProduct.price = renting_price
+
+    if (token) {
+      if (isInCart(rentProduct)) {
+        dispatch(incrementItem(rentProduct))
+      } else {
+        dispatch(addToCart(rentProduct))
+      }
+
+      Post('/customer/addtocart', {
+        data: cartItems,
+      }).then((res: any) => {
+        dispatch({
+          type: 'SETALERT',
+          isVisible: true,
+          color: 'success',
+          message: 'item added successfully',
+        })
+        console.log(res)
+      })
+    } else {
+      router.push('/customer/login')
+    }
+  }
   return (
     <CCard style={{ minWidth: 200 }} className='mb-4 mx-2 mx-lg-0'>
       <Image
@@ -49,7 +83,21 @@ const ProductItem = ({ product }: any) => {
         unoptimized
       />
       <CCardBody>
-        <p className='fw-bold mb-2'>{product.name}</p>
+        <div className='d-flex justify-content-between align-items-center'>
+          <p className='fw-bold mb-2'>{product.name}</p>
+          {product.category === 'Tabung Gas' && (
+            <CButton
+              variant='outline'
+              className='p-0 py-1'
+              onClick={(e) => {
+                e.preventDefault()
+                handleSewa()
+              }}
+            >
+              Sewa
+            </CButton>
+          )}
+        </div>
         <div className='d-flex align-items-center'>
           <div className='flex-grow-1'>
             <p className='mb-1 fw-medium'>
@@ -61,7 +109,8 @@ const ProductItem = ({ product }: any) => {
             </p>
             <p className='text-secondary mb-0'>
               <small>
-                Dibeli <span className='text-primary'> {product.sold} </span>
+                {product.category === 'Tabung Gas' ? 'Dibeli/sewa' : 'Dibeli'}
+                <span className='text-primary'> {product.sold} </span>
                 kali
               </small>
             </p>
