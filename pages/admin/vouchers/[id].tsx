@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ req, res, params }: any) => {
   const id = params.id
   const token = getCookie('token', { req, res })
 
-  const data = await Get(`/vouchers?id=${id}`, token)
+  const data = await Get(`/vouchers?code=${id}`, token)
 
   return {
     props: data,

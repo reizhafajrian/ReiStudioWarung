@@ -73,7 +73,7 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                 </CTableRow>
               ))
             : orders
-                .slice(result == 6 ? 0 : result - 6, orders.length)
+                .slice(result <= 6 ? 0 : result - 6, orders.length)
                 .map((o: any) => (
                   <CTableRow
                     style={{ cursor: 'pointer' }}

@@ -113,19 +113,26 @@ const TableProduct = ({
                         color='warning'
                         className='w-auto me-2'
                         onClick={() => {
-                          router.push(`/admin/products/${product.id}`)
+                          router.push(`/admin/products/${product._id}`)
                         }}
                       >
                         <RiPencilFill fill='white' size='24' />
                       </CButton>
-                      <CButton className='w-auto' color='danger'>
+                      <CButton
+                        className='w-auto'
+                        color='danger'
+                        onClick={() => {
+                          SetProductId(product._id)
+                          setVisible(!visible)
+                        }}
+                      >
                         <IoMdTrash fill='white' size='24' />
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>
                 ))
               : products
-                  .slice(result == 6 ? 0 : result - 6, products.length)
+                  .slice(result <= 6 ? 0 : result - 6, products.length)
                   .map((product: any) => (
                     <CTableRow key={product._id}>
                       <CTableDataCell>{product.name}</CTableDataCell>

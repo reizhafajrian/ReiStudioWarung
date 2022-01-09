@@ -62,7 +62,7 @@ const VoucherController = {
       if (typeof r.user !== 'undefined') {
         const { code } = req.query
 
-        const voucher = await Voucher.find({ code: code })
+        const voucher = await Voucher.findOne({ code: code })
 
         return res.status(200).json({
           status: 200,

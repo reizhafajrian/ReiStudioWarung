@@ -41,7 +41,8 @@ const ReportController = {
         orders.map((o: any) => {
           const orderDate = new Date(o.created_at)
           const orderMonth = orderDate.getMonth() + 1
-          if (orderDate.toString() === today.toString()) {
+
+          if (orderDate.getDate().valueOf() === today.getDate().valueOf()) {
             todayOrders++
           }
           if (orderMonth === currentMonth) {
@@ -74,7 +75,7 @@ const ReportController = {
             kuantitas: b1.quantity,
             diskon: b1.diskon,
             type: b1.type,
-            created_at: new Date(b1.created_at).valueOf(),
+            created_at: new Date(b1.created_at).getDate().valueOf(),
           }
         })
 
@@ -124,19 +125,20 @@ const ReportController = {
           totalLaba = 0
           reportFiltered = []
           newBarangReport.map((b: any) => {
-            if (b.created_at >= s) {
+            if (b.created_at >= s!) {
               reportFiltered.push(b)
               totalLaba += b.laba
             }
           })
           newBarangReport = reportFiltered
           orders.map((o: any) => {
-            if (o.created_at >= s) {
+            const orderDate = new Date(o.created_at)
+            if (orderDate.getDate().toString() >= s!) {
               jumlahOrder++
             }
           })
           temp.map((b: any) => {
-            if (b.created_at >= s) {
+            if (b.created_at >= s!) {
               barangTerjual += b.kuantitas
             }
           })
@@ -148,19 +150,20 @@ const ReportController = {
           totalLaba = 0
           reportFiltered = []
           newBarangReport.map((b: any) => {
-            if (b.created_at <= e) {
+            if (b.created_at <= e!) {
               reportFiltered.push(b)
               totalLaba += b.laba
             }
           })
           newBarangReport = reportFiltered
           orders.map((o: any) => {
-            if (o.created_at <= e) {
+            const orderDate = new Date(o.created_at)
+            if (orderDate.getDate().toString() <= e!) {
               jumlahOrder++
             }
           })
           temp.map((b: any) => {
-            if (b.created_at <= e) {
+            if (b.created_at <= e!) {
               barangTerjual += b.kuantitas
             }
           })
@@ -172,19 +175,20 @@ const ReportController = {
           totalLaba = 0
           reportFiltered = []
           newBarangReport.map((b: any) => {
-            if (b.created_at >= s && b.created_at <= e) {
+            if (b.created_at >= s! && b.created_at <= e!) {
               reportFiltered.push(b)
               totalLaba += b.laba
             }
           })
           newBarangReport = reportFiltered
           orders.map((o: any) => {
-            if (o.created_at >= s && o.created_at <= e) {
+            const orderDate = new Date(o.created_at).getDate().toString()
+            if (orderDate >= s! && orderDate <= e!) {
               jumlahOrder++
             }
           })
           temp.map((b: any) => {
-            if (b.created_at >= s && b.created_at <= e) {
+            if (b.created_at >= s! && b.created_at <= e!) {
               barangTerjual += b.kuantitas
             }
           })
@@ -199,7 +203,7 @@ const ReportController = {
         const skip = (pageNum - 1) * limitNum
 
         const handleLimit = (c: any) => {
-          return newBarangReport.filter((x, i) => {
+          return newBarangReport.filter((x: any, i: any) => {
             if (i <= c - 1) {
               return true
             }
@@ -207,7 +211,7 @@ const ReportController = {
         }
 
         const handleSkip = (c: any) => {
-          return newBarangReport.filter((x, i) => {
+          return newBarangReport.filter((x: any, i: any) => {
             if (i > c - 1) {
               return true
             }

@@ -39,7 +39,7 @@ export const getServerSideProps = async ({ req, res }: any) => {
   const orderReq: any = await Get('/admin/orders?limit=5&status=all', token)
   const productReq: any = await Get('/products?category=all&search=all', token)
   const voucherReq: any = await Get('/admin/vouchers', token)
-  const reportReq: any = await Get(`/admin/reports`, token)
+  const reportReq: any = await Get(`/admin/reports?s=all&e=all`, token)
 
   return {
     props: {

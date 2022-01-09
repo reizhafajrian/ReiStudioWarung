@@ -8,11 +8,17 @@ const FilterReport = () => {
   const router = useRouter()
 
   const handleDateStart = (e: BaseSyntheticEvent) => {
-    filterSearch({ router, s: new Date(e.target.value).valueOf().toString() })
+    filterSearch({
+      router,
+      s: new Date(e.target.value).getDate().toString(),
+    })
   }
 
   const handleDateEnd = (e: BaseSyntheticEvent) => {
-    filterSearch({ router, e: new Date(e.target.value).valueOf().toString() })
+    filterSearch({
+      router,
+      e: new Date(e.target.value).getDate().toString(),
+    })
   }
 
   return (

@@ -46,7 +46,7 @@ const Products = ({ products, result, categories }: any) => {
             <>
               <CRow className='m-0 my-5 w-100 justify-content-center justify-content-md-start'>
                 {products.map((product: any) =>
-                  product.stock < 0 ? (
+                  product.stock == 0 ? (
                     ''
                   ) : (
                     <CCol

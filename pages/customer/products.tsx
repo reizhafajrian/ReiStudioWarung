@@ -5,8 +5,6 @@ import Layout from '@components/layout/Layout'
 import Products from '@components/product/Products'
 
 const ProductsPage = ({ p, categories }: any) => {
-  console.log(p)
-
   return (
     <Products
       products={p.products || []}

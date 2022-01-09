@@ -27,11 +27,11 @@ const OrderDetails = ({ user }: any) => {
   const handleVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value)
     Get(`/vouchers?code=${e.target.value}`, token).then((res: any) => {
-      if (res.voucher.length > 0) {
-        const calculate = cart.total - res.voucher[0].amount
+      if (res.voucher) {
+        const calculate = cart.total - res.voucher.amount
         setTotal(calculate < 0 ? 0 : calculate)
         setIsDiscount(true)
-        setVoucher(res.voucher[0])
+        setVoucher(res.voucher)
       } else {
         setIsDiscount(false)
       }
@@ -72,6 +72,8 @@ const OrderDetails = ({ user }: any) => {
                 created_at: res.response.transaction_time,
               },
             }).then((res) => {
+              console.log(res)
+
               router.push('/customer/profile')
               Post('/customer/addtocart', {
                 data: [],
