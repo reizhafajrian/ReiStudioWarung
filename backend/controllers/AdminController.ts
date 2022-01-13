@@ -30,7 +30,12 @@ export const AdminController = {
 
     const isMatch = await comparePassword(password, user.password)
 
-    if (user.role === 1) {
+    if (user.role === 0) {
+      res.status(200).json({
+        status: 200,
+        message: 'You are not an admin',
+      })
+    } else {
       if (isMatch) {
         let rest = {
           id: user._id,
@@ -51,11 +56,6 @@ export const AdminController = {
           })
           .send({ error: 'Invalid email or password' })
       }
-    } else {
-      res.status(200).json({
-        status: 200,
-        message: 'You are not an admin',
-      })
     }
   },
   register: async function (req: Request, res: Response, next: NextFunction) {
@@ -87,7 +87,7 @@ export const AdminController = {
       ])
     )
     // const { authorization } = req.headers
-    const { name, username, email, phone, address, password } = req.body
+    const { name, username, email, phone, address, password, role } = req.body
     // const token = authorization.split(' ')[1]
     // const result = await verifyToken(token)
     // if (result.user.role !== 1) {
@@ -97,7 +97,6 @@ export const AdminController = {
     //   })
     // }
     const passwordhash = await encrypt(password)
-    console.log(passwordhash)
 
     const createUser = await Admin.create({
       name,
@@ -106,13 +105,11 @@ export const AdminController = {
       phone,
       address,
       password: passwordhash,
-      role: 1,
+      role,
       //   privacy_policy: valid,
     })
-    console.log(createUser)
 
     const user = await Admin.findOne(createUser, { password: 0, __v: 0 })
-    console.log(user)
 
     res.status(201).send({
       status: 201,

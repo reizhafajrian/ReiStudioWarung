@@ -39,8 +39,23 @@ const Login = ({ forAdmin = false }: props) => {
         })
         if (res.status === 200) {
           Cookie.set('token', res.token)
+
           dispatch(getUser())
-          forAdmin ? router.push('/admin') : router.push('/customer')
+          const role = res.user.role
+          switch (role) {
+            case 0:
+              router.push('/customer')
+              break
+            case 1:
+              router.push('/admin')
+              break
+            case 2:
+              router.push('/admin/products')
+              break
+            default:
+              break
+          }
+          // forAdmin ? router.push('/admin') : router.push('/customer')
         } else {
           dispatch({
             type: 'SETALERT',

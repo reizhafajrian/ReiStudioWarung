@@ -1,11 +1,17 @@
 import { useRouter } from 'next/router'
-import { RootStateOrAny, useSelector } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { CHeaderNav, CNavItem, CNavLink } from '@coreui/react'
+import { useEffect } from 'react'
+import { getUser } from 'redux/actions/loggedActions'
 
 const Nav = ({ navbarOpen }: any) => {
   const router = useRouter()
+  const dispatch = useDispatch()
+  const { forAdmin, role } = useSelector((state: RootStateOrAny) => state.user)
 
-  const { forAdmin } = useSelector((state: RootStateOrAny) => state.user)
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
 
   const customerMenu = [
     { name: 'Home', path: '/customer' },
@@ -31,16 +37,17 @@ const Nav = ({ navbarOpen }: any) => {
     <CHeaderNav
       className={`${navbarOpen ? 'd-flex' : 'd-none'} d-lg-flex mx-auto`}
     >
-      {navMenu.map((link, index) => (
-        <CNavItem className='px-3' key={index}>
-          <CNavLink
-            active={isActive(link.path)}
-            onClick={() => router.push(link.path)}
-          >
-            {link.name}
-          </CNavLink>
-        </CNavItem>
-      ))}
+      {role !== 2 &&
+        navMenu.map((link, index) => (
+          <CNavItem className='px-3' key={index}>
+            <CNavLink
+              active={isActive(link.path)}
+              onClick={() => router.push(link.path)}
+            >
+              {link.name}
+            </CNavLink>
+          </CNavItem>
+        ))}
     </CHeaderNav>
   )
 }

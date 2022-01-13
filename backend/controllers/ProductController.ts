@@ -175,7 +175,7 @@ export const ProductController = {
 
       const r: any = verifyToken(String(token))
 
-      if (r.user.role === 1) {
+      if (r.user.role !== 0) {
         const { id } = req.query
         const product = await Product.findById(id)
 
@@ -203,7 +203,7 @@ export const ProductController = {
 
       const r: any = verifyToken(String(token))
 
-      if (r.user.role === 1) {
+      if (r.user.role !== 0) {
         // const {
         //   name,
         //   category,
@@ -232,7 +232,7 @@ export const ProductController = {
 
       const r: any = verifyToken(String(token))
 
-      if (r.user.role === 1) {
+      if (r.user.role !== 0) {
         const { id } = req.query
         // const {
         //   name,

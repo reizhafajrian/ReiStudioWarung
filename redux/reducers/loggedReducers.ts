@@ -4,6 +4,7 @@ const initialState = {
   user: {},
   loggedIn: false,
   forAdmin: false,
+  role: 0,
 }
 
 export const loggedReducer = (state = initialState, action: any) => {
@@ -13,7 +14,8 @@ export const loggedReducer = (state = initialState, action: any) => {
         ...state,
         user: action.payload.user,
         loggedIn: action.payload.status == 200 && true,
-        forAdmin: action.payload.user?.role == 1 && true,
+        role: action.payload.user.role,
+        forAdmin: (state.role == 1 || state.role == 2) && true,
       }
     default:
       return state

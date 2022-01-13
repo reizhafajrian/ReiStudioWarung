@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import InputField from '../InputField'
-import { CButton, CCard, CForm } from '@coreui/react'
+import { CButton, CCard, CForm, CFormCheck } from '@coreui/react'
 import Header from './Header'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { Post } from 'utils/axios'
@@ -23,6 +23,12 @@ const Register = ({ forAdmin = false }: props) => {
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [checked, setChecked] = useState(false)
+  const role = checked ? '2' : '1'
+
+  const handleRole = () => {
+    setChecked(!checked)
+  }
 
   const check =
     name.length > 0 &&
@@ -34,7 +40,17 @@ const Register = ({ forAdmin = false }: props) => {
     confirmPassword.length > 0
 
   const handlePost = () => {
-    const userData = {
+    const adminData = {
+      name,
+      username,
+      email,
+      password,
+      confirmPassword,
+      phone,
+      address,
+      role,
+    }
+    const customerData = {
       name,
       username,
       email,
@@ -43,39 +59,41 @@ const Register = ({ forAdmin = false }: props) => {
       phone,
       address,
     }
+
     if (check) {
       dispatch({
         type: 'LOADING',
         payload: true,
       })
-      Post(forAdmin ? '/admin/register' : '/customer/register', userData).then(
-        (res: any) => {
-          dispatch({
-            type: 'LOADING',
-            payload: false,
-          })
-          console.log(res)
+      Post(
+        forAdmin ? '/admin/register' : '/customer/register',
+        forAdmin ? adminData : customerData
+      ).then((res: any) => {
+        dispatch({
+          type: 'LOADING',
+          payload: false,
+        })
+        console.log(res)
 
-          if (res.status === 201) {
-            dispatch({
-              type: 'SETALERT',
-              isVisible: true,
-              color: 'success',
-              message: 'Berhasil Mendaftarkan akun',
-            })
-            forAdmin
-              ? router.push('/admin/login')
-              : router.push('/customer/login')
-          } else {
-            dispatch({
-              type: 'SETALERT',
-              isVisible: true,
-              color: 'danger',
-              message: res.error,
-            })
-          }
+        if (res.status === 201) {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'success',
+            message: 'Berhasil Mendaftarkan akun',
+          })
+          forAdmin
+            ? router.push('/admin/login')
+            : router.push('/customer/login')
+        } else {
+          dispatch({
+            type: 'SETALERT',
+            isVisible: true,
+            color: 'danger',
+            message: res.error,
+          })
         }
-      )
+      })
     } else {
       dispatch({
         type: 'SETALERT',
@@ -103,7 +121,7 @@ const Register = ({ forAdmin = false }: props) => {
         </div>
         <CCard className='px-4 py-4 mx-3 mb-3 mx-md-0'>
           <CForm className='px-3 pt-3'>
-            <div className='d-flex flex-wrap justify-content-between mb-4'>
+            <div className='d-flex flex-wrap justify-content-between'>
               <div className='register-form pe-md-3 me-md-4'>
                 <InputField
                   secure={false}
@@ -172,7 +190,15 @@ const Register = ({ forAdmin = false }: props) => {
                 />
               </div>
             </div>
-            <div className='d-flex align-items-center mb-3'>
+            {forAdmin && (
+              <div>
+                <CFormCheck
+                  label='Bag. Operasional Produk'
+                  onClick={handleRole}
+                />
+              </div>
+            )}
+            <div className='d-flex align-items-center mt-4 mb-3'>
               <CButton
                 onClick={(e) => {
                   e.preventDefault()

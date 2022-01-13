@@ -32,7 +32,7 @@ const Header = () => {
     dispatch(getUser())
   }, [dispatch])
 
-  const { loggedIn, forAdmin } = useSelector(
+  const { loggedIn, forAdmin, role } = useSelector(
     (state: RootStateOrAny) => state.user
   )
 
@@ -57,7 +57,9 @@ const Header = () => {
             <h5 className='text-light fw-bold m-0 ms-3'>
               Nama Warung
               {forAdmin && (
-                <span className='text-primary'>&nbsp;for Admin</span>
+                <span className='text-primary'>
+                  &nbsp;for Admin{role === 2 && ' (OP)'}
+                </span>
               )}
             </h5>
           </CHeaderBrand>
