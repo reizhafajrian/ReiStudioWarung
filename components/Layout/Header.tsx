@@ -58,7 +58,7 @@ const Header = () => {
               Nama Warung
               {forAdmin && (
                 <span className='text-primary'>
-                  &nbsp;for Admin{role === 2 && ' (OP)'}
+                  &nbsp;for Admin{role === 2 && ' (Supplier)'}
                 </span>
               )}
             </h5>
@@ -88,6 +88,15 @@ const Header = () => {
                 } mx-auto d-lg-block header-item end-0`}
               >
                 {/* <p className='text-light fw-bold m-0'>Admin Warung</p> */}
+                {role === 1 && (
+                  <CButton
+                    href='/admin/register'
+                    size='lg'
+                    className='w-auto me-2'
+                  >
+                    Register Admin Baru
+                  </CButton>
+                )}
                 <CButton
                   onClick={() => setVisible(!visible)}
                   size='lg'

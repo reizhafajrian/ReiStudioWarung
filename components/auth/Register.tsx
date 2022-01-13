@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import InputField from '../InputField'
 import { CButton, CCard, CForm, CFormCheck } from '@coreui/react'
@@ -7,6 +7,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { Post } from 'utils/axios'
 import Alert from '@components/Alert'
 import Loading from '@components/Loading'
+import { getUser } from 'redux/actions/loggedActions'
 
 interface props {
   forAdmin?: boolean
@@ -25,6 +26,10 @@ const Register = ({ forAdmin = false }: props) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [checked, setChecked] = useState(false)
   const role = checked ? '2' : '1'
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
 
   const handleRole = () => {
     setChecked(!checked)
@@ -73,7 +78,6 @@ const Register = ({ forAdmin = false }: props) => {
           type: 'LOADING',
           payload: false,
         })
-        console.log(res)
 
         if (res.status === 201) {
           dispatch({
@@ -83,7 +87,9 @@ const Register = ({ forAdmin = false }: props) => {
             message: 'Berhasil Mendaftarkan akun',
           })
           forAdmin
-            ? router.push('/admin/login')
+            ? state.user.role === 1
+              ? router.push('/admin')
+              : router.push('/admin/login')
             : router.push('/customer/login')
         } else {
           dispatch({
@@ -105,13 +111,20 @@ const Register = ({ forAdmin = false }: props) => {
   }
 
   return (
-    <div className='min-vh-100 d-flex flex-column'>
-      {state.loading === true && <Loading />}
-      <Header forAdmin={forAdmin} pageTitle='Register' />
+    <div className='d-flex flex-column'>
+      {state.user.role !== 1 && state.loading === true && <Loading />}
+      {state.user.role !== 1 && (
+        <Header forAdmin={forAdmin} pageTitle='Register' />
+      )}
       <div className='d-flex flex-column align-items-center mt-5'>
         <div className='text-gray text-center'>
           <h2 className='fw-bold lh-lg mb-0'>
-            Registrasi akun {forAdmin ? 'admin' : 'anda!'}
+            Registrasi akun{' '}
+            {forAdmin
+              ? state.user.role === 1
+                ? 'admin / supplier'
+                : 'admin'
+              : 'anda!'}
           </h2>
           {!forAdmin && (
             <h4 className='fw-normal lh-md-lg mb-3'>
@@ -190,12 +203,9 @@ const Register = ({ forAdmin = false }: props) => {
                 />
               </div>
             </div>
-            {forAdmin && (
+            {forAdmin && state.user.role === 1 && (
               <div>
-                <CFormCheck
-                  label='Bag. Operasional Produk'
-                  onClick={handleRole}
-                />
+                <CFormCheck label='Bag. Suplier Produk' onClick={handleRole} />
               </div>
             )}
             <div className='d-flex align-items-center mt-4 mb-3'>
@@ -204,25 +214,27 @@ const Register = ({ forAdmin = false }: props) => {
                   e.preventDefault()
                   handlePost()
                 }}
-                className='me-4'
+                className={`${state.user.role === 1 ? 'mx-auto' : 'me-4'}`}
                 size='lg'
               >
                 Daftar
               </CButton>
-              <p className='text-dark mb-0'>
-                Sudah punya akun? &nbsp;
-                <a
-                  className='text-dark fw-bold'
-                  href={forAdmin ? '/admin/login' : '/customer/login'}
-                >
-                  Masuk
-                </a>
-              </p>
+              {state.user.role !== 1 && (
+                <p className='text-dark mb-0'>
+                  Sudah punya akun? &nbsp;
+                  <a
+                    className='text-dark fw-bold'
+                    href={forAdmin ? '/admin/login' : '/customer/login'}
+                  >
+                    Masuk
+                  </a>
+                </p>
+              )}
             </div>
           </CForm>
         </CCard>
       </div>
-      {state.alert.isVisible === true && <Alert />}
+      {state.user.role !== 1 && state.alert.isVisible === true && <Alert />}
     </div>
   )
 }
