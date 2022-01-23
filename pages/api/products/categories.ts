@@ -7,4 +7,5 @@ export default connectDB(
   nc({ onError, onNoMatch })
     .get(ProductController.getCategories)
     .post(ProductController.createCategory)
+    .delete(ProductController.deleteCategory)
 )

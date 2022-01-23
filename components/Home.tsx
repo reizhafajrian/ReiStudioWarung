@@ -13,7 +13,7 @@ const Home = ({ products }: any) => {
       >
         <div className='px-5 px-md-0'>
           <Image
-            src='/images/animate.jpg'
+            src='/animate.jpg'
             alt='background img'
             width='500'
             height='360'

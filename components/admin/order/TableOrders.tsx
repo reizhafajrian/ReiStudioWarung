@@ -6,6 +6,7 @@ import {
   CTableHeaderCell,
   CTableRow,
   CTableDataCell,
+  CPopover,
 } from '@coreui/react'
 import BadgePayment from '@components/order/BadgePayment'
 import BadgeStatus from '@components/order/BadgeStatus'
@@ -17,6 +18,7 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
     'Nama',
     'Alamat',
     'Total Harga',
+    'Tanggal Order',
     'Metode Pembayaran',
     'Status',
   ]
@@ -54,11 +56,30 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                   <CTableDataCell className='text-capitalize'>
                     {o.name}
                   </CTableDataCell>
-                  <CTableDataCell>{o.address}</CTableDataCell>
+                  <CPopover content={o.address} placement='top' trigger='hover'>
+                    <CTableDataCell>
+                      <p
+                        className='m-0 text-truncate'
+                        style={{ maxWidth: 200 }}
+                      >
+                        {o.address}
+                      </p>
+                    </CTableDataCell>
+                  </CPopover>
                   <CTableDataCell>
                     Rp.
                     {o.order_detail.total.toLocaleString('id-ID')}
                     ,-
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    {new Date(o.order_detail.created_at).toLocaleDateString(
+                      'id-ID',
+                      {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      }
+                    )}
                   </CTableDataCell>
                   <CTableDataCell>
                     <div className='d-flex'>
@@ -85,11 +106,34 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
                     <CTableDataCell className='text-capitalize'>
                       {o.name}
                     </CTableDataCell>
-                    <CTableDataCell>{o.address}</CTableDataCell>
+                    <CPopover
+                      content={o.address}
+                      placement='top'
+                      trigger='hover'
+                    >
+                      <CTableDataCell>
+                        <p
+                          className='m-0 text-truncate'
+                          style={{ maxWidth: 200 }}
+                        >
+                          {o.address}
+                        </p>
+                      </CTableDataCell>
+                    </CPopover>
                     <CTableDataCell>
                       Rp.
                       {o.order_detail.total.toLocaleString('id-ID')}
                       ,-
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      {new Date(o.order_detail.created_at).toLocaleDateString(
+                        'id-ID',
+                        {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        }
+                      )}
                     </CTableDataCell>
                     <CTableDataCell>
                       <div className='d-flex'>

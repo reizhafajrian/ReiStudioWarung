@@ -48,7 +48,7 @@ const Header = () => {
         <Link href={forAdmin ? '/admin' : '/customer'} passHref>
           <CHeaderBrand className='header-item d-flex align-items-center p-0 m-0'>
             <Image
-              src='/images/logo.jpg'
+              src='/logo.jpg'
               alt='logo'
               width='40'
               height='40'
@@ -88,15 +88,6 @@ const Header = () => {
                 } mx-auto d-lg-block header-item end-0`}
               >
                 {/* <p className='text-light fw-bold m-0'>Admin Warung</p> */}
-                {role === 1 && (
-                  <CButton
-                    href='/admin/register'
-                    size='lg'
-                    className='w-auto me-2'
-                  >
-                    Register Admin Baru
-                  </CButton>
-                )}
                 <CButton
                   onClick={() => setVisible(!visible)}
                   size='lg'

@@ -10,7 +10,17 @@ const DetailCustomer = ({ user, order }: any) => {
       </h5>
       <CRow>
         <CCol xs={12} md={4}>
-          <h5 className='lh-lg'>{user.address}</h5>
+          <h5 className='lh-lg text-break' style={{ width: 500 }}>
+            {user.address}
+          </h5>
+          <h5 className='lh-lg'>
+            <b>Tanggal order</b>:{' '}
+            {new Date(order.created_at).toLocaleDateString('id-ID', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
+          </h5>
           <h5 className='lh-lg'>
             <b>Total harga</b>: Rp.
             {order.total.toLocaleString('id-ID')}

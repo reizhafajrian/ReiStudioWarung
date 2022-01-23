@@ -196,4 +196,55 @@ export const CustomerController = {
       })
     }
   },
+  allCustomersAdmin: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { authorization } = req.headers
+    let { page, limit } = req.query
+
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (r.user.role === 1) {
+        let customers: any = await Customer.find().sort({ _id: -1 })
+
+        //paginating
+        page = page ? page.toString() : '1'
+        limit = limit ? limit.toString() : '6'
+
+        const pageNum = parseInt(page)
+        const limitNum = parseInt(limit)
+        const skip = (pageNum - 1) * limitNum
+
+        const handleLimit = (c: any) => {
+          return customers.filter((x: any, i: any) => {
+            if (i <= c - 1) {
+              return true
+            }
+          })
+        }
+
+        const handleSkip = (c: any) => {
+          return customers.filter((x: any, i: any) => {
+            if (i > c - 1) {
+              return true
+            }
+          })
+        }
+
+        customers = handleSkip(skip)
+        customers = handleLimit(limitNum)
+
+        return res.status(200).json({
+          status: 200,
+          customers,
+          result: customers.length,
+        })
+      }
+    }
+  },
 }

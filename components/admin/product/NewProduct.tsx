@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { CButton, CContainer, CForm } from '@coreui/react'
+import Image from 'next/image'
+import { CButton, CContainer, CForm, CFormInput } from '@coreui/react'
 import InputField from '../../InputField'
 import { Post } from 'utils/axios'
 import { useDispatch } from 'react-redux'
@@ -16,7 +17,7 @@ const NewProduct = ({ categories }: any) => {
   const [stok, setStok] = useState('')
   const [foto, setFoto] = useState('')
   const [kat, setKat] = useState('')
-  const [tambahKat, setTambahKat] = useState('')
+  const [createObjectURL, setCreateObjectURL] = useState('')
 
   let listKategori: any = []
 
@@ -31,18 +32,7 @@ const NewProduct = ({ categories }: any) => {
     beli.length > 0 &&
     jual.length > 0 &&
     stok.length > 0 &&
-    foto.length > 0 &&
-    (kat.length > 0 || tambahKat.length > 0)
-
-  let data: any = {
-    name: nama,
-    category: tambahKat ? tambahKat : kat,
-    image: foto,
-    buying_price: beli,
-    selling_price: jual,
-    stock: stok,
-  }
-  sewa ? (data.renting_price = sewa) : undefined
+    kat.length > 0
 
   const handlePost = () => {
     if (check) {
@@ -50,19 +40,22 @@ const NewProduct = ({ categories }: any) => {
         type: 'LOADING',
         payload: true,
       })
-      console.log(data)
 
-      Post('/admin/products', data).then((res: any) => {
-        if (tambahKat) {
-          Post('/products/categories', { name: tambahKat })
-        }
+      const data = new FormData()
+      data.append('name', nama)
+      data.append('category', kat)
+      data.append('image', foto)
+      data.append('buying_price', beli)
+      data.append('selling_price', jual)
+      data.append('stock', stok)
+      sewa ? data.append('renting_price', sewa) : undefined
+
+      Post('/admin/products', data, 'form-data').then((res: any) => {
         dispatch({
           type: 'LOADING',
           payload: false,
         })
         if (res.status === 201) {
-          console.log(res)
-
           dispatch({
             type: 'SETALERT',
             isVisible: true,
@@ -91,6 +84,14 @@ const NewProduct = ({ categories }: any) => {
 
   const handleCategory = (cat: any) => {
     setKat(cat.value)
+  }
+
+  const setUploadFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file: any = e.target.files[0]
+      setFoto(file)
+      setCreateObjectURL(URL.createObjectURL(file))
+    }
   }
 
   return (
@@ -126,7 +127,7 @@ const NewProduct = ({ categories }: any) => {
               />
             </div>
           </div>
-          <div className='product-form'>
+          <div className='my-auto product-form'>
             <InputField
               type='number'
               label='Jumlah Stok'
@@ -143,16 +144,6 @@ const NewProduct = ({ categories }: any) => {
               value={jual}
               id='jual'
             />
-            <InputField
-              type='text'
-              label='Tambah Kategori'
-              placeholder='Tambah kategori'
-              onChange={setTambahKat}
-              value={tambahKat}
-              id='tambahKat'
-            />
-          </div>
-          <div className='my-auto product-form'>
             {kat === 'Tabung Gas' && (
               <InputField
                 type='number'
@@ -163,12 +154,27 @@ const NewProduct = ({ categories }: any) => {
                 id='sewa'
               />
             )}
-            <InputField
-              type='text'
-              label='Foto Barang'
+          </div>
+          <div className='my-auto product-form'>
+            {createObjectURL && (
+              <>
+                <Image
+                  src={createObjectURL}
+                  alt='img-preview'
+                  width={200}
+                  height={200}
+                />
+                <br />
+              </>
+            )}
+            <label className='h6 fw-bold mb-3' htmlFor='foto'>
+              Foto Barang
+            </label>
+            <CFormInput
+              type='file'
               placeholder='Foto Barang'
-              onChange={setFoto}
-              value={foto}
+              onChange={setUploadFoto}
+              name='image'
               id='foto'
             />
           </div>

@@ -68,6 +68,11 @@ const OrderController = {
 
         let orders = dataCustomer.order
 
+        orders.sort(
+          (a: any, b: any) =>
+            new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
+        )
+
         const currentMonth = new Date().getMonth() + 1
         let cmOrders = 0
         let cmExpense = 0
@@ -191,6 +196,13 @@ const OrderController = {
                 },
               ])
           )
+        )
+
+        // sorting by date
+        orders.sort(
+          (a: any, b: any) =>
+            new Date(b.order_detail.created_at).valueOf() -
+            new Date(a.order_detail.created_at).valueOf()
         )
 
         if (status !== 'all') {

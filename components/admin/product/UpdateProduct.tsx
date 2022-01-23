@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
-import { CButton, CContainer, CForm } from '@coreui/react'
+import { CButton, CContainer, CForm, CFormInput } from '@coreui/react'
 import InputField from '../../InputField'
 import { useDispatch } from 'react-redux'
-import { Post, Put } from 'utils/axios'
+import { Put } from 'utils/axios'
 import { useRouter } from 'next/router'
 import Select from 'react-select'
+import Image from 'next/image'
 
 const UpdateProduct = ({ product, categories }: any) => {
   const dispatch = useDispatch()
@@ -14,9 +15,9 @@ const UpdateProduct = ({ product, categories }: any) => {
   const [jual, setJual] = useState(product.selling_price)
   const [sewa, setSewa] = useState(product.renting_price)
   const [stok, setStok] = useState(product.stock)
-  const [foto, setFoto] = useState(product.image)
+  const [foto, setFoto] = useState('')
   const [kat, setKat] = useState(product.category)
-  const [tambahKat, setTambahKat] = useState('')
+  const [createObjectURL, setCreateObjectURL] = useState(product.image)
 
   let listKategori: any = []
 
@@ -31,18 +32,7 @@ const UpdateProduct = ({ product, categories }: any) => {
     beli !== null &&
     jual !== null &&
     stok !== null &&
-    foto.length > 0 &&
-    (kat.length > 0 || tambahKat.length > 0)
-
-  let data: any = {
-    name: nama,
-    category: tambahKat ? tambahKat : kat,
-    image: foto,
-    buying_price: beli,
-    selling_price: jual,
-    stock: stok,
-  }
-  sewa ? (data.renting_price = sewa) : undefined
+    kat.length > 0
 
   const handlePut = () => {
     if (check) {
@@ -50,31 +40,40 @@ const UpdateProduct = ({ product, categories }: any) => {
         type: 'LOADING',
         payload: true,
       })
-      Put(`/admin/products?id=${router.query.pid}`, data).then((res: any) => {
-        if (tambahKat) {
-          Post('/products/categories', { name: tambahKat })
-        }
-        dispatch({
-          type: 'LOADING',
-          payload: false,
-        })
-        if (res.status === 200) {
+
+      const data = new FormData()
+      data.append('name', nama)
+      data.append('category', kat)
+      foto && data.append('image', foto)
+      data.append('buying_price', beli)
+      data.append('selling_price', jual)
+      data.append('stock', stok)
+      sewa ? data.append('renting_price', sewa) : undefined
+
+      Put(`/admin/products?id=${router.query.pid}`, data, 'form-data').then(
+        (res: any) => {
           dispatch({
-            type: 'SETALERT',
-            isVisible: true,
-            color: 'success',
-            message: res.message,
+            type: 'LOADING',
+            payload: false,
           })
-          router.push('/admin/products')
-        } else {
-          dispatch({
-            type: 'SETALERT',
-            isVisible: true,
-            color: 'danger',
-            message: res.error,
-          })
+          if (res.status === 200) {
+            dispatch({
+              type: 'SETALERT',
+              isVisible: true,
+              color: 'success',
+              message: res.message,
+            })
+            router.push('/admin/products')
+          } else {
+            dispatch({
+              type: 'SETALERT',
+              isVisible: true,
+              color: 'danger',
+              message: res.error,
+            })
+          }
         }
-      })
+      )
     } else {
       dispatch({
         type: 'SETALERT',
@@ -87,6 +86,14 @@ const UpdateProduct = ({ product, categories }: any) => {
 
   const handleCategory = (cat: any) => {
     setKat(cat.value)
+  }
+
+  const setUploadFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file: any = e.target.files[0]
+      setFoto(file)
+      setCreateObjectURL(URL.createObjectURL(file))
+    }
   }
 
   return (
@@ -123,7 +130,7 @@ const UpdateProduct = ({ product, categories }: any) => {
               />
             </div>
           </div>
-          <div className='product-form'>
+          <div className='my-auto product-form'>
             <InputField
               type='number'
               label='Jumlah Stok'
@@ -140,16 +147,6 @@ const UpdateProduct = ({ product, categories }: any) => {
               value={jual}
               id='jual'
             />
-            <InputField
-              type='text'
-              label='Tambah Kategori'
-              placeholder='Tambah kategori'
-              onChange={setTambahKat}
-              value={tambahKat}
-              id='tambahKat'
-            />
-          </div>
-          <div className='my-auto product-form'>
             {kat === 'Tabung Gas' && (
               <InputField
                 type='number'
@@ -160,12 +157,27 @@ const UpdateProduct = ({ product, categories }: any) => {
                 id='sewa'
               />
             )}
-            <InputField
-              type='text'
-              label='Foto Barang'
+          </div>
+          <div className='my-auto product-form'>
+            {createObjectURL && (
+              <>
+                <Image
+                  src={createObjectURL}
+                  alt='img-preview'
+                  width={200}
+                  height={200}
+                />
+                <br />
+              </>
+            )}
+            <label className='h6 fw-bold mb-3' htmlFor='foto'>
+              Foto Barang
+            </label>
+            <CFormInput
+              type='file'
               placeholder='Foto Barang'
-              onChange={setFoto}
-              value={foto}
+              onChange={setUploadFoto}
+              name='image'
               id='foto'
             />
           </div>

@@ -32,14 +32,23 @@ _axios.interceptors.response.use(
   }
 )
 
-const header = async () => {
+const header = async (type?: any) => {
   const jwt = Cookie.get('token')
   try {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+    if (type === 'form-data') {
+      return {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    } else {
+      return {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
+      }
     }
   } catch (error: any) {
     return error.message
@@ -76,11 +85,15 @@ export const Get = async (url: any, jwt: any) => {
   }
 }
 
-export const Post = async (url: any, params: any) => {
+export const Post = async (url: any, params: any, type?: any) => {
   try {
-    const head = await header()
+    const head = await header(type)
 
-    const post = await _axios.post(url, JSON.stringify(params), head)
+    const post = await _axios.post(
+      url,
+      type === 'form-data' ? params : JSON.stringify(params),
+      head
+    )
 
     return post
   } catch (error: any) {
@@ -88,13 +101,15 @@ export const Post = async (url: any, params: any) => {
   }
 }
 
-export const Put = async (url: any, params: any) => {
+export const Put = async (url: any, params: any, type?: any) => {
   try {
-    const head = await header()
+    const head = await header(type)
 
-    console.log(head)
-
-    const post = await _axios.put(url, JSON.stringify(params), head)
+    const post = await _axios.put(
+      url,
+      type === 'form-data' ? params : params,
+      head
+    )
     return post
   } catch (error: any) {
     return errors(error.message)

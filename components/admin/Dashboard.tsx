@@ -1,12 +1,21 @@
 import Link from 'next/link'
-import { CContainer } from '@coreui/react'
+import { CButton, CContainer } from '@coreui/react'
 import TableOrders from './order/TableOrders'
 import TableProducts from './product/TableProducts'
 import ReportCard from './report/ReportCard'
+import TableCustomers from './customer/TableCustomers'
 
-const Dashboard = ({ reports, products, orders, vouchers }: any) => {
+const Dashboard = ({ reports, products, orders, vouchers, customers }: any) => {
   return (
     <CContainer className='dashboard'>
+      <div className='text-end mt-5'>
+        <CButton href='/admin/register' size='lg' className='w-auto me-2'>
+          Register Admin Baru
+        </CButton>
+        <CButton href='/admin/categories' size='lg' className='w-auto'>
+          Tambah Kategori
+        </CButton>
+      </div>
       {/* LAPORAN PESANAN */}
       <div className='my-5'>
         <div className='title mb-3'>
@@ -63,6 +72,18 @@ const Dashboard = ({ reports, products, orders, vouchers }: any) => {
           </Link>
         </div>
         <TableProducts products={products} forDashboard={true} />
+      </div>
+      {/* List Customer */}
+      <div className='my-5'>
+        <div className='title mb-3'>
+          <h5 className='fw-bold'>Daftar Pelanggan</h5>
+          <Link href='/admin/customers'>
+            <a>
+              <h5 className='showpage'>Lihat semua {'>'}</h5>
+            </a>
+          </Link>
+        </div>
+        <TableCustomers customers={customers} forDashboard={true} />
       </div>
     </CContainer>
   )

@@ -4,6 +4,7 @@ import products from '../../data/products'
 import categories from 'data/categories'
 import Category from '@backend/models/Category'
 import { verifyToken } from '@backend/middlewares/jwt'
+import fs from 'fs'
 
 export const ProductController = {
   seedProducts: async function (
@@ -49,6 +50,38 @@ export const ProductController = {
       })
     }
   },
+  deleteCategory: async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { authorization } = req.headers
+
+    if (authorization) {
+      const token = authorization.split(' ')[1]
+
+      const r: any = verifyToken(String(token))
+
+      if (r.user.role === 1) {
+        const { id } = req.query
+        const category = await Category.findById(id)
+
+        if (!category) {
+          return res.status(404).json({
+            status: 404,
+            message: 'Category not found with this ID.',
+          })
+        }
+
+        await Category.findByIdAndRemove(id)
+
+        return res.status(200).json({
+          status: 200,
+          message: 'Category deleted successfully',
+        })
+      }
+    }
+  },
   createCategory: async function (
     req: Request,
     res: Response,
@@ -72,7 +105,7 @@ export const ProductController = {
     next: NextFunction
   ) {
     let { page, limit, search, sort, category } = req.query
-    let products = await Product.find()
+    let products = await Product.find().sort({ updatedAt: -1 })
 
     // Filtering
     if (search !== 'all') {
@@ -179,6 +212,15 @@ export const ProductController = {
         const { id } = req.query
         const product = await Product.findById(id)
 
+        const imagePath = product.image
+
+        try {
+          fs.unlinkSync('public' + imagePath)
+          console.log('file removes:', imagePath)
+        } catch (err) {
+          console.log(err)
+        }
+
         if (!product) {
           return res.status(404).json({
             status: 404,
@@ -204,17 +246,36 @@ export const ProductController = {
       const r: any = verifyToken(String(token))
 
       if (r.user.role !== 0) {
-        // const {
-        //   name,
-        //   category,
-        //   image,
-        //   buying_price,
-        //   selling_price,
-        //   renting_price,
-        //   stock,
-        // } = req.body
+        if (!req.file) {
+          return res.status(422).json({
+            status: 422,
+            message: 'Image harus diupload',
+          })
+        }
 
-        const newProduct = await Product.create(req.body)
+        const {
+          name,
+          category,
+          buying_price,
+          selling_price,
+          renting_price,
+          stock,
+        } = req.body
+
+        const filename = req.file.filename
+        const image = '/uploads/' + filename
+
+        const data = {
+          name,
+          category,
+          image,
+          buying_price,
+          selling_price,
+          renting_price,
+          stock,
+        }
+
+        const newProduct = await Product.create(data)
 
         return res.status(201).json({
           status: 201,
@@ -234,17 +295,44 @@ export const ProductController = {
 
       if (r.user.role !== 0) {
         const { id } = req.query
-        // const {
-        //   name,
-        //   category,
-        //   image,
-        //   buying_price,
-        //   selling_price,
-        //   renting_price,
-        //   stock,
-        // } = req.body
 
-        await Product.findByIdAndUpdate(id, req.body)
+        const product = await Product.findById(id)
+
+        const imagePath = product.image
+
+        // delete previews image
+        if (req.file) {
+          try {
+            fs.unlinkSync('public' + imagePath)
+            console.log('file removes:', imagePath)
+          } catch (err) {
+            console.log(err)
+          }
+        }
+
+        const {
+          name,
+          category,
+          buying_price,
+          selling_price,
+          renting_price,
+          stock,
+        } = req.body
+
+        const filename = req.file ? req.file.filename : null
+        const image = filename ? '/uploads/' + filename : imagePath
+
+        const data = {
+          name,
+          category,
+          image,
+          buying_price,
+          selling_price,
+          renting_price,
+          stock,
+        }
+
+        await Product.findByIdAndUpdate(id, data)
 
         return res.status(200).json({
           status: 200,

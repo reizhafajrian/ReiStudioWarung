@@ -5,7 +5,13 @@ import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 import { useRouter } from 'next/router'
 
-const DashboardPage = ({ reports, products, orders, vouchers }: any) => {
+const DashboardPage = ({
+  reports,
+  products,
+  orders,
+  vouchers,
+  customers,
+}: any) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -21,6 +27,7 @@ const DashboardPage = ({ reports, products, orders, vouchers }: any) => {
         products={products}
         orders={orders}
         vouchers={vouchers}
+        customers={customers}
       />
     </>
   )
@@ -40,6 +47,7 @@ export const getServerSideProps = async ({ req, res }: any) => {
   const productReq: any = await Get('/products?category=all&search=all', token)
   const voucherReq: any = await Get('/admin/vouchers', token)
   const reportReq: any = await Get(`/admin/reports?s=all&e=all`, token)
+  const customerReq: any = await Get('/admin/customers?limit=5', token)
 
   return {
     props: {
@@ -47,6 +55,7 @@ export const getServerSideProps = async ({ req, res }: any) => {
       orders: orderReq.orders || null,
       vouchers: voucherReq.vouchers || null,
       reports: reportReq || null,
+      customers: customerReq.customers || null,
     },
   }
 }
