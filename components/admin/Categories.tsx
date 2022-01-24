@@ -106,7 +106,7 @@ const Categories = ({ categories }: any) => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody className='bg-white h6 align-middle'>
-                  {categories.map((c: any) => (
+                  {categories?.map((c: any) => (
                     <CTableRow key={c._id}>
                       <CTableDataCell className='p-0 p-2 px-3'>
                         {c.name}

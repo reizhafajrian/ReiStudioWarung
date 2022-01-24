@@ -59,7 +59,7 @@ const Dashboard = ({ reports, products, orders, vouchers, customers }: any) => {
             </a>
           </Link>
         </div>
-        <TableOrders orders={orders} forDashboard={true} />
+        <TableOrders orders={orders} />
       </div>
       {/* PERSEDIAAN PRODUK */}
       <div className='my-5'>
@@ -71,7 +71,7 @@ const Dashboard = ({ reports, products, orders, vouchers, customers }: any) => {
             </a>
           </Link>
         </div>
-        <TableProducts products={products} forDashboard={true} />
+        <TableProducts products={products} />
       </div>
       {/* List Customer */}
       <div className='my-5'>
@@ -83,7 +83,7 @@ const Dashboard = ({ reports, products, orders, vouchers, customers }: any) => {
             </a>
           </Link>
         </div>
-        <TableCustomers customers={customers} forDashboard={true} />
+        <TableCustomers customers={customers} vouchers={vouchers} />
       </div>
     </CContainer>
   )

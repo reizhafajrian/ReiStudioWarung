@@ -15,17 +15,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Delete } from 'utils/axios'
 
-interface props {
-  products: any
-  forDashboard?: boolean
-  result?: number
-}
-
-const TableProduct = ({
-  products,
-  forDashboard = false,
-  result = 6,
-}: props) => {
+const TableProduct = ({ products, result }: any) => {
   const router = useRouter()
   const [visible, setVisible] = useState(false)
   const [productId, SetProductId] = useState('')
@@ -80,114 +70,60 @@ const TableProduct = ({
             </CTableRow>
           </CTableHead>
           <CTableBody className='bg-white h6 align-middle'>
-            {!products && (
-              <CTableRow>
-                <CTableDataCell>Produk Kosong</CTableDataCell>
-              </CTableRow>
-            )}
-            {forDashboard
-              ? products.slice(0, 5).map((product: any) => (
-                  <CTableRow key={product._id}>
-                    <CTableDataCell>{product.name}</CTableDataCell>
-                    <CTableDataCell>{product.stock}</CTableDataCell>
-                    <CTableDataCell>
-                      Rp.
-                      {product.buying_price.toLocaleString('id-ID')}
-                      ,-
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      Rp.
-                      {product.selling_price.toLocaleString('id-ID')}
-                      ,-
-                    </CTableDataCell>
-                    <CTableDataCell>{product.category}</CTableDataCell>
-                    <CTableDataCell>
-                      {new Date(product.updatedAt).toLocaleDateString('id-ID', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                      })}
-                    </CTableDataCell>
-                    <CTableDataCell className='d-flex'>
-                      <CButton
-                        color='warning'
-                        className='w-auto me-2'
-                        onClick={() => {
-                          router.push(`/admin/products/${product._id}`)
-                        }}
-                      >
-                        <RiPencilFill fill='white' size='24' />
-                      </CButton>
-                      <CButton
-                        className='w-auto'
-                        color='danger'
-                        onClick={() => {
-                          SetProductId(product._id)
-                          setVisible(!visible)
-                        }}
-                      >
-                        <IoMdTrash fill='white' size='24' />
-                      </CButton>
-                    </CTableDataCell>
-                  </CTableRow>
-                ))
-              : products
-                  .slice(result <= 6 ? 0 : result - 6, products.length)
-                  .map((product: any) => (
-                    <CTableRow key={product._id}>
-                      <CTableDataCell>{product.name}</CTableDataCell>
-                      <CTableDataCell>{product.stock}</CTableDataCell>
-                      <CTableDataCell>
+            {products
+              ?.slice(result <= 6 ? 0 : result - 6, products.length)
+              .map((product: any) => (
+                <CTableRow key={product._id}>
+                  <CTableDataCell>{product.name}</CTableDataCell>
+                  <CTableDataCell>{product.stock}</CTableDataCell>
+                  <CTableDataCell>
+                    Rp.
+                    {product.buying_price.toLocaleString('id-ID')}
+                    ,-
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    Rp.
+                    {product.selling_price.toLocaleString('id-ID')}
+                    ,-
+                    {product.renting_price && (
+                      <p className='m-0 mt-1'>
                         Rp.
-                        {product.buying_price.toLocaleString('id-ID')}
+                        {product.renting_price.toLocaleString('id-ID')}
                         ,-
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        Rp.
-                        {product.selling_price.toLocaleString('id-ID')}
-                        ,-
-                        {product.renting_price && (
-                          <p className='m-0 mt-1'>
-                            Rp.
-                            {product.renting_price.toLocaleString('id-ID')}
-                            ,-
-                          </p>
-                        )}
-                      </CTableDataCell>
-                      <CTableDataCell>{product.category}</CTableDataCell>
-                      <CTableDataCell>
-                        {new Date(product.updatedAt).toLocaleDateString(
-                          'id-ID',
-                          {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                          }
-                        )}
-                      </CTableDataCell>
-                      <CTableDataCell className='d-flex'>
-                        <CButton
-                          color='warning'
-                          className='w-auto me-2'
-                          onClick={() => {
-                            router.push(`/admin/products/${product._id}`)
-                          }}
-                        >
-                          <RiPencilFill fill='white' size='24' />
-                        </CButton>
-                        <CButton
-                          className='w-auto'
-                          color='danger'
-                          onClick={() => {
-                            SetProductId(product._id)
-                            setVisible(!visible)
-                          }}
-                        >
-                          <IoMdTrash fill='white' size='24' />
-                        </CButton>
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
+                      </p>
+                    )}
+                  </CTableDataCell>
+                  <CTableDataCell>{product.category}</CTableDataCell>
+                  <CTableDataCell>
+                    {new Date(product.updatedAt).toLocaleDateString('id-ID', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })}
+                  </CTableDataCell>
+                  <CTableDataCell className='d-flex'>
+                    <CButton
+                      color='warning'
+                      className='w-auto me-2'
+                      onClick={() => {
+                        router.push(`/admin/products/${product._id}`)
+                      }}
+                    >
+                      <RiPencilFill fill='white' size='24' />
+                    </CButton>
+                    <CButton
+                      className='w-auto'
+                      color='danger'
+                      onClick={() => {
+                        SetProductId(product._id)
+                        setVisible(!visible)
+                      }}
+                    >
+                      <IoMdTrash fill='white' size='24' />
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
+              ))}
           </CTableBody>
         </CTable>
       </div>

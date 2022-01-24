@@ -36,7 +36,7 @@ const TableReports = ({ products, result }: any) => {
         </CTableHead>
         <CTableBody className='bg-white h6 align-middle'>
           {products
-            .slice(result <= 6 ? 0 : result - 6, products.length)
+            ?.slice(result <= 6 ? 0 : result - 6, products.length)
             .map((product: any) => (
               <CTableRow key={product._id}>
                 <CTableDataCell>

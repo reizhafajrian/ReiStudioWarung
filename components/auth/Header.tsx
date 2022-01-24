@@ -22,7 +22,7 @@ const Header = ({ forAdmin, pageTitle }: props) => {
           <Link href={forAdmin ? '/admin/login' : '/customer'} passHref>
             <CHeaderBrand className='position-md-absolute d-flex align-items-center p-0 m-0'>
               <Image
-                src='/images/logo.jpg'
+                src='/logo.jpg'
                 alt='logo'
                 width='40'
                 height='40'

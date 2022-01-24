@@ -11,7 +11,7 @@ import {
 import BadgePayment from '@components/order/BadgePayment'
 import BadgeStatus from '@components/order/BadgeStatus'
 
-const TableOrders = ({ orders, result, forDashboard = false }: any) => {
+const TableOrders = ({ orders, result }: any) => {
   const router = useRouter()
 
   const headers = [
@@ -39,114 +39,53 @@ const TableOrders = ({ orders, result, forDashboard = false }: any) => {
           </CTableRow>
         </CTableHead>
         <CTableBody className='h6 bg-white py-4 align-middle'>
-          {!orders && (
-            <CTableRow>
-              <CTableDataCell>Order Kosong</CTableDataCell>
-            </CTableRow>
-          )}
-          {forDashboard
-            ? orders?.slice(0, 5).map((o: any) => (
-                <CTableRow
-                  style={{ cursor: 'pointer' }}
-                  key={o.order_detail.order_id}
-                  onClick={() => {
-                    router.push(`/admin/history/${o.order_detail.order_id}`)
-                  }}
-                >
-                  <CTableDataCell className='text-capitalize'>
-                    {o.name}
-                  </CTableDataCell>
-                  <CPopover content={o.address} placement='top' trigger='hover'>
-                    <CTableDataCell>
-                      <p
-                        className='m-0 text-truncate'
-                        style={{ maxWidth: 200 }}
-                      >
-                        {o.address}
-                      </p>
-                    </CTableDataCell>
-                  </CPopover>
+          {orders
+            ?.slice(result <= 6 ? 0 : result - 6, orders.length)
+            .map((o: any) => (
+              <CTableRow
+                style={{ cursor: 'pointer' }}
+                key={o.order_detail.order_id}
+                onClick={() => {
+                  router.push(`/admin/history/${o.order_detail.order_id}`)
+                }}
+              >
+                <CTableDataCell className='text-capitalize'>
+                  {o.name}
+                </CTableDataCell>
+                <CPopover content={o.address} placement='top' trigger='hover'>
                   <CTableDataCell>
-                    Rp.
-                    {o.order_detail.total.toLocaleString('id-ID')}
-                    ,-
+                    <p className='m-0 text-truncate' style={{ maxWidth: 200 }}>
+                      {o.address}
+                    </p>
                   </CTableDataCell>
-                  <CTableDataCell>
-                    {new Date(o.order_detail.created_at).toLocaleDateString(
-                      'id-ID',
-                      {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                      }
-                    )}
-                  </CTableDataCell>
-                  <CTableDataCell>
-                    <div className='d-flex'>
-                      <BadgePayment title={o.order_detail.payment} />
-                    </div>
-                  </CTableDataCell>
-                  <CTableDataCell>
-                    <div className='d-flex'>
-                      <BadgeStatus title={o.order_detail.status.title} />
-                    </div>
-                  </CTableDataCell>
-                </CTableRow>
-              ))
-            : orders
-                .slice(result <= 6 ? 0 : result - 6, orders.length)
-                .map((o: any) => (
-                  <CTableRow
-                    style={{ cursor: 'pointer' }}
-                    key={o.order_detail.order_id}
-                    onClick={() => {
-                      router.push(`/admin/history/${o.order_detail.order_id}`)
-                    }}
-                  >
-                    <CTableDataCell className='text-capitalize'>
-                      {o.name}
-                    </CTableDataCell>
-                    <CPopover
-                      content={o.address}
-                      placement='top'
-                      trigger='hover'
-                    >
-                      <CTableDataCell>
-                        <p
-                          className='m-0 text-truncate'
-                          style={{ maxWidth: 200 }}
-                        >
-                          {o.address}
-                        </p>
-                      </CTableDataCell>
-                    </CPopover>
-                    <CTableDataCell>
-                      Rp.
-                      {o.order_detail.total.toLocaleString('id-ID')}
-                      ,-
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      {new Date(o.order_detail.created_at).toLocaleDateString(
-                        'id-ID',
-                        {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                        }
-                      )}
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <div className='d-flex'>
-                        <BadgePayment title={o.order_detail.payment} />
-                      </div>
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <div className='d-flex'>
-                        <BadgeStatus title={o.order_detail.status.title} />
-                      </div>
-                    </CTableDataCell>
-                  </CTableRow>
-                ))}
+                </CPopover>
+                <CTableDataCell>
+                  Rp.
+                  {o.order_detail.total.toLocaleString('id-ID')}
+                  ,-
+                </CTableDataCell>
+                <CTableDataCell>
+                  {new Date(o.order_detail.created_at).toLocaleDateString(
+                    'id-ID',
+                    {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    }
+                  )}
+                </CTableDataCell>
+                <CTableDataCell>
+                  <div className='d-flex'>
+                    <BadgePayment title={o.order_detail.payment} />
+                  </div>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <div className='d-flex'>
+                    <BadgeStatus title={o.order_detail.status.title} />
+                  </div>
+                </CTableDataCell>
+              </CTableRow>
+            ))}
         </CTableBody>
       </CTable>
     </div>

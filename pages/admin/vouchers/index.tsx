@@ -19,8 +19,6 @@ export const getServerSideProps = async ({ req, res, query }: any) => {
 
   const data: any = await Get('/admin/vouchers', token)
 
-  console.log(data)
-
   return {
     props: data,
   }

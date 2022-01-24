@@ -4,8 +4,16 @@ import Layout from '@components/layout/Layout'
 import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
-const AllCustomersPage = (props: any) => {
-  return <AllCustomers customers={props.customers} result={props.result} />
+const AllCustomersPage = ({ cData, vData }: any) => {
+  console.log(vData)
+
+  return (
+    <AllCustomers
+      customers={cData.customers}
+      vouchers={vData.vouchers}
+      result={cData.result}
+    />
+  )
 }
 
 export default AllCustomersPage
@@ -18,9 +26,13 @@ export const getServerSideProps = async ({ req, res, query }: any) => {
   const token = getCookie('token', { req, res })
   const page: any = query.page || 1
 
-  const data: any = await Get(`/admin/customers?limit=${page * 6}`, token)
+  const cData: any = await Get(`/admin/customers?limit=${page * 6}`, token)
 
+  const vData: any = await Get('/admin/vouchers', token)
   return {
-    props: data,
+    props: {
+      cData,
+      vData,
+    },
   }
 }

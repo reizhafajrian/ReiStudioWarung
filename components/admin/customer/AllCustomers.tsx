@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import filterSearch from 'utils/filterSearch'
 import TableCustomers from './TableCustomers'
 
-const AllCustomers = ({ customers, result }: any) => {
+const AllCustomers = ({ customers, vouchers, result }: any) => {
   const router = useRouter()
   const [page, setPage] = useState(1)
 
@@ -26,7 +26,11 @@ const AllCustomers = ({ customers, result }: any) => {
       <div className='d-flex justify-content-between align-items-center'>
         <h4 className='fw-bold mb-0'>Daftar Pelanggan</h4>
       </div>
-      <TableCustomers customers={customers} result={result} />
+      <TableCustomers
+        customers={customers}
+        vouchers={vouchers}
+        result={result}
+      />
       <div className='d-flex justify-content-end align-items-center'>
         <CButton
           onClick={handlePrev}

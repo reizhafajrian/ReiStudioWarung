@@ -44,9 +44,12 @@ export const getServerSideProps = async ({ req, res }: any) => {
   const token = getCookie('token', { req, res })
 
   const orderReq: any = await Get('/admin/orders?limit=5&status=all', token)
-  const productReq: any = await Get('/products?category=all&search=all', token)
+  const productReq: any = await Get(
+    '/products?category=all&search=all&limit=5',
+    token
+  )
   const voucherReq: any = await Get('/admin/vouchers', token)
-  const reportReq: any = await Get(`/admin/reports?s=all&e=all`, token)
+  const reportReq: any = await Get('/admin/reports?s=all&e=all&limit=5', token)
   const customerReq: any = await Get('/admin/customers?limit=5', token)
 
   return {
