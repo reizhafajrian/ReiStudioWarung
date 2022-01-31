@@ -68,7 +68,10 @@ const OrderDetails = ({ user }: any) => {
                   title: 'sedang diproses',
                   content: '',
                 },
-                payment: res.response.store,
+                payment: res.response.store
+                  ? res.response.store
+                  : 'transfer va',
+                payment_info: res.response,
                 created_at: res.response.transaction_time,
               },
             }).then((res) => {

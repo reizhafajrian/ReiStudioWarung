@@ -5,8 +5,6 @@ import { getCookie } from 'cookies-next'
 import { Get } from 'utils/axios'
 
 const AllCustomersPage = ({ cData, vData }: any) => {
-  console.log(vData)
-
   return (
     <AllCustomers
       customers={cData.customers}

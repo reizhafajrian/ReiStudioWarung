@@ -25,6 +25,7 @@ const validateMiddleware = (validations: any) => {
 
 // Base validation
 export const validations = (array: any) =>
+  //@ts-ignore
   initMiddleware(validateMiddleware(array, validationResult))
 
 /**
