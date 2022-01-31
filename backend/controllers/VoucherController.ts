@@ -133,7 +133,7 @@ const VoucherController = {
 
       if (r.user.role === 1) {
         const transporter = nodemailer.createTransport({
-          host: 'smtp.live.com',
+          host: 'smtp.office365.com',
           port: 587,
           secure: false,
           // service: 'hotmail',
