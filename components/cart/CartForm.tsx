@@ -20,18 +20,37 @@ const OrderDetails = ({ user }: any) => {
 
   const { cart } = useSelector((state: RootStateOrAny) => state)
   const [total, setTotal] = React.useState(cart.total)
-  const [voucher, setVoucher] = React.useState({})
+  const [voucher, setVoucher] = React.useState<any>({})
   const [code, setCode] = React.useState('')
   const [isDiscount, setIsDiscount] = React.useState(false)
+
+  React.useEffect(() => {
+    if (voucher) {
+      if (cart.total <= voucher.amount) {
+        setIsDiscount(false)
+      } else {
+        const calculate = cart.total - voucher.amount
+        setTotal(calculate)
+        setIsDiscount(true)
+      }
+    } else {
+      setIsDiscount(false)
+    }
+  }, [cart.total, voucher])
 
   const handleVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value)
     Get(`/vouchers?code=${e.target.value}`, token).then((res: any) => {
       if (res.voucher) {
-        const calculate = cart.total - res.voucher.amount
-        setTotal(calculate < 0 ? 0 : calculate)
-        setIsDiscount(true)
-        setVoucher(res.voucher)
+        if (cart.total > res.voucher.amount) {
+          const calculate = cart.total - res.voucher.amount
+          setTotal(calculate)
+          setIsDiscount(true)
+          setVoucher(res.voucher)
+        } else {
+          setVoucher(res.voucher)
+          setIsDiscount(false)
+        }
       } else {
         setIsDiscount(false)
       }
@@ -75,8 +94,6 @@ const OrderDetails = ({ user }: any) => {
                 created_at: res.response.transaction_time,
               },
             }).then((res) => {
-              console.log(res)
-
               router.push('/customer/profile')
               Post('/customer/addtocart', {
                 data: [],
