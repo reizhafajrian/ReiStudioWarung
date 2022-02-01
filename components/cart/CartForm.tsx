@@ -25,8 +25,9 @@ const OrderDetails = ({ user }: any) => {
   const [isDiscount, setIsDiscount] = React.useState(false)
 
   React.useEffect(() => {
-    if (voucher) {
+    if (voucher.code !== undefined) {
       if (cart.total <= voucher.amount) {
+        setTotal(cart.total)
         setIsDiscount(false)
       } else {
         const calculate = cart.total - voucher.amount
@@ -35,8 +36,9 @@ const OrderDetails = ({ user }: any) => {
       }
     } else {
       setIsDiscount(false)
+      setTotal(cart.total)
     }
-  }, [cart.total, voucher])
+  }, [cart.total, code.length, voucher])
 
   const handleVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value)
@@ -53,6 +55,8 @@ const OrderDetails = ({ user }: any) => {
         }
       } else {
         setIsDiscount(false)
+        setTotal(cart.total)
+        setVoucher({})
       }
     })
   }
@@ -81,7 +85,7 @@ const OrderDetails = ({ user }: any) => {
               data: {
                 order_id: res.response.order_id,
                 cart: cart.cartItems,
-                voucher: voucher,
+                voucher: voucher ? voucher : null,
                 total: total,
                 status: {
                   title: 'sedang diproses',
