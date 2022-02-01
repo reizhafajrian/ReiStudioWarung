@@ -55,7 +55,7 @@ const Header = () => {
               objectFit='contain'
             />
             <h5 className='text-light fw-bold m-0 ms-3'>
-              Nama Warung
+              Toko Eksis
               {forAdmin && (
                 <span className='text-primary'>
                   &nbsp;for Admin{role === 2 && ' (Supplier)'}

@@ -17,7 +17,7 @@ const Layout = ({ pageTitle, children }: props) => {
   return (
     <>
       <Head>
-        <title>Warung | {pageTitle}</title>
+        <title>Toko Eksis | {pageTitle}</title>
         <meta charSet='UTF-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta

@@ -12,7 +12,7 @@ const Header = ({ forAdmin, pageTitle }: props) => {
   return (
     <>
       <Head>
-        <title>Warung | {pageTitle}</title>
+        <title>Toko Eksis | {pageTitle}</title>
         <meta charSet='UTF-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
@@ -29,7 +29,7 @@ const Header = ({ forAdmin, pageTitle }: props) => {
                 objectFit='contain'
               />
               <h5 className='text-light fw-bold m-0 ms-3'>
-                Nama Warung
+                Toko Eksis
                 {forAdmin && (
                   <span className='text-primary'>&nbsp;for Admin</span>
                 )}

@@ -10,7 +10,7 @@ const Dashboard = ({ reports, products, orders, vouchers, customers }: any) => {
     <CContainer className='dashboard'>
       <div className='text-end mt-5'>
         <CButton href='/admin/register' size='lg' className='w-auto me-2'>
-          Register Admin Baru
+          Register Supplier
         </CButton>
         <CButton href='/admin/categories' size='lg' className='w-auto'>
           Tambah Kategori
